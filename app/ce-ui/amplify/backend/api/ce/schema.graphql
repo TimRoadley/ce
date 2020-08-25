@@ -1,0 +1,12 @@
+type CEPlayer @model @key(fields: ["name"]) {
+  name: String!
+  class: String
+}
+
+type CEPlayerHistory @model @key(fields: ["player_name","recorded"]) {
+  player_name: String!
+  recorded: Float!
+  ep: Float
+  gp: Float
+  priority: Float
+}
