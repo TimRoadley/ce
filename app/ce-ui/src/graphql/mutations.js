@@ -9,6 +9,7 @@ export const createCePlayer = /* GraphQL */ `
     createCEPlayer(input: $input, condition: $condition) {
       name
       class
+      rank
       createdAt
       updatedAt
     }
@@ -22,6 +23,7 @@ export const updateCePlayer = /* GraphQL */ `
     updateCEPlayer(input: $input, condition: $condition) {
       name
       class
+      rank
       createdAt
       updatedAt
     }
@@ -35,17 +37,18 @@ export const deleteCePlayer = /* GraphQL */ `
     deleteCEPlayer(input: $input, condition: $condition) {
       name
       class
+      rank
       createdAt
       updatedAt
     }
   }
 `;
-export const createCePlayerHistory = /* GraphQL */ `
-  mutation CreateCePlayerHistory(
-    $input: CreateCEPlayerHistoryInput!
-    $condition: ModelCEPlayerHistoryConditionInput
+export const createCeStandings = /* GraphQL */ `
+  mutation CreateCeStandings(
+    $input: CreateCEStandingsInput!
+    $condition: ModelCEStandingsConditionInput
   ) {
-    createCEPlayerHistory(input: $input, condition: $condition) {
+    createCEStandings(input: $input, condition: $condition) {
       player_name
       recorded
       ep
@@ -56,12 +59,12 @@ export const createCePlayerHistory = /* GraphQL */ `
     }
   }
 `;
-export const updateCePlayerHistory = /* GraphQL */ `
-  mutation UpdateCePlayerHistory(
-    $input: UpdateCEPlayerHistoryInput!
-    $condition: ModelCEPlayerHistoryConditionInput
+export const updateCeStandings = /* GraphQL */ `
+  mutation UpdateCeStandings(
+    $input: UpdateCEStandingsInput!
+    $condition: ModelCEStandingsConditionInput
   ) {
-    updateCEPlayerHistory(input: $input, condition: $condition) {
+    updateCEStandings(input: $input, condition: $condition) {
       player_name
       recorded
       ep
@@ -72,12 +75,12 @@ export const updateCePlayerHistory = /* GraphQL */ `
     }
   }
 `;
-export const deleteCePlayerHistory = /* GraphQL */ `
-  mutation DeleteCePlayerHistory(
-    $input: DeleteCEPlayerHistoryInput!
-    $condition: ModelCEPlayerHistoryConditionInput
+export const deleteCeStandings = /* GraphQL */ `
+  mutation DeleteCeStandings(
+    $input: DeleteCEStandingsInput!
+    $condition: ModelCEStandingsConditionInput
   ) {
-    deleteCEPlayerHistory(input: $input, condition: $condition) {
+    deleteCEStandings(input: $input, condition: $condition) {
       player_name
       recorded
       ep

@@ -4,7 +4,7 @@ type CEPlayer @model @key(fields: ["name"]) {
   rank: String
 }
 
-type CEPlayerHistory @model @key(fields: ["player_name","recorded"]) {
+type CEStandings @model @key(fields: ["player_name","recorded"]) {
   player_name: String!
   recorded: Float!
   ep: Float

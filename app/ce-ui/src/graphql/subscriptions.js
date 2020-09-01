@@ -6,6 +6,7 @@ export const onCreateCePlayer = /* GraphQL */ `
     onCreateCEPlayer {
       name
       class
+      rank
       createdAt
       updatedAt
     }
@@ -16,6 +17,7 @@ export const onUpdateCePlayer = /* GraphQL */ `
     onUpdateCEPlayer {
       name
       class
+      rank
       createdAt
       updatedAt
     }
@@ -26,14 +28,15 @@ export const onDeleteCePlayer = /* GraphQL */ `
     onDeleteCEPlayer {
       name
       class
+      rank
       createdAt
       updatedAt
     }
   }
 `;
-export const onCreateCePlayerHistory = /* GraphQL */ `
-  subscription OnCreateCePlayerHistory {
-    onCreateCEPlayerHistory {
+export const onCreateCeStandings = /* GraphQL */ `
+  subscription OnCreateCeStandings {
+    onCreateCEStandings {
       player_name
       recorded
       ep
@@ -44,9 +47,9 @@ export const onCreateCePlayerHistory = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCePlayerHistory = /* GraphQL */ `
-  subscription OnUpdateCePlayerHistory {
-    onUpdateCEPlayerHistory {
+export const onUpdateCeStandings = /* GraphQL */ `
+  subscription OnUpdateCeStandings {
+    onUpdateCEStandings {
       player_name
       recorded
       ep
@@ -57,9 +60,9 @@ export const onUpdateCePlayerHistory = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCePlayerHistory = /* GraphQL */ `
-  subscription OnDeleteCePlayerHistory {
-    onDeleteCEPlayerHistory {
+export const onDeleteCeStandings = /* GraphQL */ `
+  subscription OnDeleteCeStandings {
+    onDeleteCEStandings {
       player_name
       recorded
       ep

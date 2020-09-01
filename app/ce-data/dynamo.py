@@ -10,8 +10,8 @@ aws_secret_access_key=secrets.aws_secret_access_key
 db = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
 
 # TABLES
-device_event_table = 'DeviceEvent-uhisrbmj4nhavjo7csyf3rarcy-staging'
-anpr_camera_table = 'AnprCamera-uhisrbmj4nhavjo7csyf3rarcy-staging'
+table_ceplayer = 'CEPlayer-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
+table_cestandings = 'CEStandings-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
 
 def query(table_name, index_name, key_condition_expression, projection_expression):
 

@@ -6,6 +6,7 @@ export const getCePlayer = /* GraphQL */ `
     getCEPlayer(name: $name) {
       name
       class
+      rank
       createdAt
       updatedAt
     }
@@ -29,6 +30,7 @@ export const listCePlayers = /* GraphQL */ `
       items {
         name
         class
+        rank
         createdAt
         updatedAt
       }
@@ -36,9 +38,9 @@ export const listCePlayers = /* GraphQL */ `
     }
   }
 `;
-export const getCePlayerHistory = /* GraphQL */ `
-  query GetCePlayerHistory($player_name: String!, $recorded: Float!) {
-    getCEPlayerHistory(player_name: $player_name, recorded: $recorded) {
+export const getCeStandings = /* GraphQL */ `
+  query GetCeStandings($player_name: String!, $recorded: Float!) {
+    getCEStandings(player_name: $player_name, recorded: $recorded) {
       player_name
       recorded
       ep
@@ -49,16 +51,16 @@ export const getCePlayerHistory = /* GraphQL */ `
     }
   }
 `;
-export const listCePlayerHistorys = /* GraphQL */ `
-  query ListCePlayerHistorys(
+export const listCeStandingss = /* GraphQL */ `
+  query ListCeStandingss(
     $player_name: String
     $recorded: ModelFloatKeyConditionInput
-    $filter: ModelCEPlayerHistoryFilterInput
+    $filter: ModelCEStandingsFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCEPlayerHistorys(
+    listCEStandingss(
       player_name: $player_name
       recorded: $recorded
       filter: $filter
