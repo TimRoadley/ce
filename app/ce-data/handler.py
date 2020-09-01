@@ -1,5 +1,6 @@
 import boto3, os, sys, uuid, json
 from urllib.parse import unquote_plus
+import dynamo_table_ceplayer
 
 def load_json(filename):
     with open(filename) as f:
@@ -41,6 +42,11 @@ def update_players(event, context):
                     print('Skipped inactive',player_rank,player_class,player_name)
                 else:
                     print('>>> UPDATING',player_rank,player_class,player_name,"GP",player_gp,"EP",player_ep,"PRIORITY",player_priority)
+                    data = {
+                        "class":player_class,
+                        "rank":player_rank
+                    }
+                    dynamo_table_ceplayer.update(player_name, data)
 
 
     print('## END')

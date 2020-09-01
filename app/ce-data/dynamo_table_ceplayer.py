@@ -43,6 +43,22 @@ def update(name, data):
         expression += "updatedAt=:updatedAt"
         values[":updatedAt"] = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
+        if names == {}:  # Avoid error 'ExpressionAttributeNames must not be empty'
+            dynamo.db.Table(dynamo.table_ceplayer).update_item(
+                Key={'name': name},
+                UpdateExpression=expression,
+                ExpressionAttributeValues=values,
+                ReturnValues="UPDATED_NEW"
+            )
+        else:
+            dynamo.db.Table(dynamo.table_ceplayer).update_item(
+                Key={'name': name},
+                UpdateExpression=expression,
+                ExpressionAttributeValues=values,
+                ExpressionAttributeNames=names,
+                ReturnValues="UPDATED_NEW"
+            )
+
 
 ## TESTS ##
 
