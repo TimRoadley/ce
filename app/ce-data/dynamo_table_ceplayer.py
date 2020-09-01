@@ -27,8 +27,6 @@ def update(name, data):
     if record['Count'] == 0:
         create(name, data)
     else:
-        print("updating existing record")
-        
         # Add non-null attributes to update_expression
         expression = "set "
         names = {}
@@ -49,8 +47,8 @@ def update(name, data):
 ## TESTS ##
 
 def test_create():
-    name = 'Testplayer1'
-    data = {"rank":"Raider", "class":"Hunter"}
+    name = 'Testplayer2'
+    data = {"rank":"Class Leader", "class":"Priest"}
     create(name, data)
 
 def test_update():
@@ -61,4 +59,5 @@ def test_update():
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
+    test_create()
     test_update()
