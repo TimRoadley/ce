@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "ap-southeast-2",
+            "eventTime": "2020-08-31T23:30:15.192Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "A2KU3V9YJ8RNIY"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "120.155.7.150"
+            },
+            "responseElements": {
+                "x-amz-request-id": "7005DA55C021BF44",
+                "x-amz-id-2": "S2+j+P6EtYAt2BC5v19PKDYXmchQ7p4Q++qEg+RU7uhBt7Jaw9rtD5VaB3vJQd8k+5GLQDDC3i0CbJ2yN/NAty8st/O66AXq"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "afd2a679-f02c-4486-b758-e4fe76b60b5b",
+                "bucket": {
+                    "name": "ce-standings",
+                    "ownerIdentity": {
+                        "principalId": "A2KU3V9YJ8RNIY"
+                    },
+                    "arn": "arn:aws:s3:::ce-standings"
+                },
+                "object": {
+                    "key": "2020/2020-07-29_standings.json",
+                    "size": 47376,
+                    "eTag": "b3e8c3763b73e571cf1d3dd76a13fe8a",
+                    "sequencer": "005F4D8807E8B39B4C"
+                }
+            }
+        }
+    ]
+}

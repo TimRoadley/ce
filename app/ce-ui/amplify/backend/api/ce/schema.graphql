@@ -1,6 +1,7 @@
 type CEPlayer @model @key(fields: ["name"]) {
   name: String!
   class: String
+  rank: String
 }
 
 type CEPlayerHistory @model @key(fields: ["player_name","recorded"]) {

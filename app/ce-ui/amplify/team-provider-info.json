@@ -10,6 +10,14 @@
             "StackName": "amplify-ceui-prod-104823",
             "StackId": "arn:aws:cloudformation:ap-southeast-2:253357947302:stack/amplify-ceui-prod-104823/bc1dd6b0-e66c-11ea-b1e1-06d77f66d7a6",
             "AmplifyAppId": "d3d8io6e2v15l0"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3d8io6e2v15l0",
+                    "type": "cicd"
+                }
+            }
         }
     }
 }
