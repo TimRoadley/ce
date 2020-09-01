@@ -48,17 +48,17 @@ def add(source, target, key):
     if item != None:
         target[key] = item
 
-def attribute_update_expression(key, data, attribute_names, attribute_values):
+def update_expression(key, data, attribute_names, attribute_values):
     # This function is used to update the expressions for 
     key = str(key)
     x = data.get(key)
     if x != None:
         attribute_names["#"+key] = key
         if type(x) == float or type(x) == int:
-            print("Setting attribute_update_expression Decimal", x)
+            # print("Setting attribute_update_expression Decimal", x)
             attribute_values[":"+key] = Decimal(x)
         else:
-            print("Setting attribute_update_expression String", x)
+            # print("Setting attribute_update_expression String", x)
             attribute_values[":"+key] = str(x)
         
         return "#"+key+"=:"+key+"," # update_expression

@@ -1,36 +1,64 @@
 import dynamo
 from decimal import Decimal
 from boto3.dynamodb.conditions import Key
+import datetime
 
 ## CREATE ##
-def create(player_name, player_rank, player_class):
-    item = {
-        "name"  : player_name,
-        "rank"  : player_rank,
-        "class" : player_class,
-    }
-    return dynamo.db.Table(dynamo.table_ceplayer).put_item(Item=item)
+def create(name, data):
+    item = {"name": name}
+    x = dynamo.db.Table(dynamo.table_ceplayer).put_item(Item=item)
+    result = x['ResponseMetadata']['HTTPStatusCode']
+    if result == 200:
+        update(name, data)
+    else:
+        print("ERROR creating",name, x)
 
 ## READ ##
-def read(player_name):
+def read(name):
     return dynamo.db.Table(dynamo.table_ceplayer).query(
         IndexName='name-index',
-        KeyConditionExpression=Key('name').eq(player_name)
+        KeyConditionExpression=Key('name').eq(name)
     )
 
+## UPDATE ##
+def update(name, data):
+    now = datetime.datetime.utcnow()
+    record = read(name)
+    if record['Count'] == 0:
+        create(name, data)
+    else:
+        print("updating existing record")
+        
+        # Add non-null attributes to update_expression
+        expression = "set "
+        names = {}
+        values = {}
+        
+        # For each key in the given data, add this to the update expression
+        for key in data:
+            value = data[key]
+            print("Updating "+str(name)+" '"+str(key)+"' to '"+str(value)+"'")
+            expression += dynamo.update_expression(key, data, names, values)
+
+        # Update UpdatedAt 
+        # NOTE: It's important to leave this as the last expression to close out the 'set' expression
+        expression += "updatedAt=:updatedAt"
+        values[":updatedAt"] = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+
 ## TESTS ##
-def test_read(player_name):
-    x = read(player_name)
-    print(x)
 
 def test_create():
-    player_name = 'Testplayer'
-    player_rank = 'Alt'
-    player_class = 'Warlock'
-    create(player_name, player_rank, player_class)
-    read(player_name)
+    name = 'Testplayer1'
+    data = {"rank":"Raider", "class":"Hunter"}
+    create(name, data)
+
+def test_update():
+    name = 'Testplayer1'
+    data = {"rank":"Raider", "class":"Warlock"}
+    create(name, data)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    test_create()
+    test_update()
