@@ -2,6 +2,10 @@ type CEPlayer @model @key(fields: ["name"]) {
   name: String!
   class: String
   rank: String
+  latest_ep: Float
+  latest_gp: Float
+  latest_priority: Float
+  latest_update: Float
 }
 
 type CEStandings @model @key(fields: ["player_name","recorded"]) {

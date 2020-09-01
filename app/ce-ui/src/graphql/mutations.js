@@ -10,6 +10,10 @@ export const createCePlayer = /* GraphQL */ `
       name
       class
       rank
+      latest_ep
+      latest_gp
+      latest_priority
+      latest_update
       createdAt
       updatedAt
     }
@@ -24,6 +28,10 @@ export const updateCePlayer = /* GraphQL */ `
       name
       class
       rank
+      latest_ep
+      latest_gp
+      latest_priority
+      latest_update
       createdAt
       updatedAt
     }
@@ -38,6 +46,10 @@ export const deleteCePlayer = /* GraphQL */ `
       name
       class
       rank
+      latest_ep
+      latest_gp
+      latest_priority
+      latest_update
       createdAt
       updatedAt
     }

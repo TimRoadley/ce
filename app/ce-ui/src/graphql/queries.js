@@ -7,6 +7,10 @@ export const getCePlayer = /* GraphQL */ `
       name
       class
       rank
+      latest_ep
+      latest_gp
+      latest_priority
+      latest_update
       createdAt
       updatedAt
     }
@@ -31,6 +35,10 @@ export const listCePlayers = /* GraphQL */ `
         name
         class
         rank
+        latest_ep
+        latest_gp
+        latest_priority
+        latest_update
         createdAt
         updatedAt
       }
