@@ -38,11 +38,11 @@ def test_create():
     data = {"ep":123, "gp":456, "priority": 34, "recorded": 1599028357 }
     dynamo.generic_create(table, index, key, value, data, 'recorded')
 
-    value = 'zzzTestUser2'
+    value = 'zzzTestUser1'
     data = {"ep":456, "gp":789, "priority": 56, "recorded": 1599028400 }
     dynamo.generic_create(table, index, key, value, data, 'recorded')
 
-    value = 'zzzTestUser3'
+    value = 'zzzTestUser1'
     data = {"ep":789, "gp":23, "priority": 77, "recorded": 1599028500 }
     dynamo.generic_create(table, index, key, value, data, 'recorded')
 
@@ -54,10 +54,21 @@ def test_read():
     x = dynamo.generic_read(table, index, key, value)
     print(x)
 
+def test_read_range():
+    table = dynamo.table_cestanding
+    index = 'name-recorded-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    timestamp_key = 'recorded'
+    start = 1099028350
+    end   = 2599028600
+    x = dynamo.generic_read_range(table, index, key, value, timestamp_key, start, end)
+    print(x)
+
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    test_create()
+    #test_create()
     # test_read()
     # test_read_range()
-    # test_update()
+    test_update() # TODO: TEST THIS ... haven't writted the code for it yet so might not work

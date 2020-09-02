@@ -93,7 +93,6 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
 
 ## GENERIC READ ##
 def generic_read(table, index, key, value, timestamp_key=None, timestamp_value=None):
-    print("generic_update",table, index, key, value, timestamp_key, timestamp_value)
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
@@ -106,18 +105,17 @@ def generic_read(table, index, key, value, timestamp_key=None, timestamp_value=N
         KeyConditionExpression=key_condition
     )
 def generic_read_range(table, index, key, value, timestamp_key=None, start=None, end=None):
-    # TODO: handle ranges
-
-    #key_condition_expression = Key('slug').eq(slug) & Key('captured').between(start, end)
-    #projection_expression = 'captured,slug_device_id'
-
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
+    key_condition = Key(key).eq(value)
+    if timestamp_key != None:
+        key_condition = Key(key).eq(value) & Key(timestamp_key).between(start, end)
+        print("generic_read_range",table, index, key, value, timestamp_key, start, end)
     return db.Table(table).query(
         IndexName=index,
-        KeyConditionExpression=Key(key).eq(value)
+        KeyConditionExpression=key_condition
     )
 
 ## TODO: TIM .. UPDATE THE INDEX DEPENDING ON WHETHER OR NOT YOU HAVE A timestamp
