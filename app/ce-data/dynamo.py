@@ -92,37 +92,42 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
         return None
 
 ## GENERIC READ ##
-def generic_read(table, index, key, value, timestamp_key=None, timestamp_value=None):
+def generic_read(table, index, key, value, fields=None, timestamp_key=None, timestamp_value=None, timestamp_start=None, timestamp_end=None):
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
-    key_condition = Key(key).eq(value)
+    # OPTIONAL: fields = 'name,age,height'
+    # OPTIONAL: timestamp_key = 'recorded'
+    # OPTIONAL: timestamp_start = 1599020000
+    # OPTIONAL: timestamp_end   = 1599030000
+    
+    # Default query
+    query = Key(key).eq(value)
+    
+    # Prepare timestamp based query (if timestamp_key is supplied)
     if timestamp_key != None:
-        key_condition = Key(key).eq(value) & Key(timestamp_key).eq(timestamp_value)
-    return db.Table(table).query(
-        IndexName=index,
-        KeyConditionExpression=key_condition
-    )
-def generic_read_range(table, index, key, value, timestamp_key=None, start=None, end=None):
-    # table = dynamo.table_employees
-    # index = 'name-index'
-    # key = 'name'
-    # value = 'bob'
-    key_condition = Key(key).eq(value)
-    if timestamp_key != None:
-        key_condition = Key(key).eq(value) & Key(timestamp_key).between(start, end)
-        print("generic_read_range",table, index, key, value, timestamp_key, start, end)
-    return db.Table(table).query(
-        IndexName=index,
-        KeyConditionExpression=key_condition
-    )
-
-## TODO: TIM .. UPDATE THE INDEX DEPENDING ON WHETHER OR NOT YOU HAVE A timestamp
-
+        query = Key(key).eq(value) & Key(timestamp_key).eq(timestamp_value)    
+        
+        # Prepare timestamp range based query (if start and end is supplied)
+        if timestamp_start != None and timestamp_end != None:
+            query = Key(key).eq(value) & Key(timestamp_key).between(Decimal(str(timestamp_start)), Decimal(str(timestamp_end)))
+    
+    # Execute query
+    if fields == None:    
+        return db.Table(table).query(
+            IndexName=index,
+            KeyConditionExpression=query
+        )
+    else:
+        return db.Table(table).query(
+            IndexName=index,
+            KeyConditionExpression=query,
+            ProjectionExpression=fields # Example: name,age,height
+        )
+    
 ## GENERIC UPDATE ##
 def generic_update(table, index, key, value, data, timestamp_key=None):
-    print("generic_update")
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
@@ -136,7 +141,7 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
 
     ## Create new record if it doesn't exist
     now = datetime.datetime.utcnow()
-    record = generic_read(table, index, key, value, timestamp_key, timestamp_value)
+    record = generic_read(table, index, key, value, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
     if record['Count'] == 0:
         return generic_create(table, index, key, value, data, timestamp_key)
     
@@ -155,7 +160,7 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
                 expression += update_expression(field, data, names, values)
 
         # Update UpdatedAt 
-        # NOTE: It's important to leave this as the last expression to close out the 'set' expression
+        # NOTE: It's important to leave updatedAt as the last expression to close out the 'set' expression
         expression += "updatedAt=:updatedAt"
         values[":updatedAt"] = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
@@ -163,7 +168,6 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
         query_key = {key:value}
         if timestamp_key != None:
             query_key = {key:value,timestamp_key:data.get(timestamp_key)}
-        print("UPDATE QUERY KEY", query_key)
         return db.Table(table).update_item(
             Key=query_key,
             UpdateExpression=expression,
@@ -177,4 +181,5 @@ def generic_delete(table, key, value, timestamp_key=None, timestamp_value=None):
     query_key = {key:value}
     if timestamp_key != None:
         query_key = {key:value,timestamp_key:Decimal(str(timestamp_value))}
+    print("DELETING",query_key)
     return db.Table(table).delete_item(Key=query_key)

@@ -62,13 +62,14 @@ def test_read_range():
     timestamp_key = 'recorded'
     start = 1099028350
     end   = 2599028600
-    x = dynamo.generic_read_range(table, index, key, value, timestamp_key, start, end)
+    x = dynamo.generic_read(table, index, key, value)
+    print("__GENERIC READ TEST__")
     print(x)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    #test_create()
-    # test_read()
-    # test_read_range()
-    test_update() # TODO: TEST THIS ... haven't writted the code for it yet so might not work
+    test_create()
+    #test_read()
+    #test_read_range()
+    #test_update() # TODO: TEST THIS ... haven't writted the code for it yet so might not work
