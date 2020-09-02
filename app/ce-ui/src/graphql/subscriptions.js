@@ -46,10 +46,10 @@ export const onDeleteCePlayer = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCeStandings = /* GraphQL */ `
-  subscription OnCreateCeStandings {
-    onCreateCEStandings {
-      player_name
+export const onCreateCeStanding = /* GraphQL */ `
+  subscription OnCreateCeStanding {
+    onCreateCEStanding {
+      name
       recorded
       ep
       gp
@@ -59,10 +59,10 @@ export const onCreateCeStandings = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCeStandings = /* GraphQL */ `
-  subscription OnUpdateCeStandings {
-    onUpdateCEStandings {
-      player_name
+export const onUpdateCeStanding = /* GraphQL */ `
+  subscription OnUpdateCeStanding {
+    onUpdateCEStanding {
+      name
       recorded
       ep
       gp
@@ -72,10 +72,10 @@ export const onUpdateCeStandings = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCeStandings = /* GraphQL */ `
-  subscription OnDeleteCeStandings {
-    onDeleteCEStandings {
-      player_name
+export const onDeleteCeStanding = /* GraphQL */ `
+  subscription OnDeleteCeStanding {
+    onDeleteCEStanding {
+      name
       recorded
       ep
       gp

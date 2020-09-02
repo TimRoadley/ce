@@ -11,9 +11,9 @@ db = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint, aws_a
 
 # TABLES
 table_ceplayer = 'CEPlayer-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
-table_cestandings = 'CEStandings-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
+table_cestanding = 'CEStanding-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
 
-def query(table_name, index_name, key_condition_expression, projection_expression):
+def query(table_name, index_name, key_condition_expression, projection_expression, expression_attribute_names):
 
     # Examples:
     #   index_name = 'slug-captured-index'
@@ -25,6 +25,7 @@ def query(table_name, index_name, key_condition_expression, projection_expressio
         IndexName=index_name,
         KeyConditionExpression=key_condition_expression,
         ProjectionExpression=projection_expression,
+        ExpressionAttributeNames=expression_attribute_names
     )
 
     # Get more data if required
@@ -34,6 +35,7 @@ def query(table_name, index_name, key_condition_expression, projection_expressio
             IndexName=index_name,
             KeyConditionExpression=key_condition_expression,
             ProjectionExpression=projection_expression,
+            ExpressionAttributeNames=expression_attribute_names,
             ExclusiveStartKey=last_key
         )
         all_data['Count'] += more_data['Count']
@@ -56,7 +58,7 @@ def update_expression(key, data, attribute_names, attribute_values):
         attribute_names["#"+key] = key
         if type(x) == float or type(x) == int:
             # print("Setting attribute_update_expression Decimal", x)
-            attribute_values[":"+key] = Decimal(x)
+            attribute_values[":"+key] = Decimal(str(x)) # https://github.com/boto/boto3/issues/665#issuecomment-340260257
         else:
             # print("Setting attribute_update_expression String", x)
             attribute_values[":"+key] = str(x)

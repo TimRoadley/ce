@@ -95,10 +95,10 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "getCEStandings",
+          "name" : "getCEStanding",
           "description" : null,
           "args" : [ {
-            "name" : "player_name",
+            "name" : "name",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -126,16 +126,16 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "listCEStandingss",
+          "name" : "listCEStandings",
           "description" : null,
           "args" : [ {
-            "name" : "player_name",
+            "name" : "name",
             "description" : null,
             "type" : {
               "kind" : "SCALAR",
@@ -157,7 +157,7 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsFilterInput",
+              "name" : "ModelCEStandingFilterInput",
               "ofType" : null
             },
             "defaultValue" : null
@@ -191,7 +191,7 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "ModelCEStandingsConnection",
+            "name" : "ModelCEStandingConnection",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -888,10 +888,10 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "CEStandings",
+        "name" : "CEStanding",
         "description" : null,
         "fields" : [ {
-          "name" : "player_name",
+          "name" : "name",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -990,7 +990,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "ModelCEStandingsConnection",
+        "name" : "ModelCEStandingConnection",
         "description" : null,
         "fields" : [ {
           "name" : "items",
@@ -1001,7 +1001,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "CEStandings",
+              "name" : "CEStanding",
               "ofType" : null
             }
           },
@@ -1092,11 +1092,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "ModelCEStandingsFilterInput",
+        "name" : "ModelCEStandingFilterInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "player_name",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -1148,7 +1148,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsFilterInput",
+              "name" : "ModelCEStandingFilterInput",
               "ofType" : null
             }
           },
@@ -1161,7 +1161,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsFilterInput",
+              "name" : "ModelCEStandingFilterInput",
               "ofType" : null
             }
           },
@@ -1171,7 +1171,7 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelCEStandingsFilterInput",
+            "name" : "ModelCEStandingFilterInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -1283,7 +1283,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createCEStandings",
+          "name" : "createCEStanding",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1293,7 +1293,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "CreateCEStandingsInput",
+                "name" : "CreateCEStandingInput",
                 "ofType" : null
               }
             },
@@ -1303,20 +1303,20 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsConditionInput",
+              "name" : "ModelCEStandingConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "updateCEStandings",
+          "name" : "updateCEStanding",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1326,7 +1326,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "UpdateCEStandingsInput",
+                "name" : "UpdateCEStandingInput",
                 "ofType" : null
               }
             },
@@ -1336,20 +1336,20 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsConditionInput",
+              "name" : "ModelCEStandingConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "deleteCEStandings",
+          "name" : "deleteCEStanding",
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -1359,7 +1359,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "DeleteCEStandingsInput",
+                "name" : "DeleteCEStandingInput",
                 "ofType" : null
               }
             },
@@ -1369,14 +1369,14 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsConditionInput",
+              "name" : "ModelCEStandingConditionInput",
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1660,11 +1660,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "CreateCEStandingsInput",
+        "name" : "CreateCEStandingInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "player_name",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1722,7 +1722,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "ModelCEStandingsConditionInput",
+        "name" : "ModelCEStandingConditionInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -1760,7 +1760,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsConditionInput",
+              "name" : "ModelCEStandingConditionInput",
               "ofType" : null
             }
           },
@@ -1773,7 +1773,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
-              "name" : "ModelCEStandingsConditionInput",
+              "name" : "ModelCEStandingConditionInput",
               "ofType" : null
             }
           },
@@ -1783,7 +1783,7 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelCEStandingsConditionInput",
+            "name" : "ModelCEStandingConditionInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -1793,11 +1793,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "UpdateCEStandingsInput",
+        "name" : "UpdateCEStandingInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "player_name",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1855,11 +1855,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "DeleteCEStandingsInput",
+        "name" : "DeleteCEStandingInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "player_name",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1926,34 +1926,34 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onCreateCEStandings",
+          "name" : "onCreateCEStanding",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onUpdateCEStandings",
+          "name" : "onUpdateCEStanding",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "onDeleteCEStandings",
+          "name" : "onDeleteCEStanding",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "CEStandings",
+            "name" : "CEStanding",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1961,51 +1961,6 @@
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelBooleanInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "ne",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "eq",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeExists",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeType",
-          "description" : null,
-          "type" : {
-            "kind" : "ENUM",
-            "name" : "ModelAttributeTypes",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -2238,6 +2193,51 @@
         "description" : "Built-in ID",
         "fields" : null,
         "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelBooleanInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "ne",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "eq",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeExists",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeType",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "ModelAttributeTypes",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
         "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
@@ -3025,22 +3025,18 @@
         "onFragment" : false,
         "onField" : true
       }, {
-        "name" : "aws_auth",
-        "description" : "Directs the schema to enforce authorization on a field",
-        "locations" : [ "FIELD_DEFINITION" ],
+        "name" : "deprecated",
+        "description" : null,
+        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
         "args" : [ {
-          "name" : "cognito_groups",
-          "description" : "List of cognito user pool groups which have access on this field",
+          "name" : "reason",
+          "description" : null,
           "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
-          "defaultValue" : null
+          "defaultValue" : "\"No longer supported\""
         } ],
         "onOperation" : false,
         "onFragment" : false,
@@ -3054,31 +3050,10 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "aws_iam",
-        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
+        "name" : "aws_api_key",
+        "description" : "Tells the service this field/object has access authorized by an API key.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_cognito_user_pools",
-        "description" : "Tells the service this field/object has access authorized by a Cognito User Pools token.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ {
-          "name" : "cognito_groups",
-          "description" : "List of cognito user pool groups which have access on this field",
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false
@@ -3104,37 +3079,62 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "deprecated",
-        "description" : null,
-        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
-        "args" : [ {
-          "name" : "reason",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : "\"No longer supported\""
-        } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_api_key",
-        "description" : "Tells the service this field/object has access authorized by an API key.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
         "name" : "aws_subscribe",
         "description" : "Tells the service which mutation triggers this subscription.",
         "locations" : [ "FIELD_DEFINITION" ],
         "args" : [ {
           "name" : "mutations",
           "description" : "List of mutations which will trigger this subscription when they are called.",
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_iam",
+        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_auth",
+        "description" : "Directs the schema to enforce authorization on a field",
+        "locations" : [ "FIELD_DEFINITION" ],
+        "args" : [ {
+          "name" : "cognito_groups",
+          "description" : "List of cognito user pool groups which have access on this field",
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_cognito_user_pools",
+        "description" : "Tells the service this field/object has access authorized by a Cognito User Pools token.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ {
+          "name" : "cognito_groups",
+          "description" : "List of cognito user pool groups which have access on this field",
           "type" : {
             "kind" : "LIST",
             "name" : null,

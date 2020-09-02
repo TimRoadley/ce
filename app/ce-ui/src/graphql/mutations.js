@@ -55,13 +55,13 @@ export const deleteCePlayer = /* GraphQL */ `
     }
   }
 `;
-export const createCeStandings = /* GraphQL */ `
-  mutation CreateCeStandings(
-    $input: CreateCEStandingsInput!
-    $condition: ModelCEStandingsConditionInput
+export const createCeStanding = /* GraphQL */ `
+  mutation CreateCeStanding(
+    $input: CreateCEStandingInput!
+    $condition: ModelCEStandingConditionInput
   ) {
-    createCEStandings(input: $input, condition: $condition) {
-      player_name
+    createCEStanding(input: $input, condition: $condition) {
+      name
       recorded
       ep
       gp
@@ -71,13 +71,13 @@ export const createCeStandings = /* GraphQL */ `
     }
   }
 `;
-export const updateCeStandings = /* GraphQL */ `
-  mutation UpdateCeStandings(
-    $input: UpdateCEStandingsInput!
-    $condition: ModelCEStandingsConditionInput
+export const updateCeStanding = /* GraphQL */ `
+  mutation UpdateCeStanding(
+    $input: UpdateCEStandingInput!
+    $condition: ModelCEStandingConditionInput
   ) {
-    updateCEStandings(input: $input, condition: $condition) {
-      player_name
+    updateCEStanding(input: $input, condition: $condition) {
+      name
       recorded
       ep
       gp
@@ -87,13 +87,13 @@ export const updateCeStandings = /* GraphQL */ `
     }
   }
 `;
-export const deleteCeStandings = /* GraphQL */ `
-  mutation DeleteCeStandings(
-    $input: DeleteCEStandingsInput!
-    $condition: ModelCEStandingsConditionInput
+export const deleteCeStanding = /* GraphQL */ `
+  mutation DeleteCeStanding(
+    $input: DeleteCEStandingInput!
+    $condition: ModelCEStandingConditionInput
   ) {
-    deleteCEStandings(input: $input, condition: $condition) {
-      player_name
+    deleteCEStanding(input: $input, condition: $condition) {
+      name
       recorded
       ep
       gp

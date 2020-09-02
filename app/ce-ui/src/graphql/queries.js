@@ -46,10 +46,10 @@ export const listCePlayers = /* GraphQL */ `
     }
   }
 `;
-export const getCeStandings = /* GraphQL */ `
-  query GetCeStandings($player_name: String!, $recorded: Float!) {
-    getCEStandings(player_name: $player_name, recorded: $recorded) {
-      player_name
+export const getCeStanding = /* GraphQL */ `
+  query GetCeStanding($name: String!, $recorded: Float!) {
+    getCEStanding(name: $name, recorded: $recorded) {
+      name
       recorded
       ep
       gp
@@ -59,17 +59,17 @@ export const getCeStandings = /* GraphQL */ `
     }
   }
 `;
-export const listCeStandingss = /* GraphQL */ `
-  query ListCeStandingss(
-    $player_name: String
+export const listCeStandings = /* GraphQL */ `
+  query ListCeStandings(
+    $name: String
     $recorded: ModelFloatKeyConditionInput
-    $filter: ModelCEStandingsFilterInput
+    $filter: ModelCEStandingFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCEStandingss(
-      player_name: $player_name
+    listCEStandings(
+      name: $name
       recorded: $recorded
       filter: $filter
       limit: $limit
@@ -77,7 +77,7 @@ export const listCeStandingss = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
-        player_name
+        name
         recorded
         ep
         gp

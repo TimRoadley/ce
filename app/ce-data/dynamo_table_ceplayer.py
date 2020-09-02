@@ -7,8 +7,7 @@ import datetime
 def create(name, data):
     item = {"name": name}
     x = dynamo.db.Table(dynamo.table_ceplayer).put_item(Item=item)
-    result = x['ResponseMetadata']['HTTPStatusCode']
-    if result == 200:
+    if x['ResponseMetadata']['HTTPStatusCode'] == 200:
         update(name, data)
     else:
         print("ERROR creating",name, x)
