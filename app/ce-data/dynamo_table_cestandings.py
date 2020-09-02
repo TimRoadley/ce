@@ -52,10 +52,10 @@ def test_read():
     key = 'name'
     value = 'zzzTestUser1'
     x = dynamo.generic_read(table, index, key, value)
-    print("All records and fields for",key)
+    print("\nAll records and fields for",key)
     print(x)
     x = dynamo.generic_read(table, index, key, value, fields='ep,gp')
-    print("All records and ep + gp field for",key)
+    print("\nAll records and ep + gp field for",key)
     print(x)
 
 def test_read_range():
@@ -65,11 +65,15 @@ def test_read_range():
     value = 'zzzTestUser1'
     timestamp_key = 'recorded'
     timestamp_value = 1599028357
-    start = 1099028350
-    end   = 2599028600
+    timestamp_start = 1599028360
+    timestamp_end   = 1599028600
 
     x = dynamo.generic_read(table, index, key, value, fields='ep,gp', timestamp_key=timestamp_key, timestamp_value=timestamp_value)
-    print("Specific time based record for",key,"and",timestamp_key)
+    print("\nSpecific time based record for",key,"and",timestamp_key)
+    print(x)
+
+    x = dynamo.generic_read(table, index, key, value, fields='ep,gp', timestamp_key=timestamp_key, timestamp_start=timestamp_start, timestamp_end=timestamp_end)
+    print("\nTime range for",key,"and",timestamp_key,"between",timestamp_start,"and",timestamp_end)
     print(x)
 
 
