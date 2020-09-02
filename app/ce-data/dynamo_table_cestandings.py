@@ -52,6 +52,10 @@ def test_read():
     key = 'name'
     value = 'zzzTestUser1'
     x = dynamo.generic_read(table, index, key, value)
+    print("All records and fields for",key)
+    print(x)
+    x = dynamo.generic_read(table, index, key, value, fields='ep,gp')
+    print("All records and ep + gp field for",key)
     print(x)
 
 def test_read_range():
@@ -60,16 +64,19 @@ def test_read_range():
     key = 'name'
     value = 'zzzTestUser1'
     timestamp_key = 'recorded'
+    timestamp_value = 1599028357
     start = 1099028350
     end   = 2599028600
-    x = dynamo.generic_read(table, index, key, value)
-    print("__GENERIC READ TEST__")
+
+    x = dynamo.generic_read(table, index, key, value, fields='ep,gp', timestamp_key=timestamp_key, timestamp_value=timestamp_value)
+    print("Specific time based record for",key,"and",timestamp_key)
     print(x)
+
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    test_create()
+    #test_create()
     #test_read()
-    #test_read_range()
+    test_read_range()
     #test_update() # TODO: TEST THIS ... haven't writted the code for it yet so might not work
