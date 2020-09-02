@@ -73,23 +73,43 @@ def update_expression(key, data, attribute_names, attribute_values):
 ####
 
 ## GENERIC CREATE ##
-def generic_create(table, index, key, value, data):
+def generic_create(table, index, key, value, data, timestamp_key=None):
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
     # data = {"job":"cleaner","age":55}
     item = { key:value }
+    if timestamp_key != None:
+        item = { key:value, timestamp_key:data.get(timestamp_key) }
+    print("ITEM TO BE INSERTERD",item)
     x = db.Table(table).put_item(Item=item)
     if x['ResponseMetadata']['HTTPStatusCode'] == 200:
         print("CREATED", key, value, "in table", table, "with index", index)
-        return generic_update(table, index, key, value, data)
+        return generic_update(table, index, key, value, data, timestamp_key)
     else:
         print("GENERIC CREATE ERROR", table, index, key, value, data)
         return None
 
 ## GENERIC READ ##
-def generic_read(table, index, key, value):
+def generic_read(table, index, key, value, timestamp_key=None, timestamp_value=None):
+    # table = dynamo.table_employees
+    # index = 'name-index'
+    # key = 'name'
+    # value = 'bob'
+    key_condition = Key(key).eq(value)
+    if timestamp_key != None:
+        key_condition = Key(key).eq(value) & Key(timestamp_key).eq(timestamp_value)
+    return db.Table(table).query(
+        IndexName=index,
+        KeyConditionExpression=key_condition
+    )
+def generic_read_range(table, index, key, value, timestamp_key=None, start=None, end=None):
+    # TODO: handle ranges
+
+    #key_condition_expression = Key('slug').eq(slug) & Key('captured').between(start, end)
+    #projection_expression = 'captured,slug_device_id'
+
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
@@ -99,28 +119,24 @@ def generic_read(table, index, key, value):
         KeyConditionExpression=Key(key).eq(value)
     )
 
+
 ## GENERIC UPDATE ##
-def generic_update(table, index, key, value, data, timestamp_key=None, timestamp_value=None):
+def generic_update(table, index, key, value, data, timestamp_key=None):
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
     # data = {"job":"manager","age":69}
     
-    ## Try to unpack timestamp_key and timestamp_value
-    if data != None:
-        if data.get('timestamp_key') != None:
-            timestamp_key = data.get('timestamp_key')
-            if data.get('timestamp_value') != None:
-                timestamp_value = data.get('timestamp_value')
-    
+    timestamp_value = None
+    if timestamp_key != None:
+        timestamp_value = data.get(timestamp_key)
+
     ## Create new record if it doesn't exist
     now = datetime.datetime.utcnow()
-    record = generic_read(table, index, key, value)
+    record = generic_read(table, index, key, value, timestamp_key, timestamp_value)
     if record['Count'] == 0:
-        if timestamp_key != None:
-            data[timestamp_key] = timestamp_value # ensure we don't lose the 
-        return generic_create(table, index, key, value, data)
+        return generic_create(table, index, key, value, data, timestamp_key)
     
     ## Update existing record
     else:
@@ -143,7 +159,8 @@ def generic_update(table, index, key, value, data, timestamp_key=None, timestamp
         # Execute update query
         query_key = {key:value}
         if timestamp_key != None:
-            query_key = {key:value,timestamp_key:timestamp_value}
+            query_key = {key:value,timestamp_key:data.get(timestamp_key)}
+        print("UPDATE QUERY KEY", query_key)
         return db.Table(table).update_item(
             Key=query_key,
             UpdateExpression=expression,

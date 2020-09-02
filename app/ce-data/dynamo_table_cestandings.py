@@ -1,25 +1,6 @@
 import dynamo
-from decimal import Decimal
-from boto3.dynamodb.conditions import Key
-import datetime, shared_time
 
-## CREATE ##
-def create(name, recorded, data):
-    item = {"name": name, "recorded": Decimal(str(recorded))}
-    x = dynamo.db.Table(dynamo.table_cestanding).put_item(Item=item)
-    if x['ResponseMetadata']['HTTPStatusCode'] == 200:
-        print("TODO: update update(name, recorded, data)")
-        update(name, recorded, data)
-    else:
-        print("ERROR creating",name, x)
-
-## READ ##
-def read(name):
-    return dynamo.db.Table(dynamo.table_cestanding).query(
-        IndexName='name-index',
-        KeyConditionExpression=Key('name').eq(name)
-    )
-def read_range(name, start, end, fields):
+def DEPRECATED_read_range(name, start, end, fields):
         
     # Prepare Search
     table = dynamo.table_cestanding
@@ -48,68 +29,35 @@ def read_range(name, start, end, fields):
     
     # return dynamo.query(table, index_recorded, query, fields)
 
-## UPDATE##
-def update(name, recorded, data):
-    now = datetime.datetime.utcnow()
-    record = read(name)
-    if record['Count'] == 0:
-        create(name, recorded, data)
-    else:
-        # Add non-null attributes to update_expression
-        expression = "set "
-        names = {}
-        values = {}
-
-        # For each key in the given data, add this to the update expression
-        for key in data:
-            value = data[key]
-            print("Updating "+str(name)+" '"+str(key)+"' to '"+str(value)+"'")
-            expression += dynamo.update_expression(key, data, names, values)
-
-        # Update UpdatedAt 
-        # NOTE: It's important to leave this as the last expression to close out the 'set' expression
-        expression += "updatedAt=:updatedAt"
-        values[":updatedAt"] = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
-
-        # Execute update query
-        dynamo.db.Table(dynamo.table_cestanding).update_item(
-            Key={'name':name, 'recorded': Decimal(str(recorded))},
-            UpdateExpression=expression,
-            ExpressionAttributeValues=values,
-            ExpressionAttributeNames=names,
-            ReturnValues="UPDATED_NEW"
-        )
-
-
 ## TESTS ##
 def test_create():
-    name = 'zzzTestUser'
-    recorded = 1599018733
-    data = {"rank":"Class Leader", "class":"Priest", "ep":123, "gp":456, "priority": 34}
-    create(name, recorded, data)
-def test_read():
-    name = 'zzzTestUser'
-    x = read(name)
-    print(x)
-def test_read_range():
-    name = 'zzzTestUser'
-    start = 1599018723
-    end = 1599018767
-    fields = 'name,recorded'
-    x = read_range(name, start, end, fields)
-    print(x)
-def test_update():
-    name = 'zzzTestUser'
-    recorded = 1599018733
-    data = {"ep": 444, "gp": 777, "priority": 123}
-    update(name, recorded, data)
+    table = dynamo.table_cestanding
+    index = 'name-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    data = {"ep":123, "gp":456, "priority": 34, "recorded": 1599028357 }
+    dynamo.generic_create(table, index, key, value, data, 'recorded')
 
+    value = 'zzzTestUser2'
+    data = {"ep":456, "gp":789, "priority": 56, "recorded": 1599028400 }
+    dynamo.generic_create(table, index, key, value, data, 'recorded')
+
+    value = 'zzzTestUser3'
+    data = {"ep":789, "gp":23, "priority": 77, "recorded": 1599028500 }
+    dynamo.generic_create(table, index, key, value, data, 'recorded')
+
+def test_read():
+    table = dynamo.table_cestanding
+    index = 'name-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    x = dynamo.generic_read(table, index, key, value)
+    print(x)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
     # test_create()
-    # test_read()
+    test_read()
     # test_read_range()
-    test_update()
-
+    # test_update()
