@@ -93,6 +93,7 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
 
 ## GENERIC READ ##
 def generic_read(table, index, key, value, timestamp_key=None, timestamp_value=None):
+    print("generic_update",table, index, key, value, timestamp_key, timestamp_value)
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
@@ -119,15 +120,18 @@ def generic_read_range(table, index, key, value, timestamp_key=None, start=None,
         KeyConditionExpression=Key(key).eq(value)
     )
 
+## TODO: TIM .. UPDATE THE INDEX DEPENDING ON WHETHER OR NOT YOU HAVE A timestamp
 
 ## GENERIC UPDATE ##
 def generic_update(table, index, key, value, data, timestamp_key=None):
+    print("generic_update")
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
     # data = {"job":"manager","age":69}
     
+    # handle cases where we have a timestam
     timestamp_value = None
     if timestamp_key != None:
         timestamp_value = data.get(timestamp_key)
@@ -149,7 +153,8 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
         for field in data:
             x = data[field]
             print("Updating "+str(key)+" '"+str(field)+"' to '"+str(x)+"'")
-            expression += update_expression(field, data, names, values)
+            if field != timestamp_key: # avoid error "attribute is part of the key"
+                expression += update_expression(field, data, names, values)
 
         # Update UpdatedAt 
         # NOTE: It's important to leave this as the last expression to close out the 'set' expression

@@ -32,7 +32,7 @@ def DEPRECATED_read_range(name, start, end, fields):
 ## TESTS ##
 def test_create():
     table = dynamo.table_cestanding
-    index = 'name-index'
+    index = 'name-recorded-index'
     key = 'name'
     value = 'zzzTestUser1'
     data = {"ep":123, "gp":456, "priority": 34, "recorded": 1599028357 }
@@ -57,7 +57,7 @@ def test_read():
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    # test_create()
-    test_read()
+    test_create()
+    # test_read()
     # test_read_range()
     # test_update()
