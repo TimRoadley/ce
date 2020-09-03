@@ -1,7 +1,9 @@
 import React from "react";
 import "./styles/home.css";
 import { cePlayers } from '../data/db-ceplayer';
-// import Loading from "../components/loading";
+import Loading from "../components/loading";
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
 
 export default class Players extends React.Component {
 
@@ -9,24 +11,33 @@ export default class Players extends React.Component {
         super(props)
         this.state = {
             players: [],
-            isLoaded: false,
+            loading: true,
         }
     }
 
     componentDidMount() {
-        
+
         cePlayers().then(result => {
 
             console.info("ITEMS", result);
         });
 
+        this.setState({
+            loading: false
+        })
     }
 
     render() {
-        return <div className="header">
-            Test
-    <br />
+        var view;
+        if (this.state.loading) { view = <Loading /> }
+        else {
+            view = <div>
+                Insert table
+            </div>
+        }
 
-        </div>;
+
+
+        return <div>{view}</div>
     }
 }
