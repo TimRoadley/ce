@@ -76,6 +76,12 @@ def test_read_range():
     print("\nTime range for",key,"and",timestamp_key,"between",timestamp_start,"and",timestamp_end)
     print(x)
 
+def test_delete():
+    table = dynamo.table_cestanding
+    index = 'name-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    generic_delete(table, key, value, timestamp_key=None, timestamp_value=None, timestamp_start=None, timestamp_end=None)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":

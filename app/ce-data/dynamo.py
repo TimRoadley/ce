@@ -134,18 +134,18 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
     # value = 'bob'
     # data = {"job":"manager","age":69}
     
-    # handle cases where we have a timestam
+    # Handle cases where we have a timestamp
     timestamp_value = None
     if timestamp_key != None:
         timestamp_value = data.get(timestamp_key)
 
-    ## Create new record if it doesn't exist
+    # Create new record if it doesn't exist
     now = datetime.datetime.utcnow()
     record = generic_read(table, index, key, value, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
     if record['Count'] == 0:
         return generic_create(table, index, key, value, data, timestamp_key)
     
-    ## Update existing record
+    # Update existing record
     else:
         # Add non-null attributes to update_expression
         expression = "set "
@@ -177,9 +177,18 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
         )
 
 ## GENERIC DELETE ##
-def generic_delete(table, key, value, timestamp_key=None, timestamp_value=None):
+def generic_delete(table, key, value, timestamp_key=None, timestamp_value=None, timestamp_start=None, timestamp_end=None):
+    
+    # Default query
     query_key = {key:value}
+
+    # Prepare timestamp based query (if timestamp_key is supplied)
     if timestamp_key != None:
         query_key = {key:value,timestamp_key:Decimal(str(timestamp_value))}
+        
+        # Prepare timestamp range based query (if timestamp_start and timestamp_end is supplied)
+        if timestamp_start != None and timestamp_end != None:
+            query_key = Key(key).eq(value) & Key(timestamp_key).between(Decimal(str(timestamp_start)), Decimal(str(timestamp_end)))
+    
     print("DELETING",query_key)
     return db.Table(table).delete_item(Key=query_key)
