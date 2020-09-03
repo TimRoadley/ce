@@ -86,6 +86,16 @@ def test_update():
     data = {"ep":10000, "gp":20000}
     dynamo.generic_update(table, index, key, value, data, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
 
+def test_update_nullify():
+    table = dynamo.table_cestanding
+    index = 'name-recorded-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    timestamp_key = 'recorded'
+    timestamp_value = 1599028400
+    data = {"ep":12345, "gp":None}
+    dynamo.generic_update(table, index, key, value, data, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
+
 def test_delete():
     table = dynamo.table_cestanding
     index = 'name-recorded-index'
@@ -101,5 +111,6 @@ if __name__ == "__main__":
     # test_create()
     # test_read()
     # test_read_range()
-    test_update()
+    # test_update()
+    test_update_nullify()
     # test_delete()

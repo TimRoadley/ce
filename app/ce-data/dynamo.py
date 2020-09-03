@@ -56,17 +56,14 @@ def update_expression(key, data, attribute_names, attribute_values):
     # This function is used to update the expressions for 
     key = str(key)
     x = data.get(key)
-    if x != None:
-        attribute_names["#"+key] = key
-        if type(x) == float or type(x) == int:
-            # print("Setting attribute_update_expression Decimal", x)
-            attribute_values[":"+key] = Decimal(str(x)) # https://github.com/boto/boto3/issues/665#issuecomment-340260257
-        else:
-            # print("Setting attribute_update_expression String", x)
-            attribute_values[":"+key] = str(x)
-        
-        return "#"+key+"=:"+key+"," # update_expression
-    return "" # don't append anything, since the values we were given were null
+    attribute_names["#"+key] = key
+    if x == None:
+        attribute_values[":"+key] = None
+    elif type(x) == float or type(x) == int:
+        attribute_values[":"+key] = Decimal(str(x)) # https://github.com/boto/boto3/issues/665#issuecomment-340260257
+    else:
+        attribute_values[":"+key] = str(x)        
+    return "#"+key+"=:"+key+"," # update_expression
 
 ####
 ## GENERIC COMMANDS
