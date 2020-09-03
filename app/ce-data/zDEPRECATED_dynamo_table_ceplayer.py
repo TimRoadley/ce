@@ -34,7 +34,7 @@ def test_delete():
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    #test_create()
+    test_create()
     #test_read()
     #test_update()
-    test_delete()
+    #test_delete()

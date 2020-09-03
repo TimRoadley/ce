@@ -108,9 +108,9 @@ def test_delete():
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    # test_create()
+    test_create()
     # test_read()
     # test_read_range()
     # test_update()
-    test_update_nullify()
+    # test_update_nullify()
     # test_delete()

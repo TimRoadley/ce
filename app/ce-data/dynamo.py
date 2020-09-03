@@ -76,9 +76,12 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
     # key = 'name'
     # value = 'bob'
     # data = {"job":"cleaner","age":55}
-    item = { key:value }
+    now = datetime.datetime.utcnow()
+    createdAt = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    item = { key:value, "createdAt": createdAt}
+    print("Creating Item", item)
     if timestamp_key != None:
-        item = { key:value, timestamp_key:Decimal(str(data.get(timestamp_key))) }
+        item[timestamp_key] = Decimal(str(data.get(timestamp_key)))
     print("ITEM TO BE INSERTED",item)
     x = db.Table(table).put_item(Item=item)
     if x['ResponseMetadata']['HTTPStatusCode'] == 200:
