@@ -9,10 +9,25 @@ export async function getData(query, variables) {
 
 export async function getDataInBatches(query, queryName, variables) {
 
+    console.info("getDataInBatches -->",queryName)
+
     // GET INITIAL DATA
     const x = await API.graphql(graphqlOperation(query, variables))
-    var all_items = x.data[queryName].items
-    var nextToken = x.data[queryName].nextToken
+    console.info("Initial Data", x);
+    
+    const data = x['data']
+    console.info("Data", data);
+
+    const q = data[queryName]
+    console.info(queryName, q);
+
+    var all_items = x['data'][queryName]['items']
+    
+    console.info("all_items", all_items);
+    
+    var nextToken = x['data'][queryName].nextToken
+
+    console.info("nextToken", nextToken);
 
     // GET MORE DATA IF REQUIRED
     while (nextToken !== null) {
