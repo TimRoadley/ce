@@ -23,6 +23,10 @@ export async function getDataInBatches(query, queryName, variables) {
 
     var all_items = x['data'][queryName]['items']
     
+    listCEPlayers <-- fix this!!! 
+    listCePlayers
+
+
     console.info("all_items", all_items);
     
     var nextToken = x['data'][queryName].nextToken
