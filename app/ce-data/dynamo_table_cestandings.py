@@ -76,17 +76,30 @@ def test_read_range():
     print("\nTime range for",key,"and",timestamp_key,"between",timestamp_start,"and",timestamp_end)
     print(x)
 
-def test_delete():
+def test_update():
     table = dynamo.table_cestanding
-    index = 'name-index'
+    index = 'name-recorded-index'
     key = 'name'
     value = 'zzzTestUser1'
-    generic_delete(table, key, value, timestamp_key=None, timestamp_value=None, timestamp_start=None, timestamp_end=None)
+    timestamp_key = 'recorded'
+    timestamp_value = 1599028400
+    data = {"ep":10000, "gp":20000}
+    dynamo.generic_update(table, index, key, value, data, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
+
+def test_delete():
+    table = dynamo.table_cestanding
+    index = 'name-recorded-index'
+    key = 'name'
+    value = 'zzzTestUser1'
+    timestamp_key = 'recorded'
+    timestamp_value = 1599028500
+    dynamo.generic_delete(table, key, value, timestamp_key=timestamp_key, timestamp_value=timestamp_value)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    #test_create()
-    #test_read()
-    test_read_range()
-    #test_update() # TODO: TEST THIS ... haven't writted the code for it yet so might not work
+    # test_create()
+    # test_read()
+    # test_read_range()
+    test_update()
+    # test_delete()

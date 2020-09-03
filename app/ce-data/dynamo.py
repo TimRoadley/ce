@@ -82,7 +82,7 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
     item = { key:value }
     if timestamp_key != None:
         item = { key:value, timestamp_key:data.get(timestamp_key) }
-    print("ITEM TO BE INSERTERD",item)
+    print("ITEM TO BE INSERTED",item)
     x = db.Table(table).put_item(Item=item)
     if x['ResponseMetadata']['HTTPStatusCode'] == 200:
         print("CREATED", key, value, "in table", table, "with index", index)
@@ -127,17 +127,17 @@ def generic_read(table, index, key, value, fields=None, timestamp_key=None, time
         )
     
 ## GENERIC UPDATE ##
-def generic_update(table, index, key, value, data, timestamp_key=None):
+def generic_update(table, index, key, value, data, timestamp_key=None, timestamp_value=None):
     # table = dynamo.table_employees
     # index = 'name-index'
     # key = 'name'
     # value = 'bob'
     # data = {"job":"manager","age":69}
     
-    # Handle cases where we have a timestamp
-    timestamp_value = None
+    # Handle cases where we have a timestamp_key yet no timestamp_value
     if timestamp_key != None:
-        timestamp_value = data.get(timestamp_key)
+        if timestamp_value == None:
+            timestamp_value = data.get(timestamp_key)
 
     # Create new record if it doesn't exist
     now = datetime.datetime.utcnow()
@@ -155,7 +155,7 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
         # For each item in the given data, add this to the update expression
         for field in data:
             x = data[field]
-            print("Updating "+str(key)+" '"+str(field)+"' to '"+str(x)+"'")
+            print("Preparing to update "+str(value)+" '"+str(field)+"' to '"+str(x)+"'")
             if field != timestamp_key: # avoid error "attribute is part of the key"
                 expression += update_expression(field, data, names, values)
 
@@ -167,7 +167,14 @@ def generic_update(table, index, key, value, data, timestamp_key=None):
         # Execute update query
         query_key = {key:value}
         if timestamp_key != None:
-            query_key = {key:value,timestamp_key:data.get(timestamp_key)}
+            query_key = {key:value,timestamp_key:timestamp_value}
+
+        print("ITEM TO BE UPDATED:")
+        print("query_key",query_key)
+        print("expression",expression)
+        print("values",values)
+        print("names",names)
+
         return db.Table(table).update_item(
             Key=query_key,
             UpdateExpression=expression,
@@ -190,5 +197,9 @@ def generic_delete(table, key, value, timestamp_key=None, timestamp_value=None, 
         if timestamp_start != None and timestamp_end != None:
             query_key = Key(key).eq(value) & Key(timestamp_key).between(Decimal(str(timestamp_start)), Decimal(str(timestamp_end)))
     
-    print("DELETING",query_key)
-    return db.Table(table).delete_item(Key=query_key)
+    # Execute delete
+    x = db.Table(table).delete_item(Key=query_key)
+    if x['ResponseMetadata']['HTTPStatusCode'] == 200:
+        print("DELETED", key, value, "in table", table)
+    else:
+        print("GENERIC DELETE ERROR", table, key, value)
