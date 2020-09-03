@@ -10,7 +10,7 @@ export async function cePlayer(name) {
 
 export async function cePlayers() {
     let query = listCePlayers;
-    let queryName = 'listCePlayers';
+    let queryName = 'listCEPlayers';
     let variables = { limit: 999999 };
     return await getDataInBatches(query, queryName, variables);
 }
