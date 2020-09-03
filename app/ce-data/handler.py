@@ -1,6 +1,6 @@
 import boto3, os, sys, uuid, json, datetime
 from urllib.parse import unquote_plus
-import dynamo_table_ceplayer
+import dynamo
 
 def load_json(filename):
     with open(filename) as f:
@@ -52,15 +52,26 @@ def update_players(event, context):
                     print('Skipped inactive',player_rank,player_class,player_name)
                 else:
                     print('>>> UPDATING',player_rank,player_class,player_name,"GP",player_gp,"EP",player_ep,"PRIORITY",player_priority)
+                    
+                    # Update ceplayer
                     data = {
                         "class":player_class,
                         "rank":player_rank,
                         "latest_ep":player_ep,
                         "latest_gp":player_gp,
                         "latest_priority":player_priority,
-                        "latest_update":date_utc
+                        "latest_update":date_utc # TODO: run a post process to align with the latest data in cestanding
                     }
-                    dynamo_table_ceplayer.update(player_name, data)
+                    dynamo.generic_update(dynamo.table_ceplayer, 'name-index', 'name', player_name, data)
+                    
+                    # Update cestanding
+                    data = {
+                        "ep":player_ep,
+                        "gp":player_gp,
+                        "priority":player_priority,
+                        "recorded":date_utc # TODO: run a post process to align with the latest data in cestanding
+                    }
+                    dynamo.generic_update(dynamo.table_cestanding, 'name-recorded-index', 'name', player_name, data, timestamp_key='recorded')
 
     print('## END')
 
@@ -83,7 +94,23 @@ def test_utc_from_filekey():
     x = utc_from_filekey(filekey)
     print(x)
 
+def test_update_players():
+    event = {
+        "Records": [
+        {
+            "s3": {
+                "bucket": {
+                    "name": "ce-standings"
+                },
+                "object": {
+                    "key": "2020/2020-07-29_standings.json"
+                }
+            }
+        }]}
+    update_players(event, None)
+
 ## LOCAL TESTING ##
 if __name__ == "__main__":
     print("Testing Locally")
-    test_utc_from_filekey()
+    # test_utc_from_filekey()
+    test_update_players()

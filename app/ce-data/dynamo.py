@@ -78,7 +78,7 @@ def generic_create(table, index, key, value, data, timestamp_key=None):
     # data = {"job":"cleaner","age":55}
     item = { key:value }
     if timestamp_key != None:
-        item = { key:value, timestamp_key:data.get(timestamp_key) }
+        item = { key:value, timestamp_key:Decimal(str(data.get(timestamp_key))) }
     print("ITEM TO BE INSERTED",item)
     x = db.Table(table).put_item(Item=item)
     if x['ResponseMetadata']['HTTPStatusCode'] == 200:
@@ -104,7 +104,7 @@ def generic_read(table, index, key, value, fields=None, timestamp_key=None, time
     
     # Prepare timestamp based query (if timestamp_key is supplied)
     if timestamp_key != None:
-        query = Key(key).eq(value) & Key(timestamp_key).eq(timestamp_value)    
+        query = Key(key).eq(value) & Key(timestamp_key).eq(Decimal(str(timestamp_value)))  
         
         # Prepare timestamp range based query (if start and end is supplied)
         if timestamp_start != None and timestamp_end != None:
@@ -164,7 +164,7 @@ def generic_update(table, index, key, value, data, timestamp_key=None, timestamp
         # Prepare update
         query_key = {key:value}
         if timestamp_key != None:
-            query_key = {key:value,timestamp_key:timestamp_value}
+            query_key = {key:value,timestamp_key:Decimal(str(timestamp_value))}
 
         if timestamp_key != None:
             print("UPDATING",key,value,timestamp_key,timestamp_value,values)
