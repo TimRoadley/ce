@@ -164,17 +164,17 @@ def generic_update(table, index, key, value, data, timestamp_key=None, timestamp
         expression += "updatedAt=:updatedAt"
         values[":updatedAt"] = now.strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
-        # Execute update query
+        # Prepare update
         query_key = {key:value}
         if timestamp_key != None:
             query_key = {key:value,timestamp_key:timestamp_value}
 
-        print("ITEM TO BE UPDATED:")
-        print("query_key",query_key)
-        print("expression",expression)
-        print("values",values)
-        print("names",names)
+        if timestamp_key != None:
+            print("UPDATING",key,value,timestamp_key,timestamp_value,values)
+        else:
+            print("UPDATING",key,value,values)
 
+        # Execute update
         return db.Table(table).update_item(
             Key=query_key,
             UpdateExpression=expression,
