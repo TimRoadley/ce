@@ -11,7 +11,7 @@ export default class Loot extends React.Component {
           <h1>Loot Rules</h1>
           <ul>
             <li>
-              Starting with AQ40, our loot system is <strong>EP/GP</strong>, so
+              Starting with AQ40 our loot system is <strong>EP/GP</strong>, so
               raiders must install the{" "}
               <a href="https://www.curseforge.com/wow/addons/cepgp">CEPGP</a>{" "}
               addon to request loot.
@@ -49,32 +49,35 @@ export default class Loot extends React.Component {
               <strong className="epic">Gear Points</strong>, so the person with
               the highest priority can take the loot if they want it.
             </li>
+            <li>All points decay by 10% per week to prevent hoarding.</li>
             <li>
-              All points decay by 10% per week to prevent hoarding.
-              </li>
-            <li>
-              Gear Points are set at a minimum of 100 to prevent errors dividing by zero.
+              Gear Points are set at a minimum of 100 to prevent errors dividing
+              by zero.
             </li>
           </ul>
           <h1>EP/GP Example</h1>
           <ul>
             <li>
-              An item drops, the master looter broadcasts with{" "}
-              <a href="https://www.curseforge.com/wow/addons/cepgp">CEPGP</a>
+              An item drops, the master looter broadcasts with the{" "}
+              <a href="https://www.curseforge.com/wow/addons/cepgp">CEPGP</a>{" "}
+              addon.
             </li>
-            <li>Click the button to indicate that you want this item</li>
+            <li>Click the button to indicate that you want this item.</li>
             <li>
-              If your <strong className="artifact">Loot Priority</strong> is
-              the highest, you'll receive the item and a{" "}
+              If your <strong className="artifact">Loot Priority</strong> is the
+              highest, you'll receive the item and a{" "}
               <strong className="epic">Gear Points</strong> increase.
             </li>
           </ul>
           <h1>Alts</h1>
           <ul>
             <li>
-              Level 60 reasonably geared alts are allowed in Onyxia and MC
+              Level 60 reasonably geared alts are allowed in Onyxia and MC.
             </li>
-            <li>If your alt is not linked to your main it won't earn <strong className="common">Effort Points</strong></li>
+            <li>
+              If your alt is not linked to your main it won't earn{" "}
+              <strong className="common">Effort Points</strong>.
+            </li>
           </ul>
           <h1>Reserved Items</h1>
           <ul>
@@ -88,19 +91,19 @@ export default class Loot extends React.Component {
             </li>
             <li>
               <strong className="legendary">Garr Left Binding</strong> is an
-              open roll, for someone committed to Thuderfury
+              open roll, for someone committed to Thuderfury.
             </li>
             <li>
               <strong className="legendary">Garr Right Binding</strong> is an
-              open roll, for someone committed to Thuderfury
+              open roll, for someone committed to Thuderfury.
             </li>
             <li>
               <strong className="legendary">Eye of Sulfuras</strong> is an open
-              roll, for someone committed to Hand of Rag
+              roll, for someone committed to Hand of Rag.
             </li>
             <li>
               <strong className="legendary">Atiesh</strong> is reserved for
-              Agiel
+              Agiel.
             </li>
           </ul>
         </div>
