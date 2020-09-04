@@ -1,5 +1,4 @@
 import React from "react";
-import "./styles/home.css";
 import { cePlayers } from "../data/db-ceplayer";
 import Loading from "../components/loading";
 import ReactTable from "react-table";
@@ -41,6 +40,16 @@ export default class Standings extends React.Component {
     } else {
       const columns = [
         {
+          Header: () => <div style={{ textAlign: "left" }}>Loot Priority</div>,
+          accessor: "latest_priority",
+          maxWidth: 100,
+          Cell: (props) => (
+            <span className="artifact">
+              <strong>{props.original.latest_priority}</strong>{" "}
+            </span>
+          ),
+        },        
+        {
           Header: () => <div style={{ textAlign: "left" }}>Class</div>,
           accessor: "class",
           maxWidth: 60,
@@ -66,15 +75,6 @@ export default class Standings extends React.Component {
             Header: () => <div style={{ textAlign: "left" }}>Guild Rank</div>,
             accessor: "rank",
           },
-        {
-          Header: () => <div style={{ textAlign: "left" }}>Loot Priority</div>,
-          accessor: "latest_priority",
-          Cell: (props) => (
-            <span className="artifact">
-              <strong>{props.original.latest_priority}</strong>{" "}
-            </span>
-          ),
-        },
         {
           Header: () => <div style={{ textAlign: "left" }}>Effort Points</div>,
           accessor: "latest_ep",
@@ -108,6 +108,12 @@ export default class Standings extends React.Component {
             //pivotBy={this.state.pivotBy}
             minRows={0}
             // defaultFilterMethod={(filter, row) => matchSorter([row[filter.id]], filter.value).length !== 0}
+            defaultSorted={[
+              {
+                id: 'latest_priority',
+                desc: true
+              }
+            ]}
             className={"standings_table"}
           />
         </div>

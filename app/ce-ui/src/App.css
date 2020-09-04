@@ -88,7 +88,7 @@
   color: #f67f00;
 }
 .artifact {
-  color: rgb(226,204,107)
+  color: #E2CC6B
 }
 
 .Druid {
@@ -117,4 +117,10 @@
 }
 .Warrior {
   color: rgb(194,155,106)
+}
+
+.custom_tooltip {
+  background-color: black;
+  padding: 1em;
+  border-radius: 1em;
 }

@@ -24,14 +24,14 @@
     "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
     "react-loader-spinner": "^3.1.14",
     "react-moment": "^0.9.7",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-spinners": "^0.6.1",
     "react-table": "^6.10.0",
-    "save": "^2.4.0",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "save": "^2.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
