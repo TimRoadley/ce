@@ -1,40 +1,80 @@
-.App-nav ul {
+.navbar {
+  /*position: fixed;*/
+  width: 100%;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #282c34;
 }
 
-.App-nav li {
+.navbar ul {
+  background-color: #202020;
+  font-size:larger;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid #363636;
+}
+
+.navbar li {
+  height: 50px;
+  display: table-cell;
+  vertical-align: middle;
   float: left;
 }
 
-.App-nav li a {
+.float_right {
+  float: right !important;
+}
+
+.navbar li a {
   display: block;
-  color: ghostwhite;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
-.App-nav li a:hover {
-  color: #282c34;
-  background-color: #bbc73a;
+.navbar li a:hover:not(.active) {
+  background-color: #111;
 }
 
-.App-nav-float_right {
-  float: right !important;
+.navbar_active {
+  background-color: #4CAF50;
 }
 
-.App-nav-float_right a:hover {
-  color: ghostwhite;
-  background-color: brown !important;
+/* @media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+} */
+
+.logo {
+  margin-top: -5px;
+}
+.content {
+  background-color: #202020;
+  max-width: 1000px;
+  padding: 1em;
+  line-height: 1.5em;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
 }
 
-.App-footer {
-  font-size: smaller;
-  color: #777;
-  margin-top: 50px;
-  text-align: center;
+.common {
+  color: #31ff00;
+}
+.rare {
+  color: #2d72ff;
+}
+.epic {
+  color: #9f37e3;
+}
+.legendary {
+  color: #f67f00;
 }
