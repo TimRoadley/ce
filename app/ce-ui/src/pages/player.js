@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
+  Label,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -26,7 +27,15 @@ export default class Player extends React.Component {
       chart_start_date: moment().subtract(365, "days").unix(),
       chart_end_date: moment().unix(),
       chart_data: [],
-      player_data: {},
+      player_data: {
+        name: "",
+        class: "",
+        latest_ep: "",
+        latest_gp: "",
+        latest_priority: "",
+        rank: "",
+        latest_update: 0,
+      },
     };
   }
 
@@ -40,9 +49,10 @@ export default class Player extends React.Component {
       ).then((chart_data) => {
         // GET PLAYER
         cePlayer(this.state.player).then((player_data) => {
+          console.info("player_data", player_data.data.getCEPlayer);
           this.setState({
             chart_data: chart_data,
-            player_data: player_data,
+            player_data: player_data.data.getCEPlayer,
             loading: false,
           });
         });
@@ -94,58 +104,104 @@ export default class Player extends React.Component {
       view = <Loading />;
     } else {
       view = (
-        <div
-          style={{
-            paddingBottom: "56.25%" /* 16:9 */,
-            position: "relative",
-            height: 0,
-          }}
-        >
+        <div>
+          <div>
+            <ul className="player_epgp">
+              {/*   player_data: {
+        "name":"",
+        "class":"",
+        "latest_ep":"",
+        "latest_gp":"",
+        "latest_priority":"",
+        "rank":"",
+        "latest_update":0,
+      } */}
+
+              <li>Current Effort Points: {this.state.player_data.latest_ep}</li>
+              <li>Current Gear Points: {this.state.player_data.latest_gp}</li>
+              <li>
+                Current Loot Priotiy: {this.state.player_data.latest_priority}
+              </li>
+            </ul>
+          </div>
+
+          <h2>History</h2>
           <div
             style={{
-              position: "absolute",
-              top: "0",
-              left: "0",
-              width: "100%",
-              height: "100%",
+              paddingBottom: "56.25%" /* 16:9 */,
+              position: "relative",
+              height: 0,
             }}
           >
-            <ResponsiveContainer>
-              <LineChart
-                data={this.state.chart_data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis tickFormatter={this.formatXAxis} dataKey="recorded" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Legend />
-                <Line
-                  name="Effort Points"
-                  strokeWidth="2"
-                  type="monotone"
-                  dataKey="ep"
-                  stroke="#31ff00"
-                  activeDot={{ r: 8 }}
-                />
-                <Line
-                  name="Gear Points"
-                  strokeWidth="2"
-                  type="monotone"
-                  dataKey="gp"
-                  stroke="#9f37e3"
-                  activeDot={{ r: 8 }}
-                />
-                <Line
-                  name="Loot Priority"
-                  strokeWidth="2"
-                  type="monotone"
-                  dataKey="priority"
-                  stroke="#E2CC6B"
-                  activeDot={{ r: 8 }}
-                />
-                <Tooltip content={this.formatChartTooltip} />
-              </LineChart>
-            </ResponsiveContainer>
+            <div
+              style={{
+                position: "absolute",
+                top: "0",
+                left: "0",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <ResponsiveContainer>
+                <LineChart
+                  data={this.state.chart_data}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <XAxis tickFormatter={this.formatXAxis} dataKey="recorded" />
+
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Legend />
+                  <Line
+                    name="Effort Points"
+                    yAxisId="left"
+                    strokeWidth="2"
+                    type="monotone"
+                    dataKey="ep"
+                    stroke="#31ff00"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line
+                    name="Gear Points"
+                    yAxisId="left"
+                    strokeWidth="2"
+                    type="monotone"
+                    dataKey="gp"
+                    stroke="#9f37e3"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line
+                    name="Loot Priority"
+                    yAxisId="right"
+                    strokeWidth="2"
+                    type="monotone"
+                    dataKey="priority"
+                    stroke="#E2CC6B"
+                    activeDot={{ r: 8 }}
+                  />
+
+                  <YAxis yAxisId="left">
+                    <Label
+                      angle={270}
+                      position="left"
+                      style={{ fill: "grey", textAnchor: "middle" }}
+                    >
+                      EP/GP
+                    </Label>
+                  </YAxis>
+                  <YAxis yAxisId="right" orientation="right">
+                  <Label
+                      angle={90}
+                      position="right"
+                      style={{ fill: "grey", textAnchor: "middle" }}
+                    >
+                      Loot Priority
+                    </Label>
+                    </YAxis>
+                  <Legend />
+                  <Tooltip content={this.formatChartTooltip} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       );
