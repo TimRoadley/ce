@@ -5,7 +5,7 @@ import Loading from "../components/loading";
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-export default class Players extends React.Component {
+export default class Standings extends React.Component {
 
     constructor(props) {
         super(props)
@@ -38,6 +38,10 @@ export default class Players extends React.Component {
 
 
 
-        return <div>{view}</div>
+        return <div>
+            <h1>
+                EP/GP Standings
+              </h1>
+              {view}</div>
     }
 }

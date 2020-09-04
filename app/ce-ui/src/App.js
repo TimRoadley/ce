@@ -9,7 +9,7 @@ function App(props) {
         <ul>
           <li className="logo">
             <a href="/">
-              <img src="./favicon-32x32.png" alt="Catalyst Elite" />
+              <img src="/favicon-32x32.png" alt="CE" />
             </a>
           </li>
           <li>
