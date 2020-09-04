@@ -49,7 +49,13 @@ def update_players(event, context):
                 player_ep = player[4]
                 player_priority = player[5]
                 if player_gp == 0 and player_ep == 100 and player_priority == 0:
-                    print('Skipped inactive',player_rank,player_class,player_name)
+                    print('Skipped INACTIVE',player_rank,player_class,player_name)
+                elif player_rank == "Alt":
+                    print('Skipped ALT',player_rank,player_class,player_name)
+                elif player_name == "Agielz" or player_name == "Leiga" or player_name == "Agiels":
+                    print('Skipped AGIELx ALTS',player_rank,player_class,player_name)                    
+                elif player_name == "Kf":
+                    print('Skipped GKICKED',player_rank,player_class,player_name)
                 else:
                     print('>>> UPDATING',player_rank,player_class,player_name,"GP",player_gp,"EP",player_ep,"PRIORITY",player_priority)
                     
