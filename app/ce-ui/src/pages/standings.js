@@ -123,7 +123,6 @@ export default class Standings extends React.Component {
     return (
       <div>
         <h1>EP/GP Standings</h1>
-        <p>Pro-tip: Sort by multiple columns by holding shift.</p>
         {view}
       </div>
     );
