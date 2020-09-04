@@ -19,7 +19,8 @@ a {
 }
 
 a:hover {
-  color: #282c34;
-  background-color: #2d72ff;
+  color: #EEEEEE;
+  background-color: #202020;
   text-decoration: none;
 }
+

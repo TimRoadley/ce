@@ -13,7 +13,10 @@ function App(props) {
             </a>
           </li>
           <li>
-            <a href="/loot">Loot</a>
+            <a href="/loot">Loot Rules</a>
+          </li>
+          <li>
+            <a href="/loot/standings">Loot Standings</a>
           </li>
           <li className="float_right">
             <a href="https://discord.gg/p77AYmb">Discord</a>

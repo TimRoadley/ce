@@ -22,7 +22,7 @@ export default class Loot extends React.Component {
             <li>
               EP/GP means <strong className="common">Effort Points</strong> /{" "}
               <strong className="epic">Gear Points</strong>, which is used to
-              determine a <strong className="legendary">Loot Priority</strong>.
+              determine a <strong className="artifact">Loot Priority</strong>.
             </li>
             <li>
               <strong className="common">Effort Points</strong> are awarded:
@@ -43,15 +43,17 @@ export default class Loot extends React.Component {
               </ul>
             </li>
             <li>
-              <strong className="legendary">Loot Priority</strong> is determined
+              <strong className="artifact">Loot Priority</strong> is determined
               by comparing everyone's{" "}
               <strong className="common">Effort Points</strong> versus{" "}
               <strong className="epic">Gear Points</strong>, so the person with
               the highest priority can take the loot if they want it.
             </li>
             <li>
-              All points decay by 10% per week to prevent hoarding, and are set
-              at a minimum of 100 to prevent errors from dividing by zero.
+              All points decay by 10% per week to prevent hoarding.
+              </li>
+            <li>
+              Gear Points are set at a minimum of 100 to prevent errors dividing by zero.
             </li>
           </ul>
           <h1>EP/GP Example</h1>
@@ -62,7 +64,7 @@ export default class Loot extends React.Component {
             </li>
             <li>Click the button to indicate that you want this item</li>
             <li>
-              If your <strong className="legendary">Loot Priority</strong> is
+              If your <strong className="artifact">Loot Priority</strong> is
               the highest, you'll receive the item and a{" "}
               <strong className="epic">Gear Points</strong> increase.
             </li>

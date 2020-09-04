@@ -71,6 +71,9 @@
   margin-right:auto;
   border-radius: 0.5em;
 }
+.grey {
+  color: darkgray
+}
 .common {
   color: #31ff00;
 }
@@ -82,4 +85,35 @@
 }
 .legendary {
   color: #f67f00;
+}
+.artifact {
+  color: rgb(226,204,107)
+}
+
+.Druid {
+  color: rgb(233,123,0)
+}
+.Hunter {
+  color: rgb(169,211,108)
+}
+.Mage {
+  color: rgb(106,205,241)
+}
+.Paladin {
+  color: rgb(237,139,172)
+}
+.Priest {
+  color: rgb(255,255,255)
+}
+.Rogue {
+  color: rgb(253,243,92)
+}
+.Shaman {
+  color: rgb(53,91,220)
+}
+.Warlock {
+  color: rgb(147,130,203)
+}
+.Warrior {
+  color: rgb(194,155,106)
 }
