@@ -1,19 +1,16 @@
 
-.player_epgp {
- display: inline-block;
- list-style-type: none;
+.player_table {
+  width: 100%;
+ font-size: large;
+  text-align: center;
+ 
 }
-
-.player_epgp ul {
-  background-color: #202020;
-  font-size:larger;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  border-bottom: 1px solid #363636;
+.player_table_row_value {
+  font-size: xx-large;
 }
-
+.player_table_row_name {
+  font-size: large;
+}
 
 .navbar {
   /*position: fixed;*/

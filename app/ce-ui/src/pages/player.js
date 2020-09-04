@@ -106,23 +106,20 @@ export default class Player extends React.Component {
       view = (
         <div>
           <div>
-            <ul className="player_epgp">
-              {/*   player_data: {
-        "name":"",
-        "class":"",
-        "latest_ep":"",
-        "latest_gp":"",
-        "latest_priority":"",
-        "rank":"",
-        "latest_update":0,
-      } */}
-
-              <li>Current Effort Points: {this.state.player_data.latest_ep}</li>
-              <li>Current Gear Points: {this.state.player_data.latest_gp}</li>
-              <li>
-                Current Loot Priotiy: {this.state.player_data.latest_priority}
-              </li>
-            </ul>
+            <table className="player_table">
+            <tbody>
+              <tr className="player_table_row_value">
+                <td className="common">{this.state.player_data.latest_ep}</td>
+                <td className="epic">{this.state.player_data.latest_gp}</td>
+                <td className="artifact">{this.state.player_data.latest_priority}</td>
+              </tr>
+              <tr className="player_table_row_name">
+                <td>Effort Points</td>
+                <td>Gear Points</td>
+                <td>Loot Priority</td>
+              </tr>
+              </tbody>
+            </table>
           </div>
 
           <h2>History</h2>
@@ -189,14 +186,14 @@ export default class Player extends React.Component {
                     </Label>
                   </YAxis>
                   <YAxis yAxisId="right" orientation="right">
-                  <Label
+                    <Label
                       angle={90}
                       position="right"
                       style={{ fill: "grey", textAnchor: "middle" }}
                     >
                       Loot Priority
                     </Label>
-                    </YAxis>
+                  </YAxis>
                   <Legend />
                   <Tooltip content={this.formatChartTooltip} />
                 </LineChart>
