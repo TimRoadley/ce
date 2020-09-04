@@ -1,5 +1,5 @@
 import React from "react";
-import Moment from "react-moment"; // https://www.npmjs.com/package/react-moment
+//import Moment from "react-moment"; // https://www.npmjs.com/package/react-moment
 import moment from "moment";
 import "moment/min/locales";
 import "moment-timezone";
@@ -105,19 +105,39 @@ export default class Player extends React.Component {
     } else {
       view = (
         <div>
+          <table>
+            <tr>
+              <td>
+                <img
+                  className="player_icon"
+                  src={`/images/Classicon_${this.state.player_data.class}.png`}
+                  alt=""
+                ></img>
+              </td>
+              <td>
+                <h1 className={this.state.player_data.class}>
+                  {" "}
+                  {this.state.player}
+                </h1>
+              </td>
+            </tr>
+          </table>
+
           <div>
             <table className="player_table">
-            <tbody>
-              <tr className="player_table_row_value">
-                <td className="common">{this.state.player_data.latest_ep}</td>
-                <td className="epic">{this.state.player_data.latest_gp}</td>
-                <td className="artifact">{this.state.player_data.latest_priority}</td>
-              </tr>
-              <tr className="player_table_row_name">
-                <td>Effort Points</td>
-                <td>Gear Points</td>
-                <td>Loot Priority</td>
-              </tr>
+              <tbody>
+                <tr className="player_table_row_value">
+                  <td className="common">{this.state.player_data.latest_ep}</td>
+                  <td className="epic">{this.state.player_data.latest_gp}</td>
+                  <td className="artifact">
+                    {this.state.player_data.latest_priority}
+                  </td>
+                </tr>
+                <tr className="player_table_row_name">
+                  <td>Effort Points</td>
+                  <td>Gear Points</td>
+                  <td>Loot Priority</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -204,11 +224,6 @@ export default class Player extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <h1>{this.state.player}</h1>
-        {view}
-      </div>
-    );
+    return <div>{view}</div>;
   }
 }

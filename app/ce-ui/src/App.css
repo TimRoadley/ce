@@ -138,3 +138,8 @@
   padding: 1em;
   border-radius: 1em;
 }
+
+.player_icon {
+  margin-top:5px;
+  padding-right: 10px;
+}
