@@ -110,7 +110,7 @@ export default class Player extends React.Component {
               <td>
                 <img
                   className="player_icon"
-                  src={`/images/Classicon_${this.state.player_data.class}.png`}
+                  src={`/images/${this.state.player_data.class}.png`}
                   alt=""
                 ></img>
               </td>
