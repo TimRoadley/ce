@@ -3,7 +3,8 @@ import { cePlayers } from "../data/db-ceplayer";
 import Loading from "../components/loading";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import Moment from 'react-moment'; // https://www.npmjs.com/package/react-moment
+// import Moment from 'react-moment'; // https://www.npmjs.com/package/react-moment
+import moment from 'moment';
 import 'moment/min/locales';
 import 'moment-timezone';
 import { Link } from 'react-router-dom'
@@ -19,7 +20,7 @@ export default class Standings extends React.Component {
 
   componentDidMount() {
     cePlayers().then((result) => {
-      console.info("ITEMS", result);
+      // console.info("ITEMS", result);
       this.setState({
         loading: false,
         players: result.sort(
@@ -88,10 +89,17 @@ export default class Standings extends React.Component {
         {
             Header: () => <div style={{ textAlign: "left" }}>Last Updated</div>,
             accessor: "latest_update",
-            Cell: (props) => (
-              <span><Moment fromNow>{props.original.latest_update*1000}</Moment></span>
-            )
-          },
+            Cell: props => {
+              var updated = moment(props.original.latest_update * 1000).fromNow();
+              if (updated.includes("hour") || 
+                  updated.includes("minute") ||
+                  updated.includes("second")
+                  ) {
+                  updated = "Today"
+              }
+              return <span>{updated}</span>
+          }
+        },
       ];
 
       view = (
