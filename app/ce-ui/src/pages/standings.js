@@ -23,11 +23,7 @@ export default class Standings extends React.Component {
       this.setState({
         loading: false,
         players: result.sort(
-          (a, b) =>
-            (b.latest_priority > a.latest_priority) -
-              (b.latest_priority < a.latest_priority) ||
-            (a.uptime > b.uptime) - (a.uptime < b.uptime) ||
-            (a.mac > b.mac) - (a.mac < b.mac)
+          (a, b) => (b.latest_priority > a.latest_priority) - (b.latest_priority < a.latest_priority)
         ),
       });
     });
@@ -60,7 +56,7 @@ export default class Standings extends React.Component {
                 alt=""
               ></img>
             </span>
-          ),
+          )
         },
         {
           Header: () => <div style={{ textAlign: "left" }}>Character</div>,
@@ -69,30 +65,32 @@ export default class Standings extends React.Component {
             <span className={props.original.class}>
               <div><Link className={`${props.original.class}`} to={`/loot/standings/${props.original.name}`}>{props.original.name}</Link></div>
             </span>
-          ),
+          )
         },
         {
             Header: () => <div style={{ textAlign: "left" }}>Guild Rank</div>,
             accessor: "rank",
-          },
+        },
         {
           Header: () => <div style={{ textAlign: "left" }}>Effort Points</div>,
           accessor: "latest_ep",
           Cell: (props) => (
             <span className="common">{props.original.latest_ep}</span>
-          ),
+          )
         },
         {
           Header: () => <div style={{ textAlign: "left" }}>Gear Points</div>,
           accessor: "latest_gp",
           Cell: (props) => (
             <span className="epic">{props.original.latest_gp}</span>
-          ),
+          )
         },
         {
             Header: () => <div style={{ textAlign: "left" }}>Last Updated</div>,
             accessor: "latest_update",
-            Cell: props => <span><Moment fromNow>{props.original.latest_update*1000}</Moment></span>
+            Cell: (props) => (
+              <span><Moment fromNow>{props.original.latest_update*1000}</Moment></span>
+            )
           },
       ];
 
@@ -108,12 +106,12 @@ export default class Standings extends React.Component {
             //pivotBy={this.state.pivotBy}
             minRows={0}
             // defaultFilterMethod={(filter, row) => matchSorter([row[filter.id]], filter.value).length !== 0}
-            defaultSorted={[
+            /*defaultSorted={[
               {
                 id: 'latest_priority',
                 desc: true
               }
-            ]}
+            ]}*/
             className={"standings_table"}
           />
         </div>
