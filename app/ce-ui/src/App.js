@@ -13,6 +13,9 @@ function App(props) {
             </a>
           </li>
           <li>
+            <a href="/roster">Roster</a>
+          </li>  
+          <li>
             <a href="/loot">Loot Rules</a>
           </li>
           <li>

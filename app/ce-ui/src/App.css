@@ -1,9 +1,11 @@
-
 .player_table {
   width: 100%;
- font-size: large;
+  font-size: large;
   text-align: center;
- 
+}
+.roles_table {
+  width: 100%;
+  text-align: left;
 }
 .player_table_row_value {
   font-size: xx-large;
@@ -23,7 +25,7 @@
 
 .navbar ul {
   background-color: #202020;
-  font-size:larger;
+  font-size: larger;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -55,7 +57,7 @@
 }
 
 .navbar_active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 /* @media screen and (max-width: 500px) {
@@ -82,12 +84,12 @@
 }
 .image_box {
   max-width: 1000px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 0.5em;
 }
 .grey {
-  color: darkgray
+  color: darkgray;
 }
 .common {
   color: #31ff00;
@@ -102,35 +104,35 @@
   color: #f67f00;
 }
 .artifact {
-  color: #E2CC6B
+  color: #e2cc6b;
 }
 
 .Druid {
-  color: rgb(233,123,0)
+  color: rgb(233, 123, 0);
 }
 .Hunter {
-  color: rgb(169,211,108)
+  color: rgb(169, 211, 108);
 }
 .Mage {
-  color: rgb(106,205,241)
+  color: rgb(106, 205, 241);
 }
 .Paladin {
-  color: rgb(237,139,172)
+  color: rgb(237, 139, 172);
 }
 .Priest {
-  color: rgb(255,255,255)
+  color: rgb(255, 255, 255);
 }
 .Rogue {
-  color: rgb(253,243,92)
+  color: rgb(253, 243, 92);
 }
 .Shaman {
-  color: rgb(53,91,220)
+  color: rgb(53, 91, 220);
 }
 .Warlock {
-  color: rgb(147,130,203)
+  color: rgb(147, 130, 203);
 }
 .Warrior {
-  color: rgb(194,155,106)
+  color: rgb(194, 155, 106);
 }
 
 .custom_tooltip {
@@ -140,6 +142,7 @@
 }
 
 .player_icon {
-  margin-top:5px;
+  margin-top: 5px;
   padding-right: 10px;
 }
+
