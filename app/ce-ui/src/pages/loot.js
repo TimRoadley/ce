@@ -20,9 +20,10 @@ export default class Loot extends React.Component {
           <h1>EP/GP</h1>
           <ul>
             <li>
-              EP/GP means <strong className="common">Effort Points</strong> /{" "}
-              <strong className="epic">Gear Points</strong>, which is used to
-              determine a <strong className="artifact">Loot Priority</strong>.
+              EP/GP means <strong className="common">Effort Points</strong>{" "}
+              divided by <strong className="epic">Gear Points</strong>, which is
+              used to determine a{" "}
+              <strong className="artifact">Loot Priority</strong>.
             </li>
             <li>
               <strong className="common">Effort Points</strong> are awarded:
