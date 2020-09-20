@@ -84,7 +84,7 @@ export default class Loot extends React.Component {
           <ul>
             <li>
               <strong className="rare">AQ40 Idols and Scarabs</strong> are sent
-              to <strong className="common">catbankaq</strong>, then provided
+              to <strong className="common">catbank</strong>, then provided
               for free to raiders to{" "}
               <a href="https://classic.wowhead.com/guides/temple-ahnqiraj-aq40-tier-25-classic-wow">
                 create sets
