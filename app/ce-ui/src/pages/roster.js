@@ -34,13 +34,27 @@ export default class Roster extends React.Component {
       const player_name = player["name"];
       const player_class = player["class"];
 
-      // TANKS
+      // SKIP
       if (
+        ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman"].includes(
+          player_name
+        )
+      ) {
+        console.info("skipped");
+      }
+
+      // TANKS
+      else if (
         ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
           player_name
         )
       ) {
         tanks.push(player);
+      }
+
+      // SPECIFIC DPS
+      else if (["Willikins"].includes(player_name)) {
+        dps.push(player);
       }
 
       // HEALERS
@@ -98,6 +112,19 @@ export default class Roster extends React.Component {
           ),
         },
         {
+          Header: () => <div style={{ textAlign: "left" }}>Class</div>,
+          accessor: "class",
+          maxWidth: 60,
+          Cell: (props) => (
+            <span>
+              <img
+                src={`/images/IconSmall_${props.original.class}.gif`}
+                alt=""
+              ></img>
+            </span>
+          )
+        },
+        {
           Header: () => <div style={{ textAlign: "left" }}>Character</div>,
           accessor: "name",
           Cell: (props) => (
@@ -125,7 +152,7 @@ export default class Roster extends React.Component {
                     src={`/images/tanks.png`}
                     alt=""
                   ></img>
-                  Tanks
+                  {this.state.tanks.length} Tanks
                 </h2>
 
                 <ReactTable
@@ -144,7 +171,7 @@ export default class Roster extends React.Component {
                     src={`/images/heals.png`}
                     alt=""
                   ></img>
-                  Heals
+                  {this.state.heals.length} Heals
                 </h2>
                 <ReactTable
                   data={this.state.heals}
@@ -162,7 +189,7 @@ export default class Roster extends React.Component {
                     src={`/images/dps.png`}
                     alt=""
                   ></img>
-                  DPS
+                  {this.state.dps.length} DPS
                 </h2>
                 <ReactTable
                   data={this.state.dps}
@@ -216,7 +243,10 @@ export default class Roster extends React.Component {
           or Borettoo should be in the raid.
         </p>
         <h2>Recently Benched Raiders</h2>
-        <p>Please see the <a href="https://discord.gg/rbM4Gwg">#raid-bench</a> channel in our discord.</p>
+        <p>
+          Please see the <a href="https://discord.gg/rbM4Gwg">#raid-bench</a>{" "}
+          channel in our discord.
+        </p>
         <h2>Bench Priority</h2>
         <div
           style={{
