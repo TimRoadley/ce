@@ -1,10 +1,41 @@
 export function player_type(player) {
+  const player_name = player["name"];
+  const player_class = player["class"];
+  // SKIP
+  if (
+    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman"].includes(player_name)
+  ) {
+    return "skip";
+  }
 
+  // TANKS
+  else if (
+    ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
+      player_name
+    )
+  ) {
+    return "tank";
+  }
+
+  // SPECIFIC DPS
+  else if (["Willikins"].includes(player_name)) {
+    return "dps";
+  }
+
+  // HEALERS
+  else if (
+    player_class === "Paladin" ||
+    player_class === "Priest" ||
+    ["Agiel"].includes(player_name)
+  ) {
+    return "heal";
+  }
+
+  // OTHERWISE DPS
   return "dps";
 }
 
 export function organise(result) {
-
   var roster = [];
   var tanks = [];
   var heals = [];
@@ -16,42 +47,24 @@ export function organise(result) {
     const player_class = player["class"];
 
     // SKIP
-    if (
-      ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman"].includes(
-        player_name
-      )
-    ) {
-      console.info("skipped");
+    if (player_type(player) === "skipped") {
+      console.info("skipped", player);
     }
 
     // TANKS
-    else if (
-      ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
-        player_name
-      )
-    ) {
+    else if (player_type(player) === "tank") {
       tanks.push(player);
       roster.push(player);
     }
 
-    // SPECIFIC DPS
-    else if (["Willikins"].includes(player_name)) {
-      dps.push(player);
-      roster.push(player);
-    }
-
     // HEALERS
-    else if (
-      player_class === "Paladin" ||
-      player_class === "Priest" ||
-      ["Agiel"].includes(player_name)
-    ) {
+    else if (player_type(player) === "heal") {
       heals.push(player);
       roster.push(player);
     }
 
     // DPS
-    else {
+    else if (player_type(player) === "dps") {
       dps.push(player);
       roster.push(player);
     }
