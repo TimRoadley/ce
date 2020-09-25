@@ -4,7 +4,7 @@ import { ceBench } from "../data/db-cebench";
 import Loading from "../components/loading";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { organise } from "../helper/player-organiser";
+import { organise, player_type } from "../helper/player-organiser";
 import moment from "moment";
 import "moment/min/locales";
 import "moment-timezone";
@@ -26,7 +26,7 @@ export default class Bench extends React.Component {
 
       loading: true,
 
-      bench_start_date: moment().subtract(28, "days").unix(),
+      bench_start_date: moment().subtract(21, "days").unix(),
       bench_end_date: moment().unix(),
 
       // 4 MT, 4 OT
@@ -53,11 +53,11 @@ export default class Bench extends React.Component {
 
   componentDidMount() {
     cePlayers().then((result) => {
-      console.info("PLAYERS TO BE ORGANISED", result);
+      //console.info("PLAYERS TO BE ORGANISED", result);
       const x = organise(result);
       this.setState(
         {
-          roster: result,
+          roster: x["roster"],
           tanks: x["tanks"],
           heals: x["heals"],
           dps: x["dps"],
@@ -85,7 +85,14 @@ export default class Bench extends React.Component {
 
   estimateRaid(bench_history) {
 
-    var benched_players = {}
+    // FILL RAID WITH HIGH PRIO RAIDERS
+    var roster = Array.from(this.state.roster);
+    console.info("ROSTER", roster);
+
+    var raid_tanks = [];
+    var raid_heals = [];
+    var raid_dps = [];
+    var benched_players = [];
 
     // FILL RAID WITH BENCH HISTORY
     // console.info("bench_history", bench_history)
@@ -96,21 +103,32 @@ export default class Bench extends React.Component {
         for (var p in players ) {
             var player_name = players[p];
             // console.info("BENCHED PLAYER", player_name);
-            if (benched_players[player_name] === undefined ) {
-                benched_players[player_name] = 1;
-            } else {
-                benched_players[player_name] += 1;
-            }
+            benched_players.push(player_name)
         }
     }
+    benched_players = Array.from(new Set(benched_players));
+    console.info("FILL RAID WITH BENCH HISTORY", benched_players);
+    for (var z in roster) {
+        var player = roster[z];
+        if (benched_players.includes(player['name'])) {
+            console.info("Putting",player['name'],"into the raid!");
 
-    console.info("BENCHED PLAYERS", benched_players);
+            if (player_type(player) === "dps") {
+                raid_dps.push(player);
+                roster.pop(player)
+            }
 
-    // FILL RAID WITH HIGH PRIO RAIDERS
-    var roster = this.state.roster;
-    console.info("ROSTER", roster);
+
+        }
+
+    }
+    
 
 
+
+
+
+    
 
 
 
@@ -118,7 +136,12 @@ export default class Bench extends React.Component {
       raid_tanks: [],
       raid_heals: [],
       raid_dps: [],
-      bench: [], // { latest_priority: 6.34, class: "Mage", name: "Frosty" }
+      bench: roster.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ), // { latest_priority: 6.34, class: "Mage", name: "Frosty" }
     };
 
     return estimate;

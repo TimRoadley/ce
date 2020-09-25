@@ -1,5 +1,11 @@
+export function player_type(player) {
+
+  return "dps";
+}
+
 export function organise(result) {
 
+  var roster = [];
   var tanks = [];
   var heals = [];
   var dps = [];
@@ -25,11 +31,13 @@ export function organise(result) {
       )
     ) {
       tanks.push(player);
+      roster.push(player);
     }
 
     // SPECIFIC DPS
     else if (["Willikins"].includes(player_name)) {
       dps.push(player);
+      roster.push(player);
     }
 
     // HEALERS
@@ -39,16 +47,24 @@ export function organise(result) {
       ["Agiel"].includes(player_name)
     ) {
       heals.push(player);
+      roster.push(player);
     }
 
     // DPS
     else {
       dps.push(player);
+      roster.push(player);
     }
   }
 
   // RETURN DATA
   return {
+    roster: roster.sort(
+      (a, b) =>
+        (b.latest_priority > a.latest_priority) -
+          (b.latest_priority < a.latest_priority) ||
+        (a.name > b.name) - (a.name < b.name)
+    ),
     tanks: tanks.sort(
       (a, b) =>
         (b.latest_priority > a.latest_priority) -
