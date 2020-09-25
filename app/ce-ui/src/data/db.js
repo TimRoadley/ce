@@ -9,8 +9,6 @@ export async function getData(query, variables) {
 
 export async function getDataInBatches(query, queryName, variables) {
 
-    
-
     // GET INITIAL DATA
     const x = await API.graphql(graphqlOperation(query, variables))
     console.info("x",x);

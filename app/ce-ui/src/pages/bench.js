@@ -8,6 +8,9 @@ import { organise } from "../helper/player-organiser";
 import moment from "moment";
 import "moment/min/locales";
 import "moment-timezone";
+// import { Link } from "react-router-dom";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 export default class Bench extends React.Component {
   constructor(props) {
@@ -53,7 +56,6 @@ export default class Bench extends React.Component {
       const x = organise(result);
       this.setState(
         {
-          loading: false,
           tanks: x["tanks"],
           heals: x["heals"],
           dps: x["dps"],
@@ -67,6 +69,11 @@ export default class Bench extends React.Component {
 
           ceBench(bench_name, start, end).then((bench_history) => {
             console.info("bench_history", bench_history);
+
+            this.setState({
+              loading: false,
+              prior_benches: bench_history,
+            });
           });
 
           console.info("ORGANISING...");
@@ -84,9 +91,24 @@ export default class Bench extends React.Component {
       view = <Loading />;
       bench_history_view = <div></div>;
     } else {
+      var bench_history_view_columns = [
+        {
+          Header: () => <div style={{ textAlign: "left" }}>Bench Date</div>,
+          accessor: "bench_date",
+          Cell: (props) => <div>{props.original.bench_date}</div>,
+        },
+        {
+            Header: () => <div style={{ textAlign: "left" }}>Benched Players</div>,
+            accessor: "bench_date",
+            Cell: (props) => <div>{JSON.stringify(props.original.players)}</div>,
+          },
+      ];
+
       view = (
         <div>
-          This automation fills the raid from 4 weeks of benched raiders. It
+            <h1 className="legendary">UNDER CONSTRUCTION</h1>
+            <h2>PROPOSAL</h2>
+          This automation builds an estimate raid from 4 weeks of benched raiders. It
           then fills in the remaining slots based on highest Loot Priority.
           <br />
           Assuming everyone turns up next raid, and notwithstanding other
@@ -97,7 +119,19 @@ export default class Bench extends React.Component {
           there usually are).
         </div>
       );
-      bench_history_view = <div></div>;
+      bench_history_view = (
+        <div>
+          <ReactTable
+            data={this.state.prior_benches}
+            columns={bench_history_view_columns}
+            showPagination={false}
+            //pageSizeOptions={pageSizeOptions(this.state.dps)}
+            defaultPageSize={this.state.dps.length}
+            minRows={0}
+            className={"roles_table"}
+          />
+        </div>
+      );
     }
     return (
       <div>
