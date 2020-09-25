@@ -16,7 +16,9 @@ type CEStanding @model @key(fields: ["name","recorded"]) {
   priority: Float
 }
 
-type CEBench @model @key(fields: ["name","recorded"]) {
-  name: String!
+type CEBench @model @key(fields: ["bench_name","recorded"]) {
+  bench_name: String!
   recorded: Float!
+  bench_date: String!
+  players: [String]
 }

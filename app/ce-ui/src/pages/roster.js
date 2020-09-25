@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./styles/roster.css";
-// import { pageSizeOptions, defaultPageSize } from "../helper/pagination-helper";
+import { organise } from "../helper/player-organiser";
 
 export default class Roster extends React.Component {
   constructor(props) {
@@ -21,78 +21,13 @@ export default class Roster extends React.Component {
   componentDidMount() {
     cePlayers().then((result) => {
       console.info("ITEMS", result);
-      this.organise(result);
-    });
-  }
-
-  organise(result) {
-    var tanks = [];
-    var heals = [];
-    var dps = [];
-
-    for (var x in result) {
-      const player = result[x];
-      const player_name = player["name"];
-      const player_class = player["class"];
-
-      // SKIP
-      if (
-        ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman"].includes(
-          player_name
-        )
-      ) {
-        console.info("skipped");
-      }
-
-      // TANKS
-      else if (
-        ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
-          player_name
-        )
-      ) {
-        tanks.push(player);
-      }
-
-      // SPECIFIC DPS
-      else if (["Willikins"].includes(player_name)) {
-        dps.push(player);
-      }
-
-      // HEALERS
-      else if (
-        player_class === "Paladin" ||
-        player_class === "Priest" ||
-        ["Agiel"].includes(player_name)
-      ) {
-        heals.push(player);
-      }
-
-      // DPS
-      else {
-        dps.push(player);
-      }
-    }
-
-    this.setState({
-      loading: false,
-      tanks: tanks.sort(
-        (a, b) =>
-          (b.latest_priority > a.latest_priority) -
-            (b.latest_priority < a.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      heals: heals.sort(
-        (a, b) =>
-          (b.latest_priority > a.latest_priority) -
-            (b.latest_priority < a.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      dps: dps.sort(
-        (a, b) =>
-          (b.latest_priority > a.latest_priority) -
-            (b.latest_priority < a.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
+      const x = organise(result);
+      this.setState({
+        loading: false,
+        tanks: x["tanks"],
+        heals: x["heals"],
+        dps: x["dps"],
+      });
     });
   }
 
@@ -212,12 +147,9 @@ export default class Roster extends React.Component {
     return (
       <div>
         <h1>Roster</h1>
-        <p>
-          This page shows our current roster.
-        </p>
-       
+        <p>This page shows our current roster.</p>
+
         {view}
-      
       </div>
     );
   }

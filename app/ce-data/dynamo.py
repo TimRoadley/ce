@@ -62,6 +62,8 @@ def update_expression(key, data, attribute_names, attribute_values):
         attribute_values[":"+key] = None
     elif type(x) == float or type(x) == int:
         attribute_values[":"+key] = Decimal(str(x)) # https://github.com/boto/boto3/issues/665#issuecomment-340260257
+    elif type(x) == list or type(x) == dict:
+        attribute_values[":"+key] = x
     else:
         attribute_values[":"+key] = str(x)        
     return "#"+key+"=:"+key+"," # update_expression

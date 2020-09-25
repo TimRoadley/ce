@@ -109,8 +109,10 @@ export const createCeBench = /* GraphQL */ `
     $condition: ModelCEBenchConditionInput
   ) {
     createCEBench(input: $input, condition: $condition) {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
@@ -122,8 +124,10 @@ export const updateCeBench = /* GraphQL */ `
     $condition: ModelCEBenchConditionInput
   ) {
     updateCEBench(input: $input, condition: $condition) {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
@@ -135,8 +139,10 @@ export const deleteCeBench = /* GraphQL */ `
     $condition: ModelCEBenchConditionInput
   ) {
     deleteCEBench(input: $input, condition: $condition) {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }

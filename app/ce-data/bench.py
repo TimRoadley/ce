@@ -8,48 +8,29 @@ def utc_from_date_string(date_string):
     x = x.timestamp()
     return int(x)
 
-
-def bench_player(player_name, date_string):
-
-    recorded = utc_from_date_string(date_string)
-    print("Benching", player_name, date_string, recorded)
-
-    # Update cebench
+def bench(bench_name, bench_date, players):
+    recorded = utc_from_date_string(bench_date)
     data = {
-        "display_date": date_string,
-        "recorded": recorded
+        "bench_date": bench_date,
+        "players": players,
+        "recorded": recorded,
     }
-    dynamo.generic_update(dynamo.table_cebench, 'name-recorded-index',
-                          'name', player_name, data, timestamp_key='recorded')
-
-
-def bench_players(players, date_string):
-    for player in players:
-        bench_player(player, date_string)
-
+    table = dynamo.table_cebench
+    index = 'bench_name-recorded-index'
+    key = 'bench_name'
+    value = bench_name
+    dynamo.generic_update(table, index, key, value, data, timestamp_key='recorded', timestamp_value=recorded)
 
 ## LOCAL TESTING ##
 if __name__ == "__main__":
 
-    print("Updating bench")
+    print("Updating bench...")
 
     # Wed Sep 16: Cabbage, Londonboys, Kaleo, Deniter
-    # date_string = "2020-09-16"
-    # benched_players = ["Cabbage","Londonboys","Kaleo","Deniter"]
-    # bench_players(benched_players, date_string)
+    bench("raider", "2020-09-16", ["Cabbage","Londonboys","Kaleo","Deniter"])
 
     # Mon Sep 21: Ohhai, Faceslicer, Berian, Deniter, Playgu, Maedre, Zither, Goraz
-    # date_string = "2020-09-21"
-    # benched_players = ["Ohhai","Berian","Deniter","Playgu","Maedre","Zither","Gorazzmatazz"]
-    # bench_players(benched_players, date_string)
+    bench("raider", "2020-09-21", ["Ohhai","Berian","Deniter","Playgu","Maedre","Zither","Gorazzmatazz"])
 
     # Wed Sep 23: Borettoo, Condition, Xraid, Dirtyfire, Sivin, Enigmá, Deniter
-    # date_string = "2020-09-23"
-    # benched_players = ["Borettoo", "Condition", "Xraid", "Dirtyfire", "Sivin", "Enigmá", "Deniter"]
-    # bench_players(benched_players, date_string)
-
-    # Mon Sep 23: Borettoo, Condition, Xraid, Dirtyfire, Sivin, Enigmá, Deniter
-    date_string = "2020-09-28"
-    benched_players = []
-    bench_players(benched_players, date_string)
-
+    bench("raider", "2020-09-23", ["Enigmá","Borettoo", "Condition", "Xraid", "Dirtyfire", "Sivin", "Deniter"])

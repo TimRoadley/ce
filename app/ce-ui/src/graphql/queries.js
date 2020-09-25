@@ -90,10 +90,12 @@ export const listCeStandings = /* GraphQL */ `
   }
 `;
 export const getCeBench = /* GraphQL */ `
-  query GetCeBench($name: String!, $recorded: Float!) {
-    getCEBench(name: $name, recorded: $recorded) {
-      name
+  query GetCeBench($bench_name: String!, $recorded: Float!) {
+    getCEBench(bench_name: $bench_name, recorded: $recorded) {
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
@@ -101,7 +103,7 @@ export const getCeBench = /* GraphQL */ `
 `;
 export const listCeBenchs = /* GraphQL */ `
   query ListCeBenchs(
-    $name: String
+    $bench_name: String
     $recorded: ModelFloatKeyConditionInput
     $filter: ModelCEBenchFilterInput
     $limit: Int
@@ -109,7 +111,7 @@ export const listCeBenchs = /* GraphQL */ `
     $sortDirection: ModelSortDirection
   ) {
     listCEBenchs(
-      name: $name
+      bench_name: $bench_name
       recorded: $recorded
       filter: $filter
       limit: $limit
@@ -117,8 +119,10 @@ export const listCeBenchs = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
-        name
+        bench_name
         recorded
+        bench_date
+        players
         createdAt
         updatedAt
       }

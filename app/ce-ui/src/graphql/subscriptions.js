@@ -88,8 +88,10 @@ export const onDeleteCeStanding = /* GraphQL */ `
 export const onCreateCeBench = /* GraphQL */ `
   subscription OnCreateCeBench {
     onCreateCEBench {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
@@ -98,8 +100,10 @@ export const onCreateCeBench = /* GraphQL */ `
 export const onUpdateCeBench = /* GraphQL */ `
   subscription OnUpdateCeBench {
     onUpdateCEBench {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
@@ -108,8 +112,10 @@ export const onUpdateCeBench = /* GraphQL */ `
 export const onDeleteCeBench = /* GraphQL */ `
   subscription OnDeleteCeBench {
     onDeleteCEBench {
-      name
+      bench_name
       recorded
+      bench_date
+      players
       createdAt
       updatedAt
     }
