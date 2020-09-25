@@ -29,23 +29,6 @@ export default class Bench extends React.Component {
       bench_start_date: moment().subtract(21, "days").unix(),
       bench_end_date: moment().unix(),
 
-      // 4 MT, 4 OT
-      min_maintanks: 4,
-      min_offtanks: 4,
-
-      // 10 Healers
-      min_resto_druids: 1,
-      min_pallys: 3,
-      min_priests: 3,
-      remaining_heal_spots: 3,
-
-      // DPS
-      min_warlocks: 4,
-      min_mages: 6,
-      min_hunters: 2,
-      min_rogues: 4,
-      remaining_dps_spots: 6,
-
       // ESTIMATE
       estimate: { raid_tanks: [], raid_heals: [], raid_dps: [], bench_tanks: [], bench_heals: [], bench_dps: [] },
     };
@@ -97,8 +80,7 @@ export default class Bench extends React.Component {
     var bench_dps = [];
     var benched_players = [];
 
-    // FILL RAID WITH BENCH HISTORY
-    // console.info("bench_history", bench_history)
+    // PREPARE BENCH HISTORY
     for (var x in bench_history) {
         var h = bench_history[x];
         var players = h['players'];
@@ -110,7 +92,8 @@ export default class Bench extends React.Component {
         }
     }
     benched_players = Array.from(new Set(benched_players));
-    console.info("FILL RAID WITH BENCH HISTORY", benched_players);
+    
+    // FILL RAID WITH BENCH HISTORY
     for (var z in roster) {
         var player = roster[z];
         if (benched_players.includes(player['name'])) {
@@ -133,13 +116,36 @@ export default class Bench extends React.Component {
         }
     }
     
+    // MINIMUMS: 4 MT, 4 OT
+    const min_maintanks = 4;
+    const min_offtanks = 4
+
+    // MINIMUMS: 10 Healers
+    const min_resto_druids = 1;
+    const min_pallys = 3;
+    const min_priests = 3;
+    const remaining_heal_spots = 3;
+
+    // MINIMUMS: 22 DPS
+    const min_warlocks = 4;
+    const min_mages = 6;
+    const min_hunters = 2;
+    const min_rogues = 4;
+    const remaining_dps_spots = 6;
+
+    // FILL RAID MINIMUMS
+    for (var w in roster) {
+        var pl = roster[w];
+        console.info("assessing",pl["name"], pl["latest_priority"]) 
 
 
+        // TODO: FILL RAID MINIMUMS
 
+    }
 
-
+    // FILL RAID WITH HIGH PRIO REMAINDERS
     
-
+    // TODO: FILL REMAINING SLOTS
 
 
     var estimate = {

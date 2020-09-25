@@ -43,8 +43,6 @@ export function organise(result) {
 
   for (var x in result) {
     const player = result[x];
-    const player_name = player["name"];
-    const player_class = player["class"];
 
     // SKIP
     if (player_type(player) === "skipped") {
