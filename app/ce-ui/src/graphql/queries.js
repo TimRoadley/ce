@@ -89,3 +89,40 @@ export const listCeStandings = /* GraphQL */ `
     }
   }
 `;
+export const getCeBench = /* GraphQL */ `
+  query GetCeBench($name: String!, $recorded: Float!) {
+    getCEBench(name: $name, recorded: $recorded) {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCeBenchs = /* GraphQL */ `
+  query ListCeBenchs(
+    $name: String
+    $recorded: ModelFloatKeyConditionInput
+    $filter: ModelCEBenchFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCEBenchs(
+      name: $name
+      recorded: $recorded
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        recorded
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

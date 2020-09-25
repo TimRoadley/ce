@@ -85,3 +85,33 @@ export const onDeleteCeStanding = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCeBench = /* GraphQL */ `
+  subscription OnCreateCeBench {
+    onCreateCEBench {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCeBench = /* GraphQL */ `
+  subscription OnUpdateCeBench {
+    onUpdateCEBench {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCeBench = /* GraphQL */ `
+  subscription OnDeleteCeBench {
+    onDeleteCEBench {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;

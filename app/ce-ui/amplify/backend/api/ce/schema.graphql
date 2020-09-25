@@ -15,3 +15,8 @@ type CEStanding @model @key(fields: ["name","recorded"]) {
   gp: Float
   priority: Float
 }
+
+type CEBench @model @key(fields: ["name","recorded"]) {
+  name: String!
+  recorded: Float!
+}

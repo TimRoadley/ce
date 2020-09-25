@@ -103,3 +103,42 @@ export const deleteCeStanding = /* GraphQL */ `
     }
   }
 `;
+export const createCeBench = /* GraphQL */ `
+  mutation CreateCeBench(
+    $input: CreateCEBenchInput!
+    $condition: ModelCEBenchConditionInput
+  ) {
+    createCEBench(input: $input, condition: $condition) {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCeBench = /* GraphQL */ `
+  mutation UpdateCeBench(
+    $input: UpdateCEBenchInput!
+    $condition: ModelCEBenchConditionInput
+  ) {
+    updateCEBench(input: $input, condition: $condition) {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCeBench = /* GraphQL */ `
+  mutation DeleteCeBench(
+    $input: DeleteCEBenchInput!
+    $condition: ModelCEBenchConditionInput
+  ) {
+    deleteCEBench(input: $input, condition: $condition) {
+      name
+      recorded
+      createdAt
+      updatedAt
+    }
+  }
+`;

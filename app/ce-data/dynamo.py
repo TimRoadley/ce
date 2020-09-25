@@ -14,6 +14,7 @@ db = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint, aws_a
 # TABLES
 table_ceplayer = 'CEPlayer-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
 table_cestanding = 'CEStanding-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
+table_cebench = 'CEBench-2ui6dujmwjc6lpdhgxkyvqxdru-prod'
 
 def query(table_name, index_name, key_condition_expression, projection_expression, expression_attribute_names):
 
