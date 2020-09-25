@@ -47,7 +47,7 @@ export default class Bench extends React.Component {
       remaining_dps_spots: 6,
 
       // ESTIMATE
-      estimate: { raid_tanks: [], raid_heals: [], raid_dps: [], bench: [] },
+      estimate: { raid_tanks: [], raid_heals: [], raid_dps: [], bench_tanks: [], bench_heals: [], bench_dps: [] },
     };
   }
 
@@ -92,6 +92,9 @@ export default class Bench extends React.Component {
     var raid_tanks = [];
     var raid_heals = [];
     var raid_dps = [];
+    var bench_tanks = [];
+    var bench_heals = [];
+    var bench_dps = [];
     var benched_players = [];
 
     // FILL RAID WITH BENCH HISTORY
@@ -113,14 +116,21 @@ export default class Bench extends React.Component {
         if (benched_players.includes(player['name'])) {
             console.info("Putting",player['name'],"into the raid!");
 
-            if (player_type(player) === "dps") {
-                raid_dps.push(player);
+            if (player_type(player) === "tank") {
+                raid_tanks.push(player);
                 roster.pop(player)
             }
 
+            else if (player_type(player) === "heal") {
+                raid_heals.push(player);
+                roster.pop(player)
+            }
 
+            else if (player_type(player) === "dps") {
+                raid_dps.push(player);
+                roster.pop(player)
+            }
         }
-
     }
     
 
@@ -133,9 +143,12 @@ export default class Bench extends React.Component {
 
 
     var estimate = {
-      raid_tanks: [],
-      raid_heals: [],
-      raid_dps: [],
+      raid_tanks: raid_tanks,
+      raid_heals: raid_heals,
+      raid_dps: raid_dps,
+      bench_tanks: bench_tanks,
+      bench_heals: bench_heals,
+      bench_dps: bench_dps,
       bench: roster.sort(
         (a, b) =>
           (a.latest_priority > b.latest_priority) -
@@ -224,14 +237,53 @@ export default class Bench extends React.Component {
                     src={`/images/bench.png`}
                     alt=""
                   ></img>
-                  Next on Bench
+                  {this.state.estimate.bench_tanks.length} Tanks
                 </h2>
+
                 <ReactTable
-                  data={this.state.estimate.bench}
+                  data={this.state.estimate.bench_tanks}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.tanks)}
-                  defaultPageSize={this.state.estimate.bench.length}
+                  defaultPageSize={this.state.estimate.bench_tanks.length}
+                  minRows={0}
+                  className={"roles_table"}
+                />
+              </li>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/bench.png`}
+                    alt=""
+                  ></img>
+                  {this.state.estimate.bench_heals.length} Heals
+                </h2>
+                <ReactTable
+                  data={this.state.estimate.bench_heals}
+                  columns={raid_columns}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.heals)}
+                  defaultPageSize={this.state.estimate.bench_heals.length}
+                  minRows={0}
+                  className={"roles_table"}
+                />
+              </li>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/bench.png`}
+                    alt=""
+                  ></img>
+                  {this.state.estimate.bench_dps.length} DPS
+                </h2>
+                <ReactTable
+                  data={this.state.estimate.bench_dps}
+                  columns={raid_columns}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.dps)}
+                  defaultPageSize={this.state.estimate.bench_dps.length}
                   minRows={0}
                   className={"roles_table"}
                 />
