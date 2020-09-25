@@ -269,6 +269,14 @@ export default class Roster extends React.Component {
           <br />
           <br />
         </div>
+        <h2>Assuming no one wants to be benched..</h2> 
+        Agiel is planning on building a view that shows who should be benched next for each pool that:
+        <ul>
+          <li>Guarentees a spot for those recently benched</li>
+          <li>Maintains Raid Balance</li>
+          <li>Prioritises low Loot Priority raiders for bench</li>
+        </ul>
+        Of course the output of that will be a guide, so volunteers could also sit instead.
         <h2>If you are Benched</h2>
         <ul>
           <li>Thanks for ensuring we continue to have full raids!</li>
