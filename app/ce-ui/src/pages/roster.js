@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./styles/roster.css";
-import { pageSizeOptions, defaultPageSize } from "../helper/pagination-helper";
+// import { pageSizeOptions, defaultPageSize } from "../helper/pagination-helper";
 
 export default class Roster extends React.Component {
   constructor(props) {
@@ -160,8 +160,8 @@ export default class Roster extends React.Component {
                   data={this.state.tanks}
                   columns={columns}
                   showPagination={false}
-                  pageSizeOptions={pageSizeOptions(this.state.tanks)}
-                  defaultPageSize={defaultPageSize(this.state.tanks, 12)}
+                  //pageSizeOptions={pageSizeOptions(this.state.tanks)}
+                  defaultPageSize={this.state.tanks.length}
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -179,8 +179,8 @@ export default class Roster extends React.Component {
                   data={this.state.heals}
                   columns={columns}
                   showPagination={false}
-                  pageSizeOptions={pageSizeOptions(this.state.heals)}
-                  defaultPageSize={defaultPageSize(this.state.heals, 12)}
+                  //pageSizeOptions={pageSizeOptions(this.state.heals)}
+                  defaultPageSize={this.state.heals.length}
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -197,9 +197,9 @@ export default class Roster extends React.Component {
                 <ReactTable
                   data={this.state.dps}
                   columns={columns}
-                  showPagination={true}
-                  pageSizeOptions={pageSizeOptions(this.state.dps)}
-                  defaultPageSize={defaultPageSize(this.state.dps, 12)}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.dps)}
+                  defaultPageSize={this.state.dps.length}
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -213,99 +213,11 @@ export default class Roster extends React.Component {
       <div>
         <h1>Roster</h1>
         <p>
-          This page shows our current roster and is used to inform the decision
-          around who to bench, in case 40+ raiders turn up.
+          This page shows our current roster.
         </p>
-        <p>
-          No one wants to be benched (especially when they have high{" "}
-          <strong className="artifact">Loot Priority</strong>) and no one wants
-          to be in a poorly balanced and underperforming raid.
-        </p>
-        <p className="common">
-          To be considered a raider in the first place, we expect you to turn up
-          regularly, enchant your gear and bring basic consumables.
-        </p>
+       
         {view}
-        <h2>Raid Balance</h2>
-        Our AQ strategies require the following roles, which when overlaid with
-        our current roster looks something like this:
-        <div
-          style={{
-            margin: "1%",
-            borderRadius: "5px",
-            padding: "0",
-            textAlign: "center",
-          }}
-        >
-          <img
-            className="image_box"
-            src="./images/slots.png"
-            alt="Raid Slots"
-          ></img>
-        </div>
-        <p>There is a tank, healer and dps bench.</p>
-        <h2>Bench Priority</h2>
-        <p>To work out who to bench we use this system:</p>
-        <div
-          style={{
-            margin: "1% 10% 1% 10%",
-            backgroundColor: "#111111",
-            borderRadius: "5px",
-            padding: "0px 10px 10px 10px",
-            textAlign: "center",
-          }}
-        >
-          <br />
-          <h3>Assuming no impact to Raid Balance</h3>
-          <strong className="legendary">Bench Volunteers</strong>
-          <br />
-          <strong>&gt;</strong>
-          <br />
-          <strong className="epic">Low Loot Priority Raiders</strong>
-          <br />
-          <strong>&gt;</strong>
-          <br />
-          <strong className="rare">Recently Benched Raiders</strong>
-          <br />
-          <br />
-        </div>
-        <h2>Assuming no one wants to be benched..</h2> 
-        Agiel is planning on building a view that shows who should be benched next for each pool that:
-        <ul>
-          <li>Guarentees a spot for those recently benched</li>
-          <li>Maintains Raid Balance</li>
-          <li>Prioritises low Loot Priority raiders for bench</li>
-        </ul>
-        Of course the output of that will be a guide, so volunteers could also sit instead.
-        <h2>If you are Benched</h2>
-        <ul>
-          <li>Thanks for ensuring we continue to have full raids!</li>
-          <li>Rest assured you'll get a spot next clear</li>
-          <li>
-            Be aware that if we're doing progression, the original raiders will
-            take precedence this lockout HOWEVER note that they might not turn
-            up, so please be available just in case. This issue will dissapear
-            when AQ is clear in 1 night.
-          </li>
-          <li>
-            Post in <a href="https://discord.gg/rbM4Gwg">#raid-bench</a> discord
-            channel so we don't forget.
-          </li>
-        </ul>
-        <h2>If you're not sure if you're benched (Raid Auto-Invite Fails)</h2>
-        <ul>
-          <li>Check that you aren't already in a group.</li>
-          <li>
-            Ask on Discord who the raid leader is, in case it's changed, then
-            whisper "inv" to the leader.
-          </li>
-          <li>
-            If the raid is full post in the{" "}
-            <a href="https://discord.gg/rbM4Gwg">#raid-bench</a> discord channel
-            so we can organise the bench. Please be patient as there's usually a
-            lot happening at invite time!
-          </li>
-        </ul>
+      
       </div>
     );
   }

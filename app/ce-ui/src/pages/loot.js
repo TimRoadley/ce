@@ -109,7 +109,7 @@ export default class Loot extends React.Component {
           </ul>
           <h1>Other Stuff</h1>
           <ul>
-            <li>Please see <a href="https://www.catalyst-elite.org/roster">https://www.catalyst-elite.org/roster</a> for the bench rules</li>
+            <li>Please see <a href="https://www.catalyst-elite.org/bench">here</a> for the bench rules</li>
             <li>Raiders &gt; Members &gt; Trials for 40-man loot.</li>
             <li>Trials become Raiders after 2 weeks provided class leader approves.</li>
             <li>BWL/MC/Ony are open rolls, not EP/GP.</li>
