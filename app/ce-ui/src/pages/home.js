@@ -18,8 +18,8 @@ export default class Home extends React.Component {
           <strong className="common">Monday and Wednesday</strong> between{" "}
           <strong className="common">7:30pm and 10:30pm</strong> each week.
         </p>
-        <p>Here's a picture of us, doing a thing:</p>
-        <img className="image_box" src="./images/tf.jpg" alt="Thuderfury"></img>
+        <p>Congrats <strong className="artifact">Simulacrum</strong> on server first Scarab Lord!</p>
+        <img className="image_box" src="./images/scablord.png" alt="Scablord"></img>
         <h1>Recruitment</h1>
         <p>
         <strong className="legendary">We are currently recruiting a few more raiders for AQ</strong>, so we'd love to
@@ -53,7 +53,7 @@ export default class Home extends React.Component {
           <li>Veteran Member</li>
           <li>Member</li>
           <li>Alt</li>
-          <li>Initiate</li>
+          <li>Trial</li>
         </ul>
         <h1>Rank Expectations</h1>
         <ul>

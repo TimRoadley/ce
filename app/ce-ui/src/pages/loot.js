@@ -88,7 +88,7 @@ export default class Loot extends React.Component {
               for free to raiders to{" "}
               <a href="https://classic.wowhead.com/guides/temple-ahnqiraj-aq40-tier-25-classic-wow">
                 create sets
-              </a>
+              </a>. For the first 3 weeks of AQ40, scarabs/idols will be given for 2.5 only.
             </li>
             <li>
               <strong className="legendary">Garr Left Binding</strong> is an
@@ -106,6 +106,15 @@ export default class Loot extends React.Component {
               <strong className="legendary">Atiesh</strong> is reserved for
               Agiel.
             </li>
+          </ul>
+          <h1>Other Stuff</h1>
+          <ul>
+            <li>Please see <a href="https://www.catalyst-elite.org/roster">https://www.catalyst-elite.org/roster</a> for the bench rules</li>
+            <li>Raiders &gt; Members &gt; Trials for 40-man loot.</li>
+            <li>Trials become Raiders after 2 weeks provided class leader approves.</li>
+            <li>BWL/MC/Ony are open rolls, not EP/GP.</li>
+            <li>Only mains can come to BWL and AQ40.</li>
+            <li>Mains or alts can come to MC / Ony, however MC is now removed from our main raid nights.</li>
           </ul>
         </div>
       </div>
