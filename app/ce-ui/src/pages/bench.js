@@ -38,11 +38,12 @@ export default class Bench extends React.Component {
         // MINIMUMS: 4 MT, 4 OT
         min_maintanks: 4,
         min_offtanks: 4,
+        max_tanks: 8,
         // MINIMUMS: 10 Healers
         min_resto_druids: 1,
         min_paladins: 3,
         min_priests: 3,
-        remaining_heal_spots: 3,
+        max_heals: 10,
         // MINIMUMS: 22 DPS
         min_warlocks: 4,
         min_mages: 6,
@@ -50,7 +51,7 @@ export default class Bench extends React.Component {
         min_rogues: 4,
         min_shadow: 1,
         min_feral: 1,
-        remaining_dps_spots: 6,
+        max_dps: 22,
       },
 
       // ESTIMATE
