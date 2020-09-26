@@ -64,104 +64,92 @@ export default class Bench extends React.Component {
 
   componentDidMount() {
     cePlayers().then((result) => {
-      //console.info("PLAYERS TO BE ORGANISED", result);
-      const x = organise(result);
-      this.setState(
-        {
-          roster: x["roster"],
-          tanks: x["tanks"],
-          heals: x["heals"],
-          dps: x["dps"],
-        },
-        () => {
-          const bench_name = "raider";
-          const start = this.state.bench_start_date;
-          const end = this.state.bench_end_date;
 
-          // console.info(start, end);
+      const bench_name = "raider";
+      const start = this.state.bench_start_date;
+      const end = this.state.bench_end_date;
 
-          ceBench(bench_name, start, end).then((bench_history) => {
-            this.setState({
-              loading: false,
-              prior_benches: bench_history,
-              raid_and_bench: this.estimateRaid(bench_history),
-            });
-          });
-
-          console.info("ORGANISING...");
-        }
-      );
+      ceBench(bench_name, start, end).then((bench_history) => {
+        this.setState({
+          loading: false,
+          prior_benches: bench_history,
+          raid_and_bench: this.estimateRaid(bench_history, organise(result)),
+        });
+      });
     });
   }
 
-  estimateRaid(bench_history) {
+  estimateRaid(bench_history, organised_result) {
+
     // START WITH EMPTY RAID + EVERYONE ON THE BENCH
-    var raid_and_bench = {
+    var rb = {
       raid: { tanks: [], heals: [], dps: [] },
       bench: {
-        tanks: Array.from(this.state.tanks),
-        heals: Array.from(this.state.heals),
-        dps: Array.from(this.state.dps),
+        tanks: Array.from(organised_result.tanks),
+        heals: Array.from(organised_result.heals),
+        dps: Array.from(organised_result.dps),
       },
-      roster: Array.from(this.state.roster),
+      roster: Array.from(organised_result.roster),
       recently_benched: recently_benched_players(bench_history),
     };
 
-    // ADD RECENTLY BENCHED PLAYERS TO RAID
+    console.info("STARTING POINT", rb);
+
+     // ADD RECENTLY BENCHED PLAYERS TO RAID
     const benched = recently_benched_players(bench_history);
     console.info("BENCHED", benched);
     for (var x in benched) {
       const player_name = benched[x];
       // console.info("TRYING to add", player_name);
-      raid_and_bench = add_player_to_raid(
+      rb = add_player_to_raid(
         player_name,
-        raid_and_bench,
+        {...rb},
         this.state.raid_balance_settings
       );
     }
 
-    console.info("remaining_bench", raid_and_bench.recently_benched);
+    console.info("remaining_bench", rb.recently_benched);
 
     // SORT BY LP
-    raid_and_bench.bench.dps.sort(
+/*     rb.bench.dps.sort(
       (a, b) =>
         (b.latest_priority > a.latest_priority) -
         (b.latest_priority < a.latest_priority)
-    );
+    ); */
 
     // FILL MINIMUMS FOR DPS
-    for (var d in raid_and_bench.bench.dps) {
-      raid_and_bench = add_player_to_raid(
-        raid_and_bench.bench.dps[d]["name"],
-        raid_and_bench,
+    for (var d in rb.bench.dps) {
+        rb = add_player_to_raid(
+            rb.bench.dps[d]["name"],
+            rb,
         this.state.raid_balance_settings
       );
     }
 
     // FILL MINIMUMS FOR TANKS
-    for (var t in raid_and_bench.bench.tanks) {
-      raid_and_bench = add_player_to_raid(
-        raid_and_bench.bench.tanks[t]["name"],
-        raid_and_bench,
+    for (var t in rb.bench.tanks) {
+        rb = add_player_to_raid(
+            rb.bench.tanks[t]["name"],
+            rb,
         this.state.raid_balance_settings
       );
     }
 
     // FILL MINIMUMS FOR HEALS
-    for (var h in raid_and_bench.bench.heals) {
-      raid_and_bench = add_player_to_raid(
-        raid_and_bench.bench.heals[h]["name"],
-        raid_and_bench,
+     for (var h in rb.bench.heals) {
+        rb = add_player_to_raid(
+            rb.bench.heals[h]["name"],
+            rb,
         this.state.raid_balance_settings
       );
     }
-
+ 
     // FILL FLEX SLOTS WITH REMAINING BENCH
 
     // FILL FLEX SLOTS WITH HIGHEST LP
 
     // RETURN ESTIMATE
-    return raid_and_bench;
+    return rb;
   }
 
   OLDestimateRaid(bench_history) {

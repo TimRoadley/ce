@@ -31,11 +31,24 @@ export function remove_player_from_array(player, player_array) {
 }
 
 export function remove(player, player_array) {
-  for (var i = 0; i < player_array.length; i++) {
-    if (player_array[i] === player) {
-      player_array.splice(i, 1);
+  
+  console.info("player_array BEFORE REMOVING", player, player_array);
+
+  if (typeof(player) === Object) {
+    player_array = player_array.filter(item => item.name !== "Agiel")
+  }
+
+  if (typeof(player) === String) {
+    for (var i = 0; i < player_array.length; i++) {
+      if (player_array[i] === player) {
+        player_array.splice(i, 1);
+      }
     }
   }
+
+  console.info("player_array AFTER REMOVING", player, player_array);
+
+  return player_array
 }
 
 export function add(
@@ -74,7 +87,7 @@ export function add_player_to_raid(player_name, raid_and_bench, settings) {
   const roster = x.roster;
 
   const s = settings;
-  // console.info("SETTINGS", settings);
+  console.info("add_player_to_raid", player_name);
 
   const po = player_object(player_name, roster);
   const pc = po.class;
