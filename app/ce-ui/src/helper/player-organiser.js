@@ -1,13 +1,14 @@
 
-export function add_player_to_raid(player, raid_and_bench, settings) {
+export function add_player_to_raid(player_name, raid_and_bench, settings) {
 
   var updated_raid_and_bench = {...raid_and_bench}; // copy existing raid
-
-  console.info("Adding",player);
-
-  player_object()
+  const roster = updated_raid_and_bench.roster;
   
+  console.info("Adding",player_name);
 
+  const po = player_object(player_name, roster);
+  
+  console.info(" ---", po);
 
  
 

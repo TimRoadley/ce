@@ -55,7 +55,7 @@ export default class Bench extends React.Component {
       // ESTIMATE
       raid_and_bench: {
         raid: { tanks: [], heals: [], dps: [] },
-        bench: { tanks: [], heals: [], dps: [] }
+        bench: { tanks: [], heals: [], dps: [] },
       },
     };
   }
@@ -101,6 +101,7 @@ export default class Bench extends React.Component {
         heals: Array.from(this.state.heals),
         dps: Array.from(this.state.dps),
       },
+      roster: Array.from(this.state.roster)
     };
 
     // GET EXISTING BENCH
@@ -108,8 +109,9 @@ export default class Bench extends React.Component {
     console.info("BENCHED", benched);
 
     for (var x in benched) {
-        raid_and_bench = add_player_to_raid(
-        benched[x],
+      const player_name = benched[x];
+      raid_and_bench = add_player_to_raid(
+        player_name,
         raid_and_bench,
         this.state.raid_balance_settings
       );
@@ -130,8 +132,8 @@ export default class Bench extends React.Component {
     var raid_heals = [];
     var raid_dps = [];
 
-    var raid_tanks_names = [];
-    var raid_heals_names = [];
+    //var raid_tanks_names = [];
+    //var raid_heals_names = [];
     var raid_dps_names = [];
 
     // GET NAMES
