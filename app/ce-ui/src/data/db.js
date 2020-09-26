@@ -11,7 +11,6 @@ export async function getDataInBatches(query, queryName, variables) {
 
     // GET INITIAL DATA
     const x = await API.graphql(graphqlOperation(query, variables))
-    console.info("x",x);
     var all_items = x.data[queryName].items
     var nextToken = x.data[queryName].nextToken
 

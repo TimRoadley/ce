@@ -4,7 +4,13 @@ import { ceBench } from "../data/db-cebench";
 import Loading from "../components/loading";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { organise, player_type } from "../helper/player-organiser";
+import {
+  organise,
+  player_type,
+  player_names,
+  recently_benched_players,
+  add_player_to_raid,
+} from "../helper/player-organiser";
 import moment from "moment";
 import "moment/min/locales";
 import "moment-timezone";
@@ -19,7 +25,7 @@ export default class Bench extends React.Component {
     this.state = {
       // AVAILABLE RAIDERS
       prior_benches: [],
-      roster:[],
+      roster: [],
       tanks: [],
       heals: [],
       dps: [],
@@ -29,8 +35,28 @@ export default class Bench extends React.Component {
       bench_start_date: moment().subtract(21, "days").unix(),
       bench_end_date: moment().unix(),
 
+      raid_balance_settings: {
+        // MINIMUMS: 4 MT, 4 OT
+        min_maintanks: 4,
+        min_offtanks: 4,
+        // MINIMUMS: 10 Healers
+        min_resto_druids: 1,
+        min_pallys: 3,
+        min_priests: 3,
+        remaining_heal_spots: 3,
+        // MINIMUMS: 22 DPS
+        min_warlocks: 4,
+        min_mages: 6,
+        min_hunters: 2,
+        min_rogues: 4,
+        remaining_dps_spots: 6,
+      },
+
       // ESTIMATE
-      estimate: { raid_tanks: [], raid_heals: [], raid_dps: [], bench_tanks: [], bench_heals: [], bench_dps: [] },
+      raid_and_bench: {
+        raid: { tanks: [], heals: [], dps: [] },
+        bench: { tanks: [], heals: [], dps: [] }
+      },
     };
   }
 
@@ -50,7 +76,7 @@ export default class Bench extends React.Component {
           const start = this.state.bench_start_date;
           const end = this.state.bench_end_date;
 
-          console.info(start, end);
+          // console.info(start, end);
 
           ceBench(bench_name, start, end).then((bench_history) => {
             this.setState({
@@ -67,100 +93,157 @@ export default class Bench extends React.Component {
   }
 
   estimateRaid(bench_history) {
+    // START WITH EMPTY RAID + EVERYONE ON THE BENCH
+    var raid_and_bench = {
+      raid: { tanks: [], heals: [], dps: [] },
+      bench: {
+        tanks: Array.from(this.state.tanks),
+        heals: Array.from(this.state.heals),
+        dps: Array.from(this.state.dps),
+      },
+    };
 
-    // FILL RAID WITH HIGH PRIO RAIDERS
-    var roster = Array.from(this.state.roster);
-    console.info("ROSTER", roster);
+    // GET EXISTING BENCH
+    const benched = recently_benched_players(bench_history);
+    console.info("BENCHED", benched);
 
+    for (var x in benched) {
+        raid_and_bench = add_player_to_raid(
+        benched[x],
+        raid_and_bench,
+        this.state.raid_balance_settings
+      );
+    }
+
+    // RETURN ESTIMATE
+    return raid_and_bench;
+  }
+
+  OLDestimateRaid(bench_history) {
+    // START WITH EVERYONE ON THE BENCH
+    var bench_tanks = Array.from(this.state.tanks);
+    var bench_heals = Array.from(this.state.heals);
+    var bench_dps = Array.from(this.state.dps);
+
+    // START WITH EMPTY RAID
     var raid_tanks = [];
     var raid_heals = [];
     var raid_dps = [];
-    var bench_tanks = [];
-    var bench_heals = [];
-    var bench_dps = [];
-    var benched_players = [];
 
-    // PREPARE BENCH HISTORY
-    for (var x in bench_history) {
-        var h = bench_history[x];
-        var players = h['players'];
-        if (players!== undefined && players !== null) 
-        for (var p in players ) {
-            var player_name = players[p];
-            // console.info("BENCHED PLAYER", player_name);
-            benched_players.push(player_name)
-        }
+    var raid_tanks_names = [];
+    var raid_heals_names = [];
+    var raid_dps_names = [];
+
+    // GET NAMES
+    var available_dps_names = player_names(bench_dps);
+    console.info("available_dps_names", available_dps_names);
+
+    console.info("recently_benched_players", recently_benched_players);
+
+    console.info("raid_dps_names", raid_dps_names);
+
+    /* 
+
+    // START WITH EVERYONE ON THE BENCH
+    var bench_tanks = Array.from(this.state.tanks);
+    var bench_heals = Array.from(this.state.heals);
+    var bench_dps = Array.from(this.state.dps);
+
+    // START WITH NO ONE IN THE RAID
+    var raid_tanks = [];
+    var raid_heals = [];
+    var raid_dps = [];
+
+
+
+    // FILL RAID WITH TANKS FROM BENCH HISTORY
+    for (var bench_tank_i in this.state.tanks) {
+      const _bench_tank = this.state.tanks[bench_tank_i];
+      if (recently_benched_players.includes(_bench_tank["name"])) {
+        raid_tanks.push(_bench_tank); // Add to raid
+        bench_tanks.pop(_bench_tank); // Remove from bench
+      }
     }
-    benched_players = Array.from(new Set(benched_players));
-    
-    // FILL RAID WITH BENCH HISTORY
-    for (var z in roster) {
-        var player = roster[z];
-        if (benched_players.includes(player['name'])) {
-            console.info("Putting",player['name'],"into the raid!");
 
-            if (player_type(player) === "tank") {
-                raid_tanks.push(player);
-                roster.pop(player)
-            }
-
-            else if (player_type(player) === "heal") {
-                raid_heals.push(player);
-                roster.pop(player)
-            }
-
-            else if (player_type(player) === "dps") {
-                raid_dps.push(player);
-                roster.pop(player)
-            }
-        }
+    // FILL RAID WITH HEALERS FROM BENCH HISTORY
+    for (var bench_heal_i in this.state.heals) {
+      const _bench_heal = this.state.heals[bench_heal_i];
+      if (recently_benched_players.includes(_bench_heal["name"])) {
+        raid_heals.push(_bench_heal); // Add to raid
+        bench_heals.pop(_bench_heal); // Remove from bench
+      }
     }
-    
-    // MINIMUMS: 4 MT, 4 OT
-    const min_maintanks = 4;
-    const min_offtanks = 4
 
-    // MINIMUMS: 10 Healers
-    const min_resto_druids = 1;
-    const min_pallys = 3;
-    const min_priests = 3;
-    const remaining_heal_spots = 3;
 
-    // MINIMUMS: 22 DPS
-    const min_warlocks = 4;
-    const min_mages = 6;
-    const min_hunters = 2;
-    const min_rogues = 4;
-    const remaining_dps_spots = 6;
+ */
 
     // FILL RAID MINIMUMS
-    for (var w in roster) {
+    /*     for (var w in roster) {
         var pl = roster[w];
-        console.info("assessing",pl["name"], pl["latest_priority"]) 
-
+        var pt = player_type(pl);
+        console.info("assessing",pt, pl["class"],pl["name"], pl["latest_priority"]) 
 
         // TODO: FILL RAID MINIMUMS
+        if (pt === "tank") {
 
-    }
+            if (raid_tanks.length < min_maintanks) {
+                raid_tanks.push(pl);
+                roster.pop(pl);
+            } else {
+                console.info("TANK SPOTS FULL");
+            }
+        } else {
+            console.info(pl["name"], "is not a tank");
+        }
+
+    } */
 
     // FILL RAID WITH HIGH PRIO REMAINDERS
-    
-    // TODO: FILL REMAINING SLOTS
 
+    // TODO: FILL REMAINING SLOTS
+    /*     for (var r in roster) {
+        const _player = roster[r];
+        const _player_type = player_type(_player)
+        console.info("REMAINING",_player_type, _player["class"],_player["name"], _player["latest_priority"])
+    } */
 
     var estimate = {
-      raid_tanks: raid_tanks,
-      raid_heals: raid_heals,
-      raid_dps: raid_dps,
-      bench_tanks: bench_tanks,
-      bench_heals: bench_heals,
-      bench_dps: bench_dps,
-      bench: roster.sort(
+      raid_tanks: raid_tanks.sort(
         (a, b) =>
           (a.latest_priority > b.latest_priority) -
             (a.latest_priority < b.latest_priority) ||
           (a.name > b.name) - (a.name < b.name)
-      ), // { latest_priority: 6.34, class: "Mage", name: "Frosty" }
+      ),
+      raid_heals: raid_heals.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ),
+      raid_dps: raid_dps.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ),
+      bench_tanks: bench_tanks.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ),
+      bench_heals: bench_heals.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ),
+      bench_dps: bench_dps.sort(
+        (a, b) =>
+          (a.latest_priority > b.latest_priority) -
+            (a.latest_priority < b.latest_priority) ||
+          (a.name > b.name) - (a.name < b.name)
+      ),
     };
 
     return estimate;
@@ -231,6 +314,71 @@ export default class Bench extends React.Component {
       ];
       benchmaster_9000_view = (
         <div>
+          <h1 className="legendary">Raid Priority</h1>
+          Assuming everyone turns up next raid, here's what it might look like
+          taking Raid Balance and Recently Benched Raiders into account.
+          <div className="role_layout">
+            <ul>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/tanks.png`}
+                    alt=""
+                  ></img>
+                  {this.state.raid_and_bench.raid.tanks.length} Tanks
+                </h2>
+
+                <ReactTable
+                  data={this.state.raid_and_bench.raid.tanks}
+                  columns={raid_columns}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.tanks)}
+                  defaultPageSize={this.state.raid_and_bench.raid.tanks.length}
+                  minRows={0}
+                  className={"roles_table"}
+                />
+              </li>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/heals.png`}
+                    alt=""
+                  ></img>
+                  {this.state.raid_and_bench.raid.heals.length} Heals
+                </h2>
+                <ReactTable
+                  data={this.state.raid_and_bench.raid.heals}
+                  columns={raid_columns}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.heals)}
+                  defaultPageSize={this.state.raid_and_bench.raid.heals.length}
+                  minRows={0}
+                  className={"roles_table"}
+                />
+              </li>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/dps.png`}
+                    alt=""
+                  ></img>
+                  {this.state.raid_and_bench.raid.dps.length} DPS
+                </h2>
+                <ReactTable
+                  data={this.state.raid_and_bench.raid.dps}
+                  columns={raid_columns}
+                  showPagination={false}
+                  //pageSizeOptions={pageSizeOptions(this.state.dps)}
+                  defaultPageSize={this.state.raid_and_bench.raid.dps.length}
+                  minRows={0}
+                  className={"roles_table"}
+                />
+              </li>
+            </ul>
+          </div>
           <h1 className="legendary">Bench Priority</h1>
           Assuming everyone turns up next raid, here's what the bench might look
           like taking Raid Balance and Recently Benched Raiders into account.
@@ -243,15 +391,15 @@ export default class Bench extends React.Component {
                     src={`/images/bench.png`}
                     alt=""
                   ></img>
-                  {this.state.estimate.bench_tanks.length} Tanks
+                  {this.state.raid_and_bench.bench.tanks.length} Tanks
                 </h2>
 
                 <ReactTable
-                  data={this.state.estimate.bench_tanks}
+                  data={this.state.raid_and_bench.bench.tanks}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.tanks)}
-                  defaultPageSize={this.state.estimate.bench_tanks.length}
+                  defaultPageSize={this.state.raid_and_bench.bench.tanks.length}
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -263,14 +411,14 @@ export default class Bench extends React.Component {
                     src={`/images/bench.png`}
                     alt=""
                   ></img>
-                  {this.state.estimate.bench_heals.length} Heals
+                  {this.state.raid_and_bench.bench.heals.length} Heals
                 </h2>
                 <ReactTable
                   data={this.state.estimate.bench_heals}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.heals)}
-                  defaultPageSize={this.state.estimate.bench_heals.length}
+                  defaultPageSize={this.state.raid_and_bench.bench.heals.length}
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -282,79 +430,14 @@ export default class Bench extends React.Component {
                     src={`/images/bench.png`}
                     alt=""
                   ></img>
-                  {this.state.estimate.bench_dps.length} DPS
+                  {this.state.raid_and_bench.bench.dps.length} DPS
                 </h2>
                 <ReactTable
-                  data={this.state.estimate.bench_dps}
+                  data={this.state.raid_and_bench.bench.dps}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.dps)}
-                  defaultPageSize={this.state.estimate.bench_dps.length}
-                  minRows={0}
-                  className={"roles_table"}
-                />
-              </li>
-            </ul>
-          </div>
-          <h1 className="legendary">Raid Priority</h1>
-          Assuming everyone turns up next raid, here's what the raid might look
-          like taking Raid Balance and Recently Benched Raiders into account.
-          <div className="role_layout">
-            <ul>
-              <li>
-                <h2>
-                  <img
-                    className="role_icon"
-                    src={`/images/tanks.png`}
-                    alt=""
-                  ></img>
-                  {this.state.estimate.raid_tanks.length} Tanks
-                </h2>
-
-                <ReactTable
-                  data={this.state.estimate.raid_tanks}
-                  columns={raid_columns}
-                  showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.tanks)}
-                  defaultPageSize={this.state.estimate.raid_tanks.length}
-                  minRows={0}
-                  className={"roles_table"}
-                />
-              </li>
-              <li>
-                <h2>
-                  <img
-                    className="role_icon"
-                    src={`/images/heals.png`}
-                    alt=""
-                  ></img>
-                  {this.state.estimate.raid_heals.length} Heals
-                </h2>
-                <ReactTable
-                  data={this.state.estimate.raid_heals}
-                  columns={raid_columns}
-                  showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.heals)}
-                  defaultPageSize={this.state.estimate.raid_heals.length}
-                  minRows={0}
-                  className={"roles_table"}
-                />
-              </li>
-              <li>
-                <h2>
-                  <img
-                    className="role_icon"
-                    src={`/images/dps.png`}
-                    alt=""
-                  ></img>
-                  {this.state.estimate.raid_dps.length} DPS
-                </h2>
-                <ReactTable
-                  data={this.state.estimate.raid_dps}
-                  columns={raid_columns}
-                  showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.dps)}
-                  defaultPageSize={this.state.estimate.raid_dps.length}
+                  defaultPageSize={this.state.raid_and_bench.bench.dps.length}
                   minRows={0}
                   className={"roles_table"}
                 />

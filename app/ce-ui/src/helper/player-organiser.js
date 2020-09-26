@@ -1,3 +1,53 @@
+
+export function add_player_to_raid(player, raid_and_bench, settings) {
+
+  var updated_raid_and_bench = {...raid_and_bench}; // copy existing raid
+
+  console.info("Adding",player);
+
+  player_object()
+  
+
+
+ 
+
+  return updated_raid_and_bench
+}
+export function recently_benched_players(bench_history) {
+  
+  // PREPARE RECENTLY BENCHED PLAYER NAMES
+  var recently_benched_players = [];
+  for (var x in bench_history.reverse()) {
+    var h = bench_history[x];
+    var players = h["players"];
+    if (players !== undefined && players !== null)
+      for (var p in players) {
+        var player_name = players[p];
+        // console.info("BENCHED PLAYER", player_name);
+        recently_benched_players.push(player_name);
+      }
+  }
+  return Array.from(new Set(recently_benched_players));
+}
+
+export function player_names(roster) {
+  var names = [];
+  for (var x in roster) {
+    names.push(roster[x]["name"]);
+  }
+  return names;
+}
+
+export function player_object(player_name, roster) {
+  for (var x in roster) {
+    const player = roster[x];
+    if (player_name === player["name"]) {
+      return player;
+    }
+  }
+  return null;
+}
+
 export function player_type(player) {
   const player_name = player["name"];
   const player_class = player["class"];
