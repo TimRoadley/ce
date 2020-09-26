@@ -231,10 +231,10 @@ export default class Bench extends React.Component {
       ];
       benchmaster_9000_view = (
         <div>
-          <h1 className="legendary">PROJECTED BENCH</h1>
-          Assuming everyone turns up next raid, here's what the bench would look
+          <h1 className="legendary">Bench Priority</h1>
+          Assuming everyone turns up next raid, here's what the bench might look
           like taking Raid Balance and Recently Benched Raiders into account.
-          <div className="bench_layout">
+          <div className="role_layout">
             <ul>
               <li>
                 <h2>
@@ -296,8 +296,8 @@ export default class Bench extends React.Component {
               </li>
             </ul>
           </div>
-          <h1 className="legendary">PROJECTED RAID</h1>
-          Assuming everyone turns up next raid, here's what the raid would look
+          <h1 className="legendary">Raid Priority</h1>
+          Assuming everyone turns up next raid, here's what the raid might look
           like taking Raid Balance and Recently Benched Raiders into account.
           <div className="role_layout">
             <ul>
@@ -416,13 +416,13 @@ export default class Bench extends React.Component {
           </TabList>
 
           <TabPanel>
-            <div>{benchmaster_9000_view}</div>
+            <div className="tab_content">{benchmaster_9000_view}</div>
           </TabPanel>
           <TabPanel>
-            <div>{bench_history_view}</div>
+            <div className="tab_content">{bench_history_view}</div>
           </TabPanel>
           <TabPanel>
-            <div>
+            <div className="tab_content">
               Our AQ strategies require the following tank, heal and dps roles.
               When overlaid with our current roster it looks like this:
               <div
