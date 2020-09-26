@@ -120,7 +120,16 @@ export default class Bench extends React.Component {
       );
     }
 
-    console.info("raid_and_bench", raid_and_bench)
+    console.info("remaining_bench", raid_and_bench.recently_benched)
+
+    // FILL MINIMUMS 
+
+
+    // FILL FLEX SLOTS WITH REMAINING BENCH
+
+
+    // FILL FLEX SLOTS WITH HIGHEST LP
+
 
     // RETURN ESTIMATE
     return raid_and_bench;
