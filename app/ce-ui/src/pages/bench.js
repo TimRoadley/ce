@@ -104,6 +104,7 @@ export default class Bench extends React.Component {
         dps: Array.from(this.state.dps),
       },
       roster: Array.from(this.state.roster),
+      recently_benched: recently_benched_players(bench_history)
     };
 
     // ADD RECENTLY BENCHED PLAYERS TO RAID
@@ -118,6 +119,8 @@ export default class Bench extends React.Component {
         this.state.raid_balance_settings
       );
     }
+
+    console.info("raid_and_bench", raid_and_bench)
 
     // RETURN ESTIMATE
     return raid_and_bench;
