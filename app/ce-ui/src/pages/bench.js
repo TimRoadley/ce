@@ -6,7 +6,6 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import {
   organise,
-  player_type,
   player_names,
   recently_benched_players,
   add_player_to_raid,
@@ -41,7 +40,7 @@ export default class Bench extends React.Component {
         min_offtanks: 4,
         // MINIMUMS: 10 Healers
         min_resto_druids: 1,
-        min_pallys: 3,
+        min_paladins: 3,
         min_priests: 3,
         remaining_heal_spots: 3,
         // MINIMUMS: 22 DPS
@@ -49,6 +48,8 @@ export default class Bench extends React.Component {
         min_mages: 6,
         min_hunters: 2,
         min_rogues: 4,
+        min_shadow: 1,
+        min_feral: 1,
         remaining_dps_spots: 6,
       },
 
@@ -82,7 +83,7 @@ export default class Bench extends React.Component {
             this.setState({
               loading: false,
               prior_benches: bench_history,
-              estimate: this.estimateRaid(bench_history),
+              raid_and_bench: this.estimateRaid(bench_history),
             });
           });
 
@@ -101,15 +102,15 @@ export default class Bench extends React.Component {
         heals: Array.from(this.state.heals),
         dps: Array.from(this.state.dps),
       },
-      roster: Array.from(this.state.roster)
+      roster: Array.from(this.state.roster),
     };
 
-    // GET EXISTING BENCH
+    // ADD RECENTLY BENCHED PLAYERS TO RAID
     const benched = recently_benched_players(bench_history);
     console.info("BENCHED", benched);
-
     for (var x in benched) {
       const player_name = benched[x];
+      console.info("TRYING to add", player_name);
       raid_and_bench = add_player_to_raid(
         player_name,
         raid_and_bench,
@@ -416,7 +417,7 @@ export default class Bench extends React.Component {
                   {this.state.raid_and_bench.bench.heals.length} Heals
                 </h2>
                 <ReactTable
-                  data={this.state.estimate.bench_heals}
+                  data={this.state.raid_and_bench.bench.heals}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.heals)}
