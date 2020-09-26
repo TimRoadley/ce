@@ -104,7 +104,7 @@ export default class Bench extends React.Component {
         dps: Array.from(this.state.dps),
       },
       roster: Array.from(this.state.roster),
-      recently_benched: recently_benched_players(bench_history)
+      recently_benched: recently_benched_players(bench_history),
     };
 
     // ADD RECENTLY BENCHED PLAYERS TO RAID
@@ -112,7 +112,7 @@ export default class Bench extends React.Component {
     console.info("BENCHED", benched);
     for (var x in benched) {
       const player_name = benched[x];
-      console.info("TRYING to add", player_name);
+      // console.info("TRYING to add", player_name);
       raid_and_bench = add_player_to_raid(
         player_name,
         raid_and_bench,
@@ -120,16 +120,45 @@ export default class Bench extends React.Component {
       );
     }
 
-    console.info("remaining_bench", raid_and_bench.recently_benched)
+    console.info("remaining_bench", raid_and_bench.recently_benched);
 
-    // FILL MINIMUMS 
+    // SORT BY LP
+    raid_and_bench.bench.dps.sort(
+      (a, b) =>
+        (b.latest_priority > a.latest_priority) -
+        (b.latest_priority < a.latest_priority)
+    );
 
+    // FILL MINIMUMS FOR DPS
+    for (var d in raid_and_bench.bench.dps) {
+      raid_and_bench = add_player_to_raid(
+        raid_and_bench.bench.dps[d]["name"],
+        raid_and_bench,
+        this.state.raid_balance_settings
+      );
+    }
+
+    // FILL MINIMUMS FOR TANKS
+    for (var t in raid_and_bench.bench.tanks) {
+      raid_and_bench = add_player_to_raid(
+        raid_and_bench.bench.tanks[t]["name"],
+        raid_and_bench,
+        this.state.raid_balance_settings
+      );
+    }
+
+    // FILL MINIMUMS FOR HEALS
+    for (var h in raid_and_bench.bench.heals) {
+      raid_and_bench = add_player_to_raid(
+        raid_and_bench.bench.heals[h]["name"],
+        raid_and_bench,
+        this.state.raid_balance_settings
+      );
+    }
 
     // FILL FLEX SLOTS WITH REMAINING BENCH
 
-
     // FILL FLEX SLOTS WITH HIGHEST LP
-
 
     // RETURN ESTIMATE
     return raid_and_bench;
