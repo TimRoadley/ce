@@ -49,8 +49,8 @@ export default class Bench extends React.Component {
         min_mages: 6,
         min_hunters: 2,
         min_rogues: 4,
-        min_shadow: 1,
-        min_feral: 1,
+        min_shadow: 0,
+        min_feral: 0,
         max_dps: 22,
       },
 
