@@ -31,14 +31,13 @@ export function remove_player_from_array(player, player_array) {
 }
 
 export function remove(player, player_array) {
-  
   //console.info("player_array BEFORE REMOVING", player, player_array);
 
-  if (typeof(player) === Object) {
-    player_array = player_array.filter(item => item.name !== "Agiel")
+  if (typeof player === Object) {
+    player_array = player_array.filter((item) => item.name !== "Agiel");
   }
 
-  if (typeof(player) === String) {
+  if (typeof player === String) {
     for (var i = 0; i < player_array.length; i++) {
       if (player_array[i] === player) {
         player_array.splice(i, 1);
@@ -48,7 +47,7 @@ export function remove(player, player_array) {
 
   //console.info("player_array AFTER REMOVING", player, player_array);
 
-  return player_array
+  return player_array;
 }
 
 export function add(
@@ -62,42 +61,42 @@ export function add(
   rbs
 ) {
   if (player["class"] === class_name) {
-
     const pt = player_type(player);
     console.info("pt", pt, "raid_array", raid_array);
-    console.info("rbs.max_maintanks",rbs.max_maintanks);
-    console.info("rbs.max_offtanks",rbs.max_offtanks);
-    console.info("rbs.max_dps",rbs.max_dps);
-    console.info("rbs.max_heals",rbs.max_heals);
+    console.info("rbs.max_maintanks", rbs.max_maintanks);
+    console.info("rbs.max_offtanks", rbs.max_offtanks);
+    console.info("rbs.max_dps", rbs.max_dps);
+    console.info("rbs.max_heals", rbs.max_heals);
 
     if (pt === "tank") {
       if (raid_array.length >= rbs.max_maintanks) {
-        console.info("FULL ON MAIN TANKS")  
-        return
+        console.info("FULL ON MAIN TANKS");
+        return;
       } else {
-        console.info(rbs.max_maintanks-raid_array.length,"MAIN TANK spots remaining")
+        console.info(
+          rbs.max_maintanks - raid_array.length,
+          "MAIN TANK spots remaining"
+        );
       }
-    } 
+    }
 
     if (pt === "dps") {
       if (raid_array.length >= rbs.max_dps) {
-        console.info("FULL ON DPS")
-        return
+        console.info("FULL ON DPS");
+        return;
       } else {
-        console.info(rbs.max_dps-raid_array.length,"DPS spots remaining")
+        console.info(rbs.max_dps - raid_array.length, "DPS spots remaining");
       }
-    } 
+    }
 
     if (pt === "heal") {
       if (raid_array.length >= rbs.max_heals) {
-        console.info("FULL ON HEALS")
-        return
+        console.info("FULL ON HEALS");
+        return;
       } else {
-        console.info(rbs.max_heals-raid_array.length,"HEAL spots remaining")
+        console.info(rbs.max_heals - raid_array.length, "HEAL spots remaining");
       }
-    } 
-
-
+    }
 
     if (class_count(raid_array, class_name, roster) < min_setting) {
       console.info(
@@ -137,49 +136,132 @@ export function add_player_to_raid(player_name, raid_and_bench, rbs) {
     } else if (pc === "Hunter") {
       add("Hunter", s.min_hunters, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Warlock") {
-      add("Warlock", s.min_warlocks, x, x.raid.dps, x.bench.dps, po, roster, rbs);
+      add(
+        "Warlock",
+        s.min_warlocks,
+        x,
+        x.raid.dps,
+        x.bench.dps,
+        po,
+        roster,
+        rbs
+      );
     } else if (pc === "Rogue") {
       add("Rogue", s.min_rogues, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Warrior") {
-      add("Warrior", s.min_offtanks, x, x.raid.dps, x.bench.dps, po, roster, rbs);
+      add(
+        "Warrior",
+        s.min_offtanks,
+        x,
+        x.raid.dps,
+        x.bench.dps,
+        po,
+        roster,
+        rbs
+      );
     } else if (pc === "Priest") {
-      add("Priest", s.min_shadow, x,x.raid.dps, x.bench.dps, po, roster, rbs);
+      add("Priest", s.min_shadow, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Druid") {
-      add("Druid", s.min_feral, x,x.raid.dps, x.bench.dps, po, roster, rbs);
+      add("Druid", s.min_feral, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     }
   } else if (pt === "heal") {
     if (pc === "Paladin") {
-      add("Paladin", s.min_paladins, x,x.raid.heals, x.bench.heals, po, roster, rbs);
+      add(
+        "Paladin",
+        s.min_paladins,
+        x,
+        x.raid.heals,
+        x.bench.heals,
+        po,
+        roster,
+        rbs
+      );
     } else if (pc === "Priest") {
-      add("Priest", s.min_priests, x,x.raid.heals, x.bench.heals, po, roster, rbs);
+      add(
+        "Priest",
+        s.min_priests,
+        x,
+        x.raid.heals,
+        x.bench.heals,
+        po,
+        roster,
+        rbs
+      );
     } else if (pc === "Druid") {
-      add("Druid", s.min_resto_druids, x,x.raid.heals, x.bench.heals, po, roster);
+      add(
+        "Druid",
+        s.min_resto_druids,
+        x,
+        x.raid.heals,
+        x.bench.heals,
+        po,
+        roster
+      );
     }
   } else if (pt === "tank") {
     if (pc === "Warrior") {
-      add("Warrior", s.min_maintanks, x,x.raid.tanks, x.bench.tanks, po, roster, rbs);
+      add(
+        "Warrior",
+        s.min_maintanks,
+        x,
+        x.raid.tanks,
+        x.bench.tanks,
+        po,
+        roster,
+        rbs
+      );
     } else if (pc === "Druid") {
-      add("Druid", s.min_maintanks,x, x.raid.tanks, x.bench.tanks, po, roster, rbs);
+      add(
+        "Druid",
+        s.min_maintanks,
+        x,
+        x.raid.tanks,
+        x.bench.tanks,
+        po,
+        roster,
+        rbs
+      );
     }
   }
 
   // console.info("updated_raid_and_bench", updated_raid_and_bench);
   return x;
 }
-export function recently_benched_players(bench_history) {
+export function recently_benched_players(bench_history, roster) {
+  console.info("bench_history", bench_history);
+
   // PREPARE RECENTLY BENCHED PLAYER NAMES
-  var recently_benched_players = [];
-  for (var x in bench_history.reverse()) {
+  var recently_benched_players = {
+  };
+  for (var x in bench_history) {
     var h = bench_history[x];
+    var bench_date = bench_history[x]["bench_date"];
     var players = h["players"];
     if (players !== undefined && players !== null)
       for (var p in players) {
         var player_name = players[p];
-        // console.info("BENCHED PLAYER", player_name);
-        recently_benched_players.push(player_name);
+        // console.info("BENCHED", bench_date, player_name);
+
+        // Add new
+        if (recently_benched_players[player_name] === undefined) {
+          recently_benched_players[player_name] = player_object(
+            player_name,
+            roster
+          );
+          recently_benched_players[player_name]["benched"] = [];
+        }
+
+        recently_benched_players[player_name]["benched"].push(bench_date);
       }
   }
-  return Array.from(new Set(recently_benched_players));
+
+  var rbp = [];
+  Object.keys(recently_benched_players).forEach(function (key) {
+    // console.log("DICT", key, recently_benched_players[key]);
+    rbp.push(recently_benched_players[key])
+  });
+
+  return rbp;
 }
 
 export function player_names(roster) {
@@ -228,9 +310,14 @@ export function player_type(player) {
   else if (
     player_class === "Paladin" ||
     player_class === "Priest" ||
-    ["Agiel"].includes(player_name)
+    ["Agiel"].includes(player_name) // RESTO DRUIDS
   ) {
     return "heal";
+  }
+
+  // OFFTANKS
+  else if (player_class === "Warrior" || player_class === "Druid") {
+    return "offtank";
   }
 
   // OTHERWISE DPS
@@ -240,6 +327,7 @@ export function player_type(player) {
 export function organise(result) {
   var roster = [];
   var tanks = [];
+  var offtanks = [];
   var heals = [];
   var dps = [];
 
@@ -254,6 +342,12 @@ export function organise(result) {
     // TANKS
     else if (player_type(player) === "tank") {
       tanks.push(player);
+      roster.push(player);
+    }
+
+    // OFFTANKS (i.e. warrior/druid dps)
+    else if (player_type(player) === "offtank") {
+      offtanks.push(player);
       roster.push(player);
     }
 
@@ -279,6 +373,12 @@ export function organise(result) {
         (a.name > b.name) - (a.name < b.name)
     ),
     tanks: tanks.sort(
+      (a, b) =>
+        (b.latest_priority > a.latest_priority) -
+          (b.latest_priority < a.latest_priority) ||
+        (a.name > b.name) - (a.name < b.name)
+    ),
+    offtanks: offtanks.sort(
       (a, b) =>
         (b.latest_priority > a.latest_priority) -
           (b.latest_priority < a.latest_priority) ||
