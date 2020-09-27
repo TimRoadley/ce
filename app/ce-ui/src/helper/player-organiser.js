@@ -32,7 +32,7 @@ export function remove_player_from_array(player, player_array) {
 
 export function remove(player, player_array) {
   
-  console.info("player_array BEFORE REMOVING", player, player_array);
+  //console.info("player_array BEFORE REMOVING", player, player_array);
 
   if (typeof(player) === Object) {
     player_array = player_array.filter(item => item.name !== "Agiel")
@@ -46,7 +46,7 @@ export function remove(player, player_array) {
     }
   }
 
-  console.info("player_array AFTER REMOVING", player, player_array);
+  //console.info("player_array AFTER REMOVING", player, player_array);
 
   return player_array
 }
@@ -58,9 +58,47 @@ export function add(
   raid_array,
   bench_array,
   player,
-  roster
+  roster,
+  rbs
 ) {
   if (player["class"] === class_name) {
+
+    const pt = player_type(player);
+    console.info("pt", pt, "raid_array", raid_array);
+    console.info("rbs.max_maintanks",rbs.max_maintanks);
+    console.info("rbs.max_offtanks",rbs.max_offtanks);
+    console.info("rbs.max_dps",rbs.max_dps);
+    console.info("rbs.max_heals",rbs.max_heals);
+
+    if (pt === "tank") {
+      if (raid_array.length >= rbs.max_maintanks) {
+        console.info("FULL ON MAIN TANKS")  
+        return
+      } else {
+        console.info(rbs.max_maintanks-raid_array.length,"MAIN TANK spots remaining")
+      }
+    } 
+
+    if (pt === "dps") {
+      if (raid_array.length >= rbs.max_dps) {
+        console.info("FULL ON DPS")
+        return
+      } else {
+        console.info(rbs.max_dps-raid_array.length,"DPS spots remaining")
+      }
+    } 
+
+    if (pt === "heal") {
+      if (raid_array.length >= rbs.max_heals) {
+        console.info("FULL ON HEALS")
+        return
+      } else {
+        console.info(rbs.max_heals-raid_array.length,"HEAL spots remaining")
+      }
+    } 
+
+
+
     if (class_count(raid_array, class_name, roster) < min_setting) {
       console.info(
         "  ..Added",
@@ -69,8 +107,8 @@ export function add(
         player["name"]
       );
       raid_array.push(player); // Add player to raid
-      remove(player, bench_array); // Remove player from bench
-      remove(player['name'], raid_and_bench.recently_benched) // Removed from recently benched
+      //remove(player, bench_array); // Remove player from bench
+      //remove(player['name'], raid_and_bench.recently_benched) // Removed from recently benched
     } else {
       console.info(
         "FULL, CAN'T ADD",
@@ -82,11 +120,11 @@ export function add(
   }
 }
 
-export function add_player_to_raid(player_name, raid_and_bench, settings) {
+export function add_player_to_raid(player_name, raid_and_bench, rbs) {
   var x = { ...raid_and_bench }; // copy existing raid
   const roster = x.roster;
 
-  const s = settings;
+  const s = rbs;
   console.info("add_player_to_raid", player_name);
 
   const po = player_object(player_name, roster);
@@ -95,33 +133,33 @@ export function add_player_to_raid(player_name, raid_and_bench, settings) {
 
   if (pt === "dps") {
     if (pc === "Mage") {
-      add("Mage", s.min_mages, x, x.raid.dps, x.bench.dps, po, roster);
+      add("Mage", s.min_mages, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Hunter") {
-      add("Hunter", s.min_hunters, x, x.raid.dps, x.bench.dps, po, roster);
+      add("Hunter", s.min_hunters, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Warlock") {
-      add("Warlock", s.min_warlocks, x, x.raid.dps, x.bench.dps, po, roster);
+      add("Warlock", s.min_warlocks, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Rogue") {
-      add("Rogue", s.min_rogues, x, x.raid.dps, x.bench.dps, po, roster);
+      add("Rogue", s.min_rogues, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Warrior") {
-      add("Warrior", s.min_offtanks, x, x.raid.dps, x.bench.dps, po, roster);
+      add("Warrior", s.min_offtanks, x, x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Priest") {
-      add("Priest", s.min_shadow, x,x.raid.dps, x.bench.dps, po, roster);
+      add("Priest", s.min_shadow, x,x.raid.dps, x.bench.dps, po, roster, rbs);
     } else if (pc === "Druid") {
-      add("Druid", s.min_feral, x,x.raid.dps, x.bench.dps, po, roster);
+      add("Druid", s.min_feral, x,x.raid.dps, x.bench.dps, po, roster, rbs);
     }
   } else if (pt === "heal") {
     if (pc === "Paladin") {
-      add("Paladin", s.min_paladins, x,x.raid.heals, x.bench.heals, po, roster);
+      add("Paladin", s.min_paladins, x,x.raid.heals, x.bench.heals, po, roster, rbs);
     } else if (pc === "Priest") {
-      add("Priest", s.min_priests, x,x.raid.heals, x.bench.heals, po, roster);
+      add("Priest", s.min_priests, x,x.raid.heals, x.bench.heals, po, roster, rbs);
     } else if (pc === "Druid") {
       add("Druid", s.min_resto_druids, x,x.raid.heals, x.bench.heals, po, roster);
     }
   } else if (pt === "tank") {
     if (pc === "Warrior") {
-      add("Warrior", s.min_maintanks, x,x.raid.tanks, x.bench.tanks, po, roster);
+      add("Warrior", s.min_maintanks, x,x.raid.tanks, x.bench.tanks, po, roster, rbs);
     } else if (pc === "Druid") {
-      add("Druid", s.min_maintanks,x, x.raid.tanks, x.bench.tanks, po, roster);
+      add("Druid", s.min_maintanks,x, x.raid.tanks, x.bench.tanks, po, roster, rbs);
     }
   }
 

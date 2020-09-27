@@ -6,7 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import {
   organise,
-  player_names,
+  //player_names,
   recently_benched_players,
   add_player_to_raid,
 } from "../helper/player-organiser";
@@ -38,7 +38,9 @@ export default class Bench extends React.Component {
         // MINIMUMS: 4 MT, 4 OT
         min_maintanks: 4,
         min_offtanks: 4,
-        max_tanks: 8,
+        max_maintanks: 4,
+        max_offtanks: 4,
+
         // MINIMUMS: 10 Healers
         min_resto_druids: 1,
         min_paladins: 3,
@@ -117,14 +119,14 @@ export default class Bench extends React.Component {
         (b.latest_priority < a.latest_priority)
     ); */
 
-    // FILL MINIMUMS FOR DPS
+/*     // FILL MINIMUMS FOR DPS
     for (var d in rb.bench.dps) {
         rb = add_player_to_raid(
             rb.bench.dps[d]["name"],
             rb,
         this.state.raid_balance_settings
       );
-    }
+    } */
 
     // FILL MINIMUMS FOR TANKS
     for (var t in rb.bench.tanks) {
@@ -135,14 +137,14 @@ export default class Bench extends React.Component {
       );
     }
 
-    // FILL MINIMUMS FOR HEALS
+/*     // FILL MINIMUMS FOR HEALS
      for (var h in rb.bench.heals) {
         rb = add_player_to_raid(
             rb.bench.heals[h]["name"],
             rb,
         this.state.raid_balance_settings
       );
-    }
+    } */
  
     // FILL FLEX SLOTS WITH REMAINING BENCH
 
@@ -150,136 +152,6 @@ export default class Bench extends React.Component {
 
     // RETURN ESTIMATE
     return rb;
-  }
-
-  OLDestimateRaid(bench_history) {
-    // START WITH EVERYONE ON THE BENCH
-    var bench_tanks = Array.from(this.state.tanks);
-    var bench_heals = Array.from(this.state.heals);
-    var bench_dps = Array.from(this.state.dps);
-
-    // START WITH EMPTY RAID
-    var raid_tanks = [];
-    var raid_heals = [];
-    var raid_dps = [];
-
-    //var raid_tanks_names = [];
-    //var raid_heals_names = [];
-    var raid_dps_names = [];
-
-    // GET NAMES
-    var available_dps_names = player_names(bench_dps);
-    console.info("available_dps_names", available_dps_names);
-
-    console.info("recently_benched_players", recently_benched_players);
-
-    console.info("raid_dps_names", raid_dps_names);
-
-    /* 
-
-    // START WITH EVERYONE ON THE BENCH
-    var bench_tanks = Array.from(this.state.tanks);
-    var bench_heals = Array.from(this.state.heals);
-    var bench_dps = Array.from(this.state.dps);
-
-    // START WITH NO ONE IN THE RAID
-    var raid_tanks = [];
-    var raid_heals = [];
-    var raid_dps = [];
-
-
-
-    // FILL RAID WITH TANKS FROM BENCH HISTORY
-    for (var bench_tank_i in this.state.tanks) {
-      const _bench_tank = this.state.tanks[bench_tank_i];
-      if (recently_benched_players.includes(_bench_tank["name"])) {
-        raid_tanks.push(_bench_tank); // Add to raid
-        bench_tanks.pop(_bench_tank); // Remove from bench
-      }
-    }
-
-    // FILL RAID WITH HEALERS FROM BENCH HISTORY
-    for (var bench_heal_i in this.state.heals) {
-      const _bench_heal = this.state.heals[bench_heal_i];
-      if (recently_benched_players.includes(_bench_heal["name"])) {
-        raid_heals.push(_bench_heal); // Add to raid
-        bench_heals.pop(_bench_heal); // Remove from bench
-      }
-    }
-
-
- */
-
-    // FILL RAID MINIMUMS
-    /*     for (var w in roster) {
-        var pl = roster[w];
-        var pt = player_type(pl);
-        console.info("assessing",pt, pl["class"],pl["name"], pl["latest_priority"]) 
-
-        // TODO: FILL RAID MINIMUMS
-        if (pt === "tank") {
-
-            if (raid_tanks.length < min_maintanks) {
-                raid_tanks.push(pl);
-                roster.pop(pl);
-            } else {
-                console.info("TANK SPOTS FULL");
-            }
-        } else {
-            console.info(pl["name"], "is not a tank");
-        }
-
-    } */
-
-    // FILL RAID WITH HIGH PRIO REMAINDERS
-
-    // TODO: FILL REMAINING SLOTS
-    /*     for (var r in roster) {
-        const _player = roster[r];
-        const _player_type = player_type(_player)
-        console.info("REMAINING",_player_type, _player["class"],_player["name"], _player["latest_priority"])
-    } */
-
-    var estimate = {
-      raid_tanks: raid_tanks.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      raid_heals: raid_heals.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      raid_dps: raid_dps.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      bench_tanks: bench_tanks.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      bench_heals: bench_heals.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-      bench_dps: bench_dps.sort(
-        (a, b) =>
-          (a.latest_priority > b.latest_priority) -
-            (a.latest_priority < b.latest_priority) ||
-          (a.name > b.name) - (a.name < b.name)
-      ),
-    };
-
-    return estimate;
   }
 
   render() {
