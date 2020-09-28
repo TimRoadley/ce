@@ -138,7 +138,6 @@ export default class Bench extends React.Component {
     var benchmaster_9000_view;
     var raidmaster_9000_view;
     var bench_history_view;
-
     if (this.state.loading) {
       benchmaster_9000_view = <Loading />;
       raidmaster_9000_view = <Loading />;
@@ -149,14 +148,28 @@ export default class Bench extends React.Component {
           Header: () => <div style={{ textAlign: "left" }}> </div>,
           accessor: "bench_date",
           Cell: (props) => <div>{props.original.bench_date}</div>,
-          maxWidth: 200
+          maxWidth: 200,
         },
         {
-          Header: () => (
-            <div style={{ textAlign: "left" }}> </div>
-          ),
+          Header: () => <div style={{ textAlign: "left" }}> </div>,
           accessor: "bench_date",
-          Cell: (props) => <div>{replaceAll(replaceAll(replaceAll(replaceAll(JSON.stringify(props.original.players),'"',""),"[",""),"]",""),",",", ")}</div>,
+          Cell: (props) => (
+            <div>
+              {replaceAll(
+                replaceAll(
+                  replaceAll(
+                    replaceAll(JSON.stringify(props.original.players), '"', ""),
+                    "[",
+                    ""
+                  ),
+                  "]",
+                  ""
+                ),
+                ",",
+                ", "
+              )}
+            </div>
+          ),
         },
       ];
 
@@ -206,8 +219,20 @@ export default class Bench extends React.Component {
         <div>
           <h1 className="legendary">Bench Priority</h1>
           Assuming everyone turns up, here's what the bench would look like
-          taking <span className="common">Raid Balance</span> and{" "}
-          <span className="rare">Recently Benched Raiders</span> into account.
+          while taking the following into account:
+          <ul>
+            <li>
+              Maintain <span className="common">Raid Balance</span>.
+            </li>
+            <li>
+              Prioritise a spot for{" "}
+              <span className="rare">Recently Benched Raiders</span>.
+            </li>
+            <li>
+              Fill with remaining{" "}
+              <span className="epic">High Loot Priority Raiders</span>.
+            </li>
+          </ul>
           <div className="role_layout">
             <ul>
               <li>
@@ -305,9 +330,21 @@ export default class Bench extends React.Component {
       raidmaster_9000_view = (
         <div>
           <h1 className="legendary">Raid Priority</h1>
-          Assuming everyone turns up, here's what the next raid would look like
-          taking <span className="common">Raid Balance</span> and{" "}
-          <span className="rare">Recently Benched Raiders</span> into account.
+          Assuming everyone turns up, here's what the raid would look like while
+          taking the following into account:
+          <ul>
+            <li>
+              Maintain <span className="common">Raid Balance</span>.
+            </li>
+            <li>
+              Prioritise a spot for{" "}
+              <span className="rare">Recently Benched Raiders</span>.
+            </li>
+            <li>
+              Fill with remaining{" "}
+              <span className="epic">High Loot Priority Raiders</span>.
+            </li>
+          </ul>
           <div className="role_layout">
             <ul>
               <li>
@@ -444,7 +481,8 @@ export default class Bench extends React.Component {
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>
             <Tab>Raidmaster 9000&trade;</Tab>
-            <Tab>Underlying Logic</Tab>
+            <Tab>Raid Balance</Tab>
+            <Tab>Benching Process</Tab>
           </TabList>
 
           <TabPanel>
@@ -458,7 +496,7 @@ export default class Bench extends React.Component {
           </TabPanel>
           <TabPanel>
             <div className="tab_content">
-              <h1 className="legendary">How does this all work?</h1>
+              <h1 className="legendary">How do we balance our raids?</h1>
               Our strategies require a maximum of:
               <ul>
                 <li>4 Main-tanks</li>
@@ -481,23 +519,39 @@ export default class Bench extends React.Component {
                   alt="Raid Slots"
                 ></img>
               </div>
-              <h2>Assuming no one volunteers to be benched:</h2>
-              We'll use the Benchmaster 9000&trade;, which:
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div className="tab_content">
+              <h1 className="legendary">You're not benched...</h1>
+              <span className="legendary">
+                ... until the raid leader confirms you're benched in{" "}
+                <a href="https://discord.gg/rbM4Gwg">#raid-bench</a>
+              </span>
+              <br />
+              <br />
+              In the mean time, if auto-invite fails:
               <ul>
+                <li>Check you aren't already in a group.</li>
                 <li>
-                  Maintains <span className="common">Raid Balance</span>.
+                  Ask on Discord who the raid leader is, in case it's changed,
+                  then whisper only "inv" to the leader.
                 </li>
                 <li>
-                  Prioritises a spot for{" "}
-                  <span className="rare">Recently Benched Raiders</span>.
+                  Post in <a href="https://discord.gg/rbM4Gwg">#raid-bench</a>{" "}
+                  asking if you're benched.
                 </li>
                 <li>
-                  Prioritises{" "}
-                  <span className="epic">Low Loot Priority Raiders</span> to
-                  role specific bench.
+                  Be patient as there's usually a lot happening at invite time.
                 </li>
               </ul>
-              The output is just a guide, so volunteers could sit instead.
+              If we're legitimately full, we may kick and reinvite people a few
+              times while we get the balance right so STAY ONLINE.
+              <br />
+              <br />
+              To decide who to bench, we'll use the Benchmaster 9000&trade;,
+              however other factors we have not considered may come up, so that
+              should be treated as a guide only.
               <h2>If you are Benched</h2>
               <ul>
                 <li>Thanks for ensuring we continue to have full raids!</li>
@@ -511,22 +565,6 @@ export default class Bench extends React.Component {
                 <li>
                   Post in <a href="https://discord.gg/rbM4Gwg">#raid-bench</a>{" "}
                   discord channel so we don't forget.
-                </li>
-              </ul>
-              <h2>
-                If you're not sure if you're benched (Raid Auto-Invite Fails)
-              </h2>
-              <ul>
-                <li>Check that you aren't already in a group.</li>
-                <li>
-                  Ask on Discord who the raid leader is, in case it's changed,
-                  then whisper "inv" to the leader.
-                </li>
-                <li>
-                  If the raid is full post in the{" "}
-                  <a href="https://discord.gg/rbM4Gwg">#raid-bench</a> discord
-                  channel so we can organise the bench. Please be patient as
-                  there's usually a lot happening at invite time!
                 </li>
               </ul>
             </div>
