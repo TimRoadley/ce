@@ -205,6 +205,15 @@ export function sort_by_lp(player_array) {
   );
 }
 
+export function sort_by_lp_desc(player_array) {
+  return player_array.sort(
+    (a, b) =>
+      (a.latest_priority > b.latest_priority) -
+        (a.latest_priority < b.latest_priority) ||
+      (a.name > b.name) - (a.name < b.name)
+  );
+}
+
 export function populate_raid_with_minimums(rb, settings) {
   // PUT HIGHEST LP AT TOP
   for (var role in rb.available) {
@@ -248,6 +257,53 @@ export function populate_raid_with_remainder(rb, settings) {
     rb.available[role] = sort_by_lp(rb.available[role]);
   }
 
+  for (var _role in rb.available) {
+    for (var x in rb.available[_role]) {
+      const p = rb.available[_role][x];
+      const pr = player_role(p);
+      console.info(
+        "TRYING TO FIT REMAINDER",
+        p["latest_priority"],
+        p["name"],
+        pr
+      );
+
+      switch (pr) {
+        case "tank":
+          if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
+            rb.raid.tank.push(p);
+            remove_player(p, rb.available.tank);
+          }
+          break;
+        case "offtank":
+          if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
+            rb.raid.offtank.push(p);
+            remove_player(p, rb.available.offtank);
+          }
+          break;
+        case "heal":
+          if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
+            rb.raid.heal.push(p);
+            remove_player(p, rb.available.heal);
+          }
+          break;
+        case "dps":
+          if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
+            rb.raid.dps.push(p);
+            remove_player(p, rb.available.dps);
+          }
+          break;
+        default:
+          console.info("UNHANDLED ROLE", pr, "for", p);
+      }
+      remove_player(p, rb.raid.priority);
+    }
+  }
+
+  return rb;
+}
+
+export function populate_raid_with_remaining_bench(rb, settings) {
   for (var x in rb.raid.priority) {
     const p = rb.raid.priority[x];
     const pr = player_role(p);
@@ -279,7 +335,7 @@ export function populate_raid_with_remainder(rb, settings) {
         }
         break;
       default:
-        console.info("UNHANDLED ROLE", pr,"for",p);
+        console.info("UNHANDLED ROLE", pr, "for", p);
     }
     remove_player(p, rb.raid.priority);
   }

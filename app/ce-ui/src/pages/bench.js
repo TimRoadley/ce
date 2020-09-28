@@ -7,8 +7,10 @@ import "react-tabs/style/react-tabs.css";
 import {
   organise,
   sort_by_lp,
+  sort_by_lp_desc,
   populate_raid_with_bench,
   populate_raid_with_minimums,
+  populate_raid_with_remaining_bench,
   populate_raid_with_remainder,
   recently_benched_players,
 } from "../helper/player-organiser";
@@ -98,24 +100,27 @@ export default class Bench extends React.Component {
       recently_benched: recently_benched_players(history, Array.from(raiders.roster))
     };
 
-    // PUT BENCH IN RAID
+    // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
         
     // POPULATE RAID WITH CLASS MINIMUMS
     rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+
+    // POPULATE RAID WITH REMAINING BENCH
+    rb = populate_raid_with_remaining_bench(rb, this.state.raid_balance_settings);
+
+    // POPULATE RAID WITH REMAINDER OF HIGH LP
+    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
 
     // SORT
     sort_by_lp(rb.raid.tank);
     sort_by_lp(rb.raid.offtank);
     sort_by_lp(rb.raid.heal);
     sort_by_lp(rb.raid.dps);
-    sort_by_lp(rb.available.tank);
-    sort_by_lp(rb.available.offtank);
-    sort_by_lp(rb.available.heal);
-    sort_by_lp(rb.available.dps);
-
-    // POPULATE RAID WITH REMAINDER
-    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
+    sort_by_lp_desc(rb.available.tank);
+    sort_by_lp_desc(rb.available.offtank);
+    sort_by_lp_desc(rb.available.heal);
+    sort_by_lp_desc(rb.available.dps);
 
     // RETURN ESTIMATE
     console.info(rb);
