@@ -236,6 +236,7 @@ export default class Bench extends React.Component {
               <span className="epic">High Loot Priority Raiders</span>.
             </li>
           </ul>
+          Please note that the original raiders will take precedence this lockout however they also might not turn up, so please be available just in case. This issue will dissapear when AQ is clear in 1 night (soon™).
           <div className="role_layout">
             <ul>
               <li>
@@ -460,7 +461,7 @@ export default class Bench extends React.Component {
           To be considered a raider in the first place, we expect you to turn up
           regularly, enchant your gear and bring basic consumables.
         </p>
-        <h2>Bench Priority</h2>
+{/*         <h2>Bench Priority</h2>
         <div
           style={{
             margin: "1% 15% 1% 15%",
@@ -479,7 +480,7 @@ export default class Bench extends React.Component {
             <strong className="rare">Recently Benched Raiders</strong>
           </h3>
           <h4>... however volunteers are appreciated!</h4>
-        </div>
+        </div> */}
         <Tabs>
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>
