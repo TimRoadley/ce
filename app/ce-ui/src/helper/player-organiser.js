@@ -10,7 +10,7 @@ export function organise(result) {
 
     // SKIP
     if (player_role(player) === "skip") {
-      console.info("skipped", player);
+      console.info("skipped", player["name"]);
     }
 
     // TANKS
@@ -183,38 +183,62 @@ export function populate_raid_with_bench(rb, settings) {
       player["raid_assignment"] = role;
       rb.raid[role].push(player);
     } else {
-      player["raid_assignment"] = "bench";
-      if (rb.raid['priority'] === undefined) {
-        rb.raid['priority'] = [];
+      player["raid_assignment"] = "priority";
+      if (rb.raid["priority"] === undefined) {
+        rb.raid["priority"] = [];
       }
-      rb.raid['priority'].push(player);
+      rb.raid["priority"].push(player);
     }
     remove_player(player, rb.available[role]);
   }
   return rb;
 }
 
+export function sort_by_lp(player_array) {
+  return player_array.sort(
+    (a, b) =>
+      (b.latest_priority > a.latest_priority) -
+        (b.latest_priority < a.latest_priority) ||
+      (a.name > b.name) - (a.name < b.name)
+  );
+}
+
 export function populate_raid_with_minimums(rb, settings) {
-
-
-  for (var role in rb.available) { 
-
-    console.info("Filling", role, "role...");
-
-
-    for (var x in rb.available[role]) {
-
-      const p = rb.available[role][x];
-      console.info("  ..assessing",p['name'],"for", role, "role...");
-
-    }
-
-
-
+  // PUT HIGHEST LP AT TOP
+  for (var role in rb.available) {
+    rb.available[role] = sort_by_lp(rb.available[role]);
   }
 
+  // FILL RAID MINUMUMS
 
-  return rb
+  for (var _role in rb.available) {
+    var to_be_removed = [];
+    for (var x in rb.available[_role]) {
+      const player = rb.available[_role][x];
+      const r = raid_needs_player(player, rb, settings);
+      console.info(
+        "Trying to fill",
+        _role,
+        "role with",
+        player["class"],
+        player["name"],
+        "RESULT",
+        r
+      );
+      if (r["needed"]) {
+        const assigned_role = r["role"];
+        player["raid_assignment"] = assigned_role;
+        rb.raid[assigned_role].push(player);
+        to_be_removed.push(player);
+      }
+    }
+
+    for (var i in { ...to_be_removed }) {
+      remove_player(to_be_removed[i], rb.available[_role]);
+    }
+  }
+
+  return rb;
 }
 
 export function remove_player(player, player_array) {
@@ -229,6 +253,7 @@ export function remove_player(player, player_array) {
 }
 
 export function class_minimum(role, class_name, settings) {
+  //console.info(settings);
   if (role === "tank") {
     switch (class_name) {
       case "Druid":
@@ -293,7 +318,7 @@ export function raid_needs_player(player, rb, settings) {
 
   // FILL TANK ROLES
   if (pr === "tank") {
-    if (raid_needs_role("tank", rb.raid.tank, s.max_tanks)) {
+    if (raid_needs_role("tank", rb.raid.tank, s.max_maintanks)) {
       result = { needed: true, role: "tank" };
     }
   }
@@ -320,7 +345,6 @@ export function raid_needs_player(player, rb, settings) {
   if (pr === "dps") {
     if (raid_needs_role("dps", rb.raid.dps, s.max_dps)) {
       result = { needed: true, role: "dps" };
-
       const class_min = class_minimum(pr, pc, s);
       if (raid_needs_class(pc, class_min, rb)) {
         result = { needed: true, role: "dps" };
@@ -339,7 +363,7 @@ export function raid_needs_class(class_name, class_min, rb) {
   const cc = class_count(rb.raid.dps, cn);
   const ms = class_min;
   if (ms > cc) {
-    console.info("Need", cn, "have", cc, "of", ms);
+    // console.info("Need", cn, "have", cc, "of", ms);
     return true;
   }
   console.info(cn, "slots full, have", cc, "of", ms);

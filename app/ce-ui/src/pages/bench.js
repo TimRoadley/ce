@@ -403,7 +403,7 @@ export default class Bench extends React.Component {
                   {this.state.raid_and_bench.raid.heal.length} Heals
                 </h2>
                 <ReactTable
-                  data={this.state.raid_and_bench.raid.heals}
+                  data={this.state.raid_and_bench.raid.heal}
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.heals)}
