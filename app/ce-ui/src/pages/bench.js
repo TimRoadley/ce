@@ -14,6 +14,7 @@ import {
   populate_raid_with_remainder,
   recently_benched_players,
 } from "../helper/player-organiser";
+import { replaceAll } from "../helper/string-helper";
 import moment from "moment";
 import "moment/min/locales";
 import "moment-timezone";
@@ -97,17 +98,23 @@ export default class Bench extends React.Component {
         dps: Array.from(raiders.dps),
       },
       roster: Array.from(raiders.roster),
-      recently_benched: recently_benched_players(history, Array.from(raiders.roster))
+      recently_benched: recently_benched_players(
+        history,
+        Array.from(raiders.roster)
+      ),
     };
 
     // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
-        
+
     // POPULATE RAID WITH CLASS MINIMUMS
     rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
 
     // POPULATE RAID WITH REMAINING BENCH
-    rb = populate_raid_with_remaining_bench(rb, this.state.raid_balance_settings);
+    rb = populate_raid_with_remaining_bench(
+      rb,
+      this.state.raid_balance_settings
+    );
 
     // POPULATE RAID WITH REMAINDER OF HIGH LP
     rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
@@ -131,6 +138,7 @@ export default class Bench extends React.Component {
     var benchmaster_9000_view;
     var raidmaster_9000_view;
     var bench_history_view;
+
     if (this.state.loading) {
       benchmaster_9000_view = <Loading />;
       raidmaster_9000_view = <Loading />;
@@ -138,16 +146,17 @@ export default class Bench extends React.Component {
     } else {
       var bench_history_view_columns = [
         {
-          Header: () => <div style={{ textAlign: "left" }}>Date</div>,
+          Header: () => <div style={{ textAlign: "left" }}> </div>,
           accessor: "bench_date",
           Cell: (props) => <div>{props.original.bench_date}</div>,
+          maxWidth: 200
         },
         {
           Header: () => (
-            <div style={{ textAlign: "left" }}>Benched Players</div>
+            <div style={{ textAlign: "left" }}> </div>
           ),
           accessor: "bench_date",
-          Cell: (props) => <div>{JSON.stringify(props.original.players)}</div>,
+          Cell: (props) => <div>{replaceAll(replaceAll(replaceAll(replaceAll(JSON.stringify(props.original.players),'"',""),"[",""),"]",""),",",", ")}</div>,
         },
       ];
 
@@ -192,6 +201,7 @@ export default class Bench extends React.Component {
           ),
         },
       ];
+
       benchmaster_9000_view = (
         <div>
           <h1 className="legendary">Bench Priority</h1>
@@ -215,12 +225,14 @@ export default class Bench extends React.Component {
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.tank)}
-                  defaultPageSize={this.state.raid_and_bench.available.tank.length}
+                  defaultPageSize={
+                    this.state.raid_and_bench.available.tank.length
+                  }
                   minRows={0}
                   className={"roles_table"}
                 />
 
-               {/*  <h2>
+                {/*  <h2>
                   <img
                     className="role_icon"
                     src={`/images/bench.png`}
@@ -255,7 +267,9 @@ export default class Bench extends React.Component {
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.heals)}
-                  defaultPageSize={this.state.raid_and_bench.available.heal.length}
+                  defaultPageSize={
+                    this.state.raid_and_bench.available.heal.length
+                  }
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -274,7 +288,9 @@ export default class Bench extends React.Component {
                   columns={raid_columns}
                   showPagination={false}
                   //pageSizeOptions={pageSizeOptions(this.state.dps)}
-                  defaultPageSize={this.state.raid_and_bench.available.dps.length}
+                  defaultPageSize={
+                    this.state.raid_and_bench.available.dps.length
+                  }
                   minRows={0}
                   className={"roles_table"}
                 />
@@ -425,18 +441,17 @@ export default class Bench extends React.Component {
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>
             <Tab>Raidmaster 9000&trade;</Tab>
-            <Tab>Bench History</Tab>
             <Tab>Underlying Logic</Tab>
           </TabList>
 
           <TabPanel>
-            <div className="tab_content">{benchmaster_9000_view}</div>
+            <div className="tab_content">
+              {benchmaster_9000_view}
+              {bench_history_view}
+            </div>
           </TabPanel>
           <TabPanel>
             <div className="tab_content">{raidmaster_9000_view}</div>
-          </TabPanel>
-          <TabPanel>
-            <div className="tab_content">{bench_history_view}</div>
           </TabPanel>
           <TabPanel>
             <div className="tab_content">
