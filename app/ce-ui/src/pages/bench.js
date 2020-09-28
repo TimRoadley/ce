@@ -230,6 +230,7 @@ export default class Bench extends React.Component {
                   }
                   minRows={0}
                   className={"roles_table"}
+                  NoDataComponent={() => null}
                 />
 
                 {/*  <h2>
@@ -272,6 +273,7 @@ export default class Bench extends React.Component {
                   }
                   minRows={0}
                   className={"roles_table"}
+                  NoDataComponent={() => null}
                 />
               </li>
               <li>
@@ -293,6 +295,7 @@ export default class Bench extends React.Component {
                   }
                   minRows={0}
                   className={"roles_table"}
+                  NoDataComponent={() => null}
                 />
               </li>
             </ul>
