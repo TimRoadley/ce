@@ -3,7 +3,9 @@ export function player_role(player) {
   const player_class = player["class"];
   // SKIP
   if (
-    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder"].includes(player_name)
+    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder"].includes(
+      player_name
+    )
   ) {
     return "skip";
   }
@@ -246,8 +248,41 @@ export function populate_raid_with_remainder(rb, settings) {
     rb.available[role] = sort_by_lp(rb.available[role]);
   }
 
-  
-  
+  for (var x in rb.raid.priority) {
+    const p = rb.raid.priority[x];
+    const pr = player_role(p);
+    console.info("TRYING TO FIT EXTRAS", p["name"], pr);
+
+    switch (pr) {
+      case "tank":
+        if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
+          rb.raid.tank.push(p);
+          remove_player(p, rb.available.tank);
+        }
+        break;
+      case "offtank":
+        if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
+          rb.raid.offtank.push(p);
+          remove_player(p, rb.available.offtank);
+        }
+        break;
+      case "heal":
+        if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
+          rb.raid.heal.push(p);
+          remove_player(p, rb.available.heal);
+        }
+        break;
+      case "dps":
+        if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
+          rb.raid.dps.push(p);
+          remove_player(p, rb.available.dps);
+        }
+        break;
+      default:
+        console.info("UNHANDLED ROLE", pr,"for",p);
+    }
+    remove_player(p, rb.raid.priority);
+  }
   return rb;
 }
 
@@ -382,7 +417,7 @@ export function raid_needs_class(class_name, class_min, rb) {
 
 export function raid_needs_role(role_name, role_array, role_max) {
   if (role_max > role_array.length) {
-    // console.info("Need", role_name, "have", role_array.length, "of", role_max);
+    console.info("Need", role_name, "have", role_array.length, "of", role_max);
     return true;
   }
   console.info("FULL", role_name, "have", role_array.length, "of", role_max);
