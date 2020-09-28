@@ -196,6 +196,24 @@ export function populate_raid_with_bench(rb, settings) {
 
 export function populate_raid_with_minimums(rb, settings) {
 
+
+  for (var role in rb.available) { 
+
+    console.info("Filling", role, "role...");
+
+
+    for (var x in rb.available[role]) {
+
+      const p = rb.available[role][x];
+      console.info("  ..assessing",p['name'],"for", role, "role...");
+
+    }
+
+
+
+  }
+
+
   return rb
 }
 
