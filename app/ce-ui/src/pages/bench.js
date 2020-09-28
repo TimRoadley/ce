@@ -391,7 +391,7 @@ export default class Bench extends React.Component {
       );
       bench_history_view = (
         <div>
-          <h1 className="rare">Recently Benched Raiders</h1>
+          <h2 className="rare">Recently Benched Raiders</h2>
           <ReactTable
             data={this.state.prior_benches}
             columns={bench_history_view_columns}
