@@ -1,3 +1,45 @@
+export function player_role(player) {
+  const player_name = player["name"];
+  const player_class = player["class"];
+  // SKIP
+  if (
+    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder"].includes(player_name)
+  ) {
+    return "skip";
+  }
+
+  // TANKS
+  else if (
+    ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
+      player_name
+    )
+  ) {
+    return "tank";
+  }
+
+  // SPECIFIC DPS
+  else if (["Willikins"].includes(player_name)) {
+    return "dps";
+  }
+
+  // HEALERS
+  else if (
+    player_class === "Paladin" ||
+    player_class === "Priest" ||
+    ["Agiel"].includes(player_name) // RESTO DRUIDS
+  ) {
+    return "heal";
+  }
+
+  // OFFTANKS
+  else if (player_class === "Warrior" || player_class === "Druid") {
+    return "offtank";
+  }
+
+  // OTHERWISE DPS
+  return "dps";
+}
+
 export function organise(result) {
   var roster = [];
   var tank = [];
@@ -95,48 +137,6 @@ export function class_count(players, class_name) {
   return count;
 }
 
-export function player_role(player) {
-  const player_name = player["name"];
-  const player_class = player["class"];
-  // SKIP
-  if (
-    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman"].includes(player_name)
-  ) {
-    return "skip";
-  }
-
-  // TANKS
-  else if (
-    ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
-      player_name
-    )
-  ) {
-    return "tank";
-  }
-
-  // SPECIFIC DPS
-  else if (["Willikins"].includes(player_name)) {
-    return "dps";
-  }
-
-  // HEALERS
-  else if (
-    player_class === "Paladin" ||
-    player_class === "Priest" ||
-    ["Agiel"].includes(player_name) // RESTO DRUIDS
-  ) {
-    return "heal";
-  }
-
-  // OFFTANKS
-  else if (player_class === "Warrior" || player_class === "Druid") {
-    return "offtank";
-  }
-
-  // OTHERWISE DPS
-  return "dps";
-}
-
 export function recently_benched_players(bench_history, roster) {
   // console.info("bench_history", bench_history);
 
@@ -215,10 +215,9 @@ export function populate_raid_with_remainder(rb, settings) {
       const player = rb.available[_role][x];
 
       // TODO: fill class specfic
-      
     }
   }
-  return rb
+  return rb;
 }
 
 export function populate_raid_with_minimums(rb, settings) {

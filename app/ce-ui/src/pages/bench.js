@@ -104,9 +104,6 @@ export default class Bench extends React.Component {
     // POPULATE RAID WITH CLASS MINIMUMS
     rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
 
-    // POPULATE RAID WITH REMAINDER
-    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
-    
     // SORT
     sort_by_lp(rb.raid.tank);
     sort_by_lp(rb.raid.offtank);
@@ -116,6 +113,9 @@ export default class Bench extends React.Component {
     sort_by_lp(rb.available.offtank);
     sort_by_lp(rb.available.heal);
     sort_by_lp(rb.available.dps);
+
+    // POPULATE RAID WITH REMAINDER
+    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
 
     // RETURN ESTIMATE
     console.info(rb);
