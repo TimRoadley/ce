@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 
 import Standings from "./pages/standings";
-import Roster from "./pages/roster";
 import Bench from "./pages/bench";
 import Player from "./pages/player";
 import Home from "./pages/home";
@@ -20,7 +19,6 @@ const Routes = props => {
                 <Route exact path="/loot/standings/:name" component={Player} />
                 <Route exact path="/loot/standings" component={Standings} />
                 <Route exact path="/loot" component={Loot} />
-                <Route exact path="/roster" component={Roster} />
                 <Route exact path="/bench" component={Bench} />
                 <Route exact path="/" component={Home} />
                 <Redirect to="/" />
