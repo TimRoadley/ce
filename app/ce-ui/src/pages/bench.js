@@ -74,6 +74,7 @@ export default class Bench extends React.Component {
       ceBench(bench_name, start, end).then((bench_history) => {
         this.setState({
           loading: false,
+          prior_benches: bench_history,
           raid_and_bench: this.estimateRaid(bench_history, organise(result)),
         });
       });
