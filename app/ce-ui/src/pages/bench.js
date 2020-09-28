@@ -7,6 +7,7 @@ import "react-tabs/style/react-tabs.css";
 import {
   organise,
   populate_raid_with_bench,
+  populate_raid_with_minimums,
   recently_benched_players,
 } from "../helper/player-organiser";
 import moment from "moment";
@@ -94,31 +95,23 @@ export default class Bench extends React.Component {
       recently_benched: recently_benched_players(history, Array.from(raiders.roster))
     };
 
-    console.info("START", rb);
+    
 
     // PUT BENCH IN RAID
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
-    console.info("AFTER populate_raid_with_bench", rb);
+    
+    // PUT MINIMUMS IN RAID
+    rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+
+    // FILL SPACES WITH UNPLACED BENCH
 
 
-   /*  // REPORT BENCHED
-    for (var x in rb.recently_benched) {
-        var player = rb.recently_benched[x];
+    // FILL RAID WITH REMAINING
 
-        console.info("BENCHED", player.name)
-    }
-
-
-    // REPORT ROSTER
-    for (var x in rb.roster) {
-        var player = rb.roster[x];
-
-   
-
-        console.info(player.name)
-    } */
+    
 
     // RETURN ESTIMATE
+    console.info(rb);
     return rb;
   }
 
@@ -384,7 +377,7 @@ export default class Bench extends React.Component {
                     src={`/images/tanks.png`}
                     alt=""
                   ></img>
-                  {this.state.raid_and_bench.raid.tank.length} Offtanks
+                  {this.state.raid_and_bench.raid.offtank.length} Offtanks
                 </h2>
 
                 <ReactTable

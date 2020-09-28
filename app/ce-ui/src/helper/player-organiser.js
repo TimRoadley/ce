@@ -194,6 +194,11 @@ export function populate_raid_with_bench(rb, settings) {
   return rb;
 }
 
+export function populate_raid_with_minimums(rb, settings) {
+
+  return rb
+}
+
 export function remove_player(player, player_array) {
   const player_name = player["name"];
   for (var x in player_array) {
