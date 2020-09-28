@@ -203,23 +203,6 @@ export function sort_by_lp(player_array) {
   );
 }
 
-export function populate_raid_with_remainder(rb, settings) {
-  // PUT HIGHEST LP AT TOP
-  for (var role in rb.available) {
-    rb.available[role] = sort_by_lp(rb.available[role]);
-  }
-
-  for (var _role in rb.available) {
-    //     var to_be_removed = [];
-    for (var x in rb.available[_role]) {
-      const player = rb.available[_role][x];
-
-      // TODO: fill class specfic
-    }
-  }
-  return rb;
-}
-
 export function populate_raid_with_minimums(rb, settings) {
   // PUT HIGHEST LP AT TOP
   for (var role in rb.available) {
@@ -254,6 +237,17 @@ export function populate_raid_with_minimums(rb, settings) {
     }
   }
 
+  return rb;
+}
+
+export function populate_raid_with_remainder(rb, settings) {
+  // PUT HIGHEST LP AT TOP
+  for (var role in rb.available) {
+    rb.available[role] = sort_by_lp(rb.available[role]);
+  }
+
+  
+  
   return rb;
 }
 
