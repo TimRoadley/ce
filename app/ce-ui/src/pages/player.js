@@ -50,6 +50,7 @@ export default class Player extends React.Component {
         // GET PLAYER
         cePlayer(this.state.player).then((player_data) => {
           console.info("player_data", player_data.data.getCEPlayer);
+          console.info("chart_data", chart_data);
           this.setState({
             chart_data: chart_data,
             player_data: player_data.data.getCEPlayer,
@@ -106,21 +107,23 @@ export default class Player extends React.Component {
       view = (
         <div>
           <table>
-            <tr>
-              <td>
-                <img
-                  className="player_icon"
-                  src={`/images/IconSmall_${this.state.player_data.class}.png`}
-                  alt=""
-                ></img>
-              </td>
-              <td>
-                <h1 className={this.state.player_data.class}>
-                  {" "}
-                  {this.state.player}
-                </h1>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>
+                  <img
+                    className="player_icon"
+                    src={`/images/IconSmall_${this.state.player_data.class}.png`}
+                    alt=""
+                  ></img>
+                </td>
+                <td>
+                  <h1 className={this.state.player_data.class}>
+                    {" "}
+                    {this.state.player}
+                  </h1>
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           <div>
