@@ -27,10 +27,13 @@ if __name__ == "__main__":
     print("Updating bench...")
 
     # Wed Sep 16: Cabbage, Londonboys, Kaleo, Deniter
-    bench("raider", "2020-09-16", ["Cabbage","Londonboys","Kaleo","Deniter"])
+    # bench("raider", "2020-09-16", ["Cabbage","Londonboys","Kaleo","Deniter"])
 
     # Mon Sep 21: Ohhai, Faceslicer, Berian, Deniter, Playgu, Maedre, Zither, Goraz
-    bench("raider", "2020-09-21", ["Ohhai","Berian","Deniter","Playgu","Maedre","Zither","Gorazzmatazz"])
+    # bench("raider", "2020-09-21", ["Ohhai","Berian","Deniter","Playgu","Maedre","Zither","Gorazzmatazz"])
 
     # Wed Sep 23: Borettoo, Condition, Xraid, Dirtyfire, Sivin, Enigmá, Deniter
-    bench("raider", "2020-09-23", ["Enigmá","Borettoo", "Condition", "Xraid", "Dirtyfire", "Sivin", "Deniter"])
+    # bench("raider", "2020-09-23", ["Enigmá","Borettoo", "Condition", "Xraid", "Dirtyfire", "Sivin", "Deniter"])
+
+    # Wed Sep 30: Willikins
+    # bench("raider", "2020-09-30", ["Willikins"])
