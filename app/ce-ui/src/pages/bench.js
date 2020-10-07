@@ -36,7 +36,7 @@ export default class Bench extends React.Component {
 
       loading: true,
 
-      bench_start_date: moment().subtract(21, "days").unix(),
+      bench_start_date: moment().subtract(20, "days").unix(),
       bench_end_date: moment().unix(),
 
       raid_balance_settings: {
