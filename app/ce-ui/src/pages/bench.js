@@ -36,7 +36,7 @@ export default class Bench extends React.Component {
 
       loading: true,
 
-      bench_start_date: moment().subtract(20, "days").unix(),
+      bench_start_date: moment().subtract(30, "days").unix(),
       bench_end_date: moment().unix(),
 
       raid_balance_settings: {
@@ -75,7 +75,7 @@ export default class Bench extends React.Component {
       const bench_name = "raider";
       const start = this.state.bench_start_date;
       const end = this.state.bench_end_date;
-
+      console.info("BENCH RANGE", start, end);
       ceBench(bench_name, start, end).then((bench_history) => {
         console.info("PRIOR BENCH", bench_history);
         this.setState({
