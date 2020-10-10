@@ -55,7 +55,7 @@ export default class Bench extends React.Component {
         // MINIMUMS: 22 DPS
         min_warlocks: 4,
         min_mages: 6,
-        min_hunters: 2,
+        min_hunters: 3,
         min_rogues: 4,
         min_shadow: 0,
         min_feral: 0,
