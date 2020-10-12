@@ -42,9 +42,9 @@ export default class Bench extends React.Component {
       raid_balance_settings: {
         // MINIMUMS: 4 MT, 4 OT
         min_maintanks: 4,
-        min_offtanks: 4,
+        min_offtanks: 2,
         max_maintanks: 4,
-        max_offtanks: 4,
+        max_offtanks: 2,
 
         // MINIMUMS: 10 Healers
         min_resto_druids: 1,
@@ -56,7 +56,7 @@ export default class Bench extends React.Component {
         min_warlocks: 4,
         min_mages: 6,
         min_hunters: 3,
-        min_rogues: 4,
+        min_rogues: 6,
         min_shadow: 0,
         min_feral: 0,
         max_dps: 22,
