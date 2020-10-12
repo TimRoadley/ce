@@ -40,7 +40,7 @@ export default class Bench extends React.Component {
       bench_end_date: moment().unix(),
 
       raid_balance_settings: {
-        // MINIMUMS: 4 MT, 4 OT
+        // MINIMUMS: 4 MT, 2 OT
         min_maintanks: 4,
         min_offtanks: 2,
         max_maintanks: 4,
