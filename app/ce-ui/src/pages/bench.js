@@ -103,15 +103,18 @@ export default class Bench extends React.Component {
 
     // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
+    console.info("----- FINISHED populate_raid_with_bench -----");
 
     // POPULATE RAID WITH CLASS MINIMUMS
     rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+    console.info("----- FINISHED populate_raid_with_minimums -----");
 
     // POPULATE RAID WITH REMAINING BENCH
     rb = populate_raid_with_remaining_bench(
       rb,
       this.state.raid_balance_settings
     );
+    console.info("----- FINISHED populate_raid_with_remaining_bench----- ");
 
     // POPULATE RAID WITH REMAINDER OF HIGH LP
     rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
@@ -415,27 +418,24 @@ export default class Bench extends React.Component {
     return (
       <div>
         <h1>Bench</h1>
-        <p>
-          Our bench process:
-          <ul>
-            <li>
-              Maintains <span className="common">Raid Balance</span>.
-            </li>
-            <li>
-              Prioritises a spot for{" "}
-              <span className="rare">Recently Benched Raiders</span>.
-            </li>
-            <li>
-              Fills with remaining{" "}
-              <span className="epic">High Loot Priority Raiders</span>.
-            </li>
-          </ul>
-          <span className="common">
-            Being benched is for the instance lockout, so if you're benched
-            you're free to do that instance somewhere else this week.
-          </span>
-        </p>
-
+        Our bench process:
+        <ul>
+          <li>
+            Maintains <span className="common">Raid Balance</span>.
+          </li>
+          <li>
+            Prioritises a spot for{" "}
+            <span className="rare">Recently Benched Raiders</span>.
+          </li>
+          <li>
+            Fills with remaining{" "}
+            <span className="epic">High Loot Priority Raiders</span>.
+          </li>
+        </ul>
+        <span className="common">
+          Being benched is for the instance lockout, so if you're benched you're
+          free to do that instance somewhere else this week.
+        </span>
         <Tabs>
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>
