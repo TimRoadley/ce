@@ -475,7 +475,7 @@ export default class Bench extends React.Component {
                       {" "}
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_warrior.png`}
+                          src={`/images/IconSmall_Warrior.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -486,7 +486,7 @@ export default class Bench extends React.Component {
                       </li>
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_warrior.png`}
+                          src={`/images/IconSmall_Warrior.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -510,7 +510,7 @@ export default class Bench extends React.Component {
                     <ul>
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_priest.png`}
+                          src={`/images/IconSmall_Priest.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -520,7 +520,7 @@ export default class Bench extends React.Component {
                       </li>
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_paladin.png`}
+                          src={`/images/IconSmall_Paladin.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -530,7 +530,7 @@ export default class Bench extends React.Component {
                       </li>
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_druid.png`}
+                          src={`/images/IconSmall_Druid.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -553,7 +553,7 @@ export default class Bench extends React.Component {
                     <ul>
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_mage.png`}
+                          src={`/images/IconSmall_Mage.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -564,7 +564,7 @@ export default class Bench extends React.Component {
 
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_rogue.png`}
+                          src={`/images/IconSmall_Rogue.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -575,7 +575,7 @@ export default class Bench extends React.Component {
 
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_warlock.png`}
+                          src={`/images/IconSmall_Warlock.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -586,7 +586,7 @@ export default class Bench extends React.Component {
 
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_hunter.png`}
+                          src={`/images/IconSmall_Hunter.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -597,7 +597,7 @@ export default class Bench extends React.Component {
 
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_priest.png`}
+                          src={`/images/IconSmall_Priest.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
@@ -608,7 +608,7 @@ export default class Bench extends React.Component {
 
                       <li className="role_row">
                         <img
-                          src={`/images/IconSmall_druid.png`}
+                          src={`/images/IconSmall_Druid.png`}
                           alt=""
                           className="role_icon_smallish"
                         ></img>{" "}
