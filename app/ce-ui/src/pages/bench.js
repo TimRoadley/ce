@@ -215,7 +215,7 @@ export default class Bench extends React.Component {
       benchmaster_9000_view = (
         <div>
           <h1 className="legendary">Bench Priority</h1>
-        
+
           <div className="role_layout">
             <ul>
               <li>
@@ -313,21 +313,6 @@ export default class Bench extends React.Component {
       raidmaster_9000_view = (
         <div>
           <h1 className="legendary">Raid Priority</h1>
-          Assuming everyone turns up, here's what the raid would look like while
-          taking the following into account:
-          <ul>
-            <li>
-              Maintain <span className="common">Raid Balance</span>.
-            </li>
-            <li>
-              Prioritise a spot for{" "}
-              <span className="rare">Recently Benched Raiders</span>.
-            </li>
-            <li>
-              Fill with remaining{" "}
-              <span className="epic">High Loot Priority Raiders</span>.
-            </li>
-          </ul>
           <div className="role_layout">
             <ul>
               <li>
@@ -431,7 +416,7 @@ export default class Bench extends React.Component {
       <div>
         <h1>Bench</h1>
         <p>
-        Our bench process:
+          Our bench process:
           <ul>
             <li>
               Maintains <span className="common">Raid Balance</span>.
@@ -445,7 +430,10 @@ export default class Bench extends React.Component {
               <span className="epic">High Loot Priority Raiders</span>.
             </li>
           </ul>
-          Being benched is for the instance lockout, so if you're benched you're free to raid elsewhere that week.
+          <span className="common">
+            Being benched is for the instance lockout, so if you're benched
+            you're free to do that instance somewhere else this week.
+          </span>
         </p>
 
         <Tabs>
@@ -633,7 +621,6 @@ export default class Bench extends React.Component {
                 </ul>
               </div>
             </div>
-
           </TabPanel>
           <TabPanel>
             <div className="tab_content">
@@ -671,10 +658,10 @@ export default class Bench extends React.Component {
                 <li>Thanks for ensuring we continue to have full raids!</li>
                 <li>Rest assured you'll get a spot next clear.</li>
                 <li>
-                  If we're doing progression, the original raiders will take
-                  precedence this lockout HOWEVER note that they might not turn
-                  up, so please be available just in case. This issue will
-                  dissapear when AQ is clear in 1 night (soon&trade;).
+                  Being benched is for the instance lockout, so if you're
+                  benched you're free to do that instance somewhere else this
+                  week. This issue will dissapear when AQ is clear in 1 night
+                  (soon&trade;).
                 </li>
                 <li>
                   Post in <a href="https://discord.gg/rbM4Gwg">#raid-bench</a>{" "}
