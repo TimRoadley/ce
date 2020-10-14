@@ -36,24 +36,18 @@ export default class Bench extends React.Component {
 
       loading: true,
 
-      bench_start_date: moment().subtract(30, "days").unix(),
+      bench_start_date: moment().subtract(21, "days").unix(),
       bench_end_date: moment().unix(),
-
       raid_balance_settings: {
-        // MINIMUMS: 4 MT, 2 OT
         min_maintanks: 4,
         min_offtanks: 2,
         max_maintanks: 4,
         max_offtanks: 2,
-
-        // MINIMUMS: 10 Healers
         min_resto_druids: 1,
         min_paladins: 3,
         min_priests: 3,
         max_heals: 10,
-
-        // MINIMUMS: 22 DPS
-        min_warlocks: 4,
+        min_warlocks: 3,
         min_mages: 6,
         min_hunters: 3,
         min_rogues: 6,
@@ -221,22 +215,7 @@ export default class Bench extends React.Component {
       benchmaster_9000_view = (
         <div>
           <h1 className="legendary">Bench Priority</h1>
-          Assuming everyone turns up, here's what the bench would look like
-          while taking the following into account:
-          <ul>
-            <li>
-              Maintain <span className="common">Raid Balance</span>.
-            </li>
-            <li>
-              Prioritise a spot for{" "}
-              <span className="rare">Recently Benched Raiders</span>.
-            </li>
-            <li>
-              Fill with remaining{" "}
-              <span className="epic">High Loot Priority Raiders</span>.
-            </li>
-          </ul>
-          Please note that the original raiders will take precedence this lockout however they also might not turn up, so please be available just in case. This issue will dissapear when AQ is clear in 1 night (soon™).
+        
           <div className="role_layout">
             <ul>
               <li>
@@ -435,7 +414,7 @@ export default class Bench extends React.Component {
       );
       bench_history_view = (
         <div>
-          <h2 className="rare">Recently Benched Raiders</h2>
+          <h2 className="rare">Recently Benched Raiders (within 21 days)</h2>
           <ReactTable
             data={this.state.prior_benches}
             columns={bench_history_view_columns}
@@ -451,36 +430,24 @@ export default class Bench extends React.Component {
     return (
       <div>
         <h1>Bench</h1>
-        <p>This page guides us on who to bench, if required.</p>
         <p>
-          No one wants to be benched (especially when they have high{" "}
-          <strong className="artifact">Loot Priority</strong>) and no one wants
-          to be in a poorly balanced and underperforming raid either.
+        Our bench process:
+          <ul>
+            <li>
+              Maintains <span className="common">Raid Balance</span>.
+            </li>
+            <li>
+              Prioritises a spot for{" "}
+              <span className="rare">Recently Benched Raiders</span>.
+            </li>
+            <li>
+              Fills with remaining{" "}
+              <span className="epic">High Loot Priority Raiders</span>.
+            </li>
+          </ul>
+          Being benched is for the instance lockout, so if you're benched you're free to raid elsewhere that week.
         </p>
-        <p className="common">
-          To be considered a raider in the first place, we expect you to turn up
-          regularly, enchant your gear and bring basic consumables.
-        </p>
-{/*         <h2>Bench Priority</h2>
-        <div
-          style={{
-            margin: "1% 15% 1% 15%",
-            backgroundColor: "#111111",
-            borderRadius: "10px",
-            padding: "0px 10px 1px 10px",
-            textAlign: "center",
-          }}
-        >
-          <br />
-          <h3>
-            Assuming no impact to <span className="common">Raid Balance</span>
-          </h3>
-          <h3>
-            <strong className="epic">Low Loot Priority Raiders</strong> &gt;{" "}
-            <strong className="rare">Recently Benched Raiders</strong>
-          </h3>
-          <h4>... however volunteers are appreciated!</h4>
-        </div> */}
+
         <Tabs>
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>
@@ -501,29 +468,172 @@ export default class Bench extends React.Component {
           <TabPanel>
             <div className="tab_content">
               <h1 className="legendary">How do we balance our raids?</h1>
-              Our strategies require a maximum of:
-              <ul>
-                <li>4 Main-tanks</li>
-                <li>4 Off-tanks</li>
-                <li>22 DPS</li>
-                <li>10 Healers</li>
-              </ul>
-              When overlaid with our current roster it looks like this:
-              <div
-                style={{
-                  margin: "1%",
-                  borderRadius: "5px",
-                  padding: "0",
-                  textAlign: "center",
-                }}
-              >
-                <img
-                  className="image_box"
-                  src="./images/raid_slots.png"
-                  alt="Raid Slots"
-                ></img>
+
+              <div className="role_layout">
+                <ul>
+                  <li>
+                    <h2>
+                      <img
+                        className="role_icon"
+                        src={`/images/tanks.png`}
+                        alt=""
+                      ></img>
+                      Up to{" "}
+                      {this.state.raid_balance_settings.max_maintanks +
+                        this.state.raid_balance_settings.max_offtanks}{" "}
+                      Tanks
+                    </h2>
+                    <ul>
+                      {" "}
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_warrior.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.max_maintanks} Main
+                          tanks
+                        </span>
+                      </li>
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_warrior.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.max_offtanks} Off
+                          tanks
+                        </span>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <h2>
+                      <img
+                        className="role_icon"
+                        src={`/images/heals.png`}
+                        alt=""
+                      ></img>
+                      Up to {this.state.raid_balance_settings.max_heals} Healers
+                    </h2>
+                    <ul>
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_priest.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_priests}+
+                        </span>
+                      </li>
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_paladin.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_paladins}+
+                        </span>
+                      </li>
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_druid.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_resto_druids}
+                        </span>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <h2>
+                      <img
+                        className="role_icon"
+                        src={`/images/dps.png`}
+                        alt=""
+                      ></img>
+                      Up to {this.state.raid_balance_settings.max_dps} DPS
+                    </h2>
+                    <ul>
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_mage.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_mages}+
+                        </span>
+                      </li>
+
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_rogue.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_rogues}+
+                        </span>
+                      </li>
+
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_warlock.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_warlocks}+
+                        </span>
+                      </li>
+
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_hunter.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_hunters}+
+                        </span>
+                      </li>
+
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_priest.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_shadow}+
+                        </span>
+                      </li>
+
+                      <li className="role_row">
+                        <img
+                          src={`/images/IconSmall_druid.png`}
+                          alt=""
+                          className="role_icon_smallish"
+                        ></img>{" "}
+                        <span className="role_text">
+                          {this.state.raid_balance_settings.min_feral}+
+                        </span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
             </div>
+
           </TabPanel>
           <TabPanel>
             <div className="tab_content">
