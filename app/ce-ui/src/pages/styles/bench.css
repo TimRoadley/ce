@@ -63,7 +63,15 @@
   vertical-align: top;
 }
 
-.audit_box {
-  border: solid 1px #f67f00;
+.audit_box_common {
+  border: solid 1px #31ff00;
+  padding: 1%;
+}
+.audit_box_rare {
+  border: solid 1px #2d72ff;
+  padding: 1%;
+}
+.audit_box_epic {
+  border: solid 1px #9f37e3;
   padding: 1%;
 }

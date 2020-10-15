@@ -150,7 +150,7 @@ export default class Bench extends React.Component {
     sort_by_lp(rb.raid.offtank);
     sort_by_lp(rb.raid.heal);
     sort_by_lp(rb.raid.dps);
-    
+
     sort_by_class(rb.after_populate_raid_with_bench.raid.tank);
     sort_by_class(rb.after_populate_raid_with_bench.raid.offtank);
     sort_by_class(rb.after_populate_raid_with_bench.raid.heal);
@@ -160,7 +160,7 @@ export default class Bench extends React.Component {
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.offtank);
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.heal);
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.dps);
-    
+
     sort_by_lp_desc(rb.available);
 
     // RETURN ESTIMATE
@@ -253,8 +253,8 @@ export default class Bench extends React.Component {
 
       auditmaster_9000_view = (
         <div>
-          <h1 className="legendary">Step 1 - Add Recently Benched players</h1>
-          <div className="audit_box">
+          <h1 className="rare">Step 1 - Add Recently Benched players</h1>
+          <div className="audit_box_rare">
             <div className="role_layout">
               <ul>
                 <li>
@@ -376,8 +376,141 @@ export default class Bench extends React.Component {
               </ul>
             </div>
           </div>
-          <h1 className="legendary">Step 2 - Ensure Raid Balance (Class Minimums)</h1>
-          <div className="audit_box">
+          <h1 className="common">
+            Step 2 - Maintain Raid Balance (Class Minimums)
+          </h1>
+          <div className="audit_box_common">
+            <div className="role_layout">
+              <ul>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.tank
+                        .length
+                    }{" "}
+                    Tanks
+                  </h2>
+
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.tank
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.tank
+                        .length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.offtank
+                        .length
+                    }{" "}
+                    Offtanks
+                  </h2>
+
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.offtank
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.offtank
+                        .length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/heals.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.heal
+                        .length
+                    }{" "}
+                    Heals
+                  </h2>
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.heal
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.heal
+                        .length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/dps.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.dps.length
+                    }{" "}
+                    DPS
+                  </h2>
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.dps
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench
+                        .after_populate_raid_with_class_minimums.raid.dps.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+          <h1 className="epic">
+            Step 3 - Fill with remaining High Loot Priority Raiders
+          </h1>
+          <div className="audit_box_epic">
             <div className="role_layout">
               <ul>
                 <li>
