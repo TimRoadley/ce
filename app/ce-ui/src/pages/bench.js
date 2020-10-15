@@ -9,7 +9,7 @@ import {
   sort_by_lp,
   sort_by_lp_desc,
   populate_raid_with_bench,
-  populate_raid_with_minimums,
+  populate_raid_with_class_minimums,
   populate_raid_with_remaining_bench,
   populate_raid_with_remainder,
   recently_benched_players,
@@ -87,13 +87,7 @@ export default class Bench extends React.Component {
     var rb = {
       raid: { tank: [], offtank: [], heal: [], dps: [] },
       bench: { tank: [], offtank: [], heal: [], dps: [] },
-
-      available: {
-        tank: Array.from(raiders.tank),
-        offtank: Array.from(raiders.offtank),
-        heal: Array.from(raiders.heal),
-        dps: Array.from(raiders.dps),
-      },
+      available: Array.from(raiders.tank).concat(raiders.offtank).concat(raiders.heal).concat(raiders.dps),
       roster: Array.from(raiders.roster),
       recently_benched: recently_benched_players(
         history,
@@ -106,11 +100,14 @@ export default class Bench extends React.Component {
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
     console.info("----- FINISHED populate_raid_with_bench -----");
 
-
     // POPULATE RAID WITH CLASS MINIMUMS
-    console.info("----- START populate_raid_with_minimums -----");
-    rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
-    console.info("----- FINISHED populate_raid_with_minimums -----");
+    //console.info("----- START populate_raid_with_class_minimums -----");
+    //rb = populate_raid_with_class_minimums(rb, this.state.raid_balance_settings);
+    //console.info("----- FINISHED populate_raid_with_class_minimums -----");
+
+    //console.info("----- START populate_raid_with_minimums -----");
+    //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+    //console.info("----- FINISHED populate_raid_with_minimums -----");
 
     // POPULATE RAID WITH REMAINING BENCH
     //rb = populate_raid_with_remaining_bench(
@@ -127,10 +124,7 @@ export default class Bench extends React.Component {
     sort_by_lp(rb.raid.offtank);
     sort_by_lp(rb.raid.heal);
     sort_by_lp(rb.raid.dps);
-    sort_by_lp_desc(rb.available.tank);
-    sort_by_lp_desc(rb.available.offtank);
-    sort_by_lp_desc(rb.available.heal);
-    sort_by_lp_desc(rb.available.dps);
+    sort_by_lp_desc(rb.available);
 
     // RETURN ESTIMATE
     console.info(rb);
@@ -239,44 +233,24 @@ export default class Bench extends React.Component {
                     src={`/images/bench.png`}
                     alt=""
                   ></img>
-                  {this.state.raid_and_bench.available.tank.length} Tanks
+                  {this.state.raid_and_bench.available.length} Players
                 </h2>
 
                 <ReactTable
-                  data={this.state.raid_and_bench.available.tank}
+                  data={this.state.raid_and_bench.available}
                   columns={raid_columns}
                   showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.tank)}
                   defaultPageSize={
-                    this.state.raid_and_bench.available.tank.length
+                    this.state.raid_and_bench.available.length
                   }
                   minRows={0}
                   className={"roles_table"}
                   NoDataComponent={() => null}
                 />
 
-                {/*  <h2>
-                  <img
-                    className="role_icon"
-                    src={`/images/bench.png`}
-                    alt=""
-                  ></img>
-                  {this.state.raid_and_bench.available.offtank.length} Offtanks
-                </h2>
-
-                <ReactTable
-                  data={this.state.raid_and_bench.available.offtank}
-                  columns={raid_columns}
-                  showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.tank)}
-                  defaultPageSize={
-                    this.state.raid_and_bench.available.offtank.length
-                  }
-                  minRows={0}
-                  className={"roles_table"}
-                /> */}
+              
               </li>
-              <li>
+           {/*    <li>
                 <h2>
                   <img
                     className="role_icon"
@@ -319,7 +293,7 @@ export default class Bench extends React.Component {
                   className={"roles_table"}
                   NoDataComponent={() => null}
                 />
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
