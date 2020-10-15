@@ -12,6 +12,7 @@ import {
   populate_raid_with_bench,
   populate_raid_with_class_minimums,
   save_audit,
+  determine_bench,
   // populate_raid_with_remaining_bench,
   populate_raid_with_remainder,
   recently_benched_players,
@@ -135,11 +136,17 @@ export default class Bench extends React.Component {
     rb = save_audit("after_populate_raid_with_class_minimums", rb);
     console.info("----- FINISHED populate_raid_with_class_minimums -----");
 
-    // POPULATE RAID WITH REMAININ ROLES
+    // POPULATE RAID WITH REMAINING ROLES
     console.info("----- START populate_raid_with_remainder -----");
     rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
     rb = save_audit("after_populate_raid_with_remainder", rb);
     console.info("----- FINISHED populate_raid_with_remainder -----");
+
+    // DETERMINE BENCH
+    console.info("----- START determine_bench -----");
+    rb = determine_bench(rb, this.state.raid_balance_settings);
+    rb = save_audit("determine_bench", rb);
+    console.info("----- FINISHED determine_bench -----");
 
     //console.info("----- START populate_raid_with_minimums -----");
     //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
@@ -175,6 +182,11 @@ export default class Bench extends React.Component {
     sort_by_lp(rb.after_populate_raid_with_remainder.raid.offtank);
     sort_by_lp(rb.after_populate_raid_with_remainder.raid.heal);
     sort_by_lp(rb.after_populate_raid_with_remainder.raid.dps);
+
+    sort_by_lp_desc(rb.bench.tank);
+    sort_by_lp_desc(rb.bench.offtank);
+    sort_by_lp_desc(rb.bench.heal);
+    sort_by_lp_desc(rb.bench.dps);
 
     sort_by_lp_desc(rb.available);
 
@@ -268,7 +280,9 @@ export default class Bench extends React.Component {
 
       auditmaster_9000_view = (
         <div>
-          <em><h2>The method behind the Benchmaster + Raidmaster madness</h2></em>
+          <em>
+            <h2>The method behind the Benchmaster + Raidmaster madness</h2>
+          </em>
           <h1 className="rare">Step 1 - Add Recently Benched players</h1>
           <div className="audit_box_rare">
             <div className="role_layout">
@@ -538,8 +552,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.tank
-                        .length
+                        .after_populate_raid_with_remainder.raid.tank.length
                     }{" "}
                     Tanks
                   </h2>
@@ -553,8 +566,7 @@ export default class Bench extends React.Component {
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.tank
-                        .length
+                        .after_populate_raid_with_remainder.raid.tank.length
                     }
                     minRows={0}
                     className={"roles_table"}
@@ -568,8 +580,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.offtank
-                        .length
+                        .after_populate_raid_with_remainder.raid.offtank.length
                     }{" "}
                     Offtanks
                   </h2>
@@ -583,8 +594,7 @@ export default class Bench extends React.Component {
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.offtank
-                        .length
+                        .after_populate_raid_with_remainder.raid.offtank.length
                     }
                     minRows={0}
                     className={"roles_table"}
@@ -600,8 +610,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.heal
-                        .length
+                        .after_populate_raid_with_remainder.raid.heal.length
                     }{" "}
                     Heals
                   </h2>
@@ -614,8 +623,7 @@ export default class Bench extends React.Component {
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_remainder.raid.heal
-                        .length
+                        .after_populate_raid_with_remainder.raid.heal.length
                     }
                     minRows={0}
                     className={"roles_table"}
@@ -654,6 +662,97 @@ export default class Bench extends React.Component {
               </ul>
             </div>
           </div>
+          <h1 className="artifact">
+            Step 4 - Everything that doesn't fit is Benched
+          </h1>
+          <div className="audit_box_artifact">
+            <div className="role_layout">
+              <ul>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {this.state.raid_and_bench.bench.tank.length} Tanks
+                  </h2>
+
+                  <ReactTable
+                    data={this.state.raid_and_bench.bench.tank}
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.bench.tank.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {this.state.raid_and_bench.bench.offtank.length} Offtanks
+                  </h2>
+
+                  <ReactTable
+                    data={this.state.raid_and_bench.bench.offtank}
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.bench.offtank.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/heals.png`}
+                      alt=""
+                    ></img>
+                    {this.state.raid_and_bench.bench.heal.length} Heals
+                  </h2>
+                  <ReactTable
+                    data={this.state.raid_and_bench.bench.heal}
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.bench.heal.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/dps.png`}
+                      alt=""
+                    ></img>
+                    {this.state.raid_and_bench.bench.dps.length} DPS
+                  </h2>
+                  <ReactTable
+                    data={this.state.raid_and_bench.bench.dps}
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={this.state.raid_and_bench.bench.dps.length}
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       );
 
@@ -667,38 +766,36 @@ export default class Bench extends React.Component {
                 <h2>
                   <img
                     className="role_icon"
-                    src={`/images/bench.png`}
+                    src={`/images/tanks.png`}
                     alt=""
                   ></img>
-                  {this.state.raid_and_bench.available.length} Players
+                  {this.state.raid_and_bench.bench.tank.length} Tanks
                 </h2>
 
                 <ReactTable
-                  data={this.state.raid_and_bench.available}
+                  data={this.state.raid_and_bench.bench.tank}
                   columns={raid_columns}
                   showPagination={false}
-                  defaultPageSize={this.state.raid_and_bench.available.length}
+                  defaultPageSize={this.state.raid_and_bench.bench.tank.length}
                   minRows={0}
                   className={"roles_table"}
                   NoDataComponent={() => null}
                 />
-              </li>
-              {/*    <li>
                 <h2>
                   <img
                     className="role_icon"
-                    src={`/images/bench.png`}
+                    src={`/images/tanks.png`}
                     alt=""
                   ></img>
-                  {this.state.raid_and_bench.available.heal.length} Heals
+                  {this.state.raid_and_bench.bench.offtank.length} Offtanks
                 </h2>
+
                 <ReactTable
-                  data={this.state.raid_and_bench.available.heal}
+                  data={this.state.raid_and_bench.bench.offtank}
                   columns={raid_columns}
                   showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.heals)}
                   defaultPageSize={
-                    this.state.raid_and_bench.available.heal.length
+                    this.state.raid_and_bench.bench.offtank.length
                   }
                   minRows={0}
                   className={"roles_table"}
@@ -709,24 +806,40 @@ export default class Bench extends React.Component {
                 <h2>
                   <img
                     className="role_icon"
-                    src={`/images/bench.png`}
+                    src={`/images/heals.png`}
                     alt=""
                   ></img>
-                  {this.state.raid_and_bench.available.dps.length} DPS
+                  {this.state.raid_and_bench.bench.heal.length} Heals
                 </h2>
                 <ReactTable
-                  data={this.state.raid_and_bench.available.dps}
+                  data={this.state.raid_and_bench.bench.heal}
                   columns={raid_columns}
                   showPagination={false}
-                  //pageSizeOptions={pageSizeOptions(this.state.dps)}
-                  defaultPageSize={
-                    this.state.raid_and_bench.available.dps.length
-                  }
+                  defaultPageSize={this.state.raid_and_bench.bench.heal.length}
                   minRows={0}
                   className={"roles_table"}
                   NoDataComponent={() => null}
                 />
-              </li> */}
+              </li>
+              <li>
+                <h2>
+                  <img
+                    className="role_icon"
+                    src={`/images/dps.png`}
+                    alt=""
+                  ></img>
+                  {this.state.raid_and_bench.bench.dps.length} DPS
+                </h2>
+                <ReactTable
+                  data={this.state.raid_and_bench.bench.dps}
+                  columns={raid_columns}
+                  showPagination={false}
+                  defaultPageSize={this.state.raid_and_bench.bench.dps.length}
+                  minRows={0}
+                  className={"roles_table"}
+                  NoDataComponent={() => null}
+                />
+              </li>
             </ul>
           </div>
         </div>

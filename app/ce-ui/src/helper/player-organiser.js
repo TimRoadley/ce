@@ -3,7 +3,7 @@ export function player_role(player) {
   const player_class = player["class"];
   // SKIP
   if (
-    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder"].includes(
+    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder", "Maedre"].includes(
       player_name
     )
   ) {
@@ -384,6 +384,44 @@ export function populate_raid_with_class_minimums(rb, settings) {
   }
 
   // remove_player(p, rb.available.all)
+  return rb;
+}
+
+export function determine_bench(rb, settings) {
+  rb.available = sort_by_lp(rb.available); // PUT HIGHEST LP AT TOP
+
+  var players_to_be_removed = [];
+
+  for (var x in rb.available) {
+    const p = rb.available[x];
+    const pr = player_role(p);
+
+    switch (pr) {
+      case "tank":
+        rb.bench.tank.push(p);
+        players_to_be_removed.push(p);
+        break;
+      case "offtank":
+        rb.bench.offtank.push(p);
+        players_to_be_removed.push(p);
+        break;
+      case "heal":
+        rb.bench.heal.push(p);
+        players_to_be_removed.push(p);
+        break;
+      case "dps":
+        rb.bench.dps.push(p);
+        players_to_be_removed.push(p);
+        break;
+      default:
+        console.info("UNHANDLED ROLE", pr, "for", p);
+    }
+  }
+
+  for (var _player in players_to_be_removed) {
+    remove_player(players_to_be_removed[_player], rb.available);
+  }
+
   return rb;
 }
 
