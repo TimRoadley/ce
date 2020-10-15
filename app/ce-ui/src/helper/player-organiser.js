@@ -144,8 +144,11 @@ export function class_count(players, class_name) {
 }
 
 export function class_minimums_met(class_name, player_role, rb, settings) {
- 
-  var all = [].concat(...rb.raid.tank).concat(...rb.raid.offtank).concat(...rb.raid.heal).concat(...rb.raid.dps)
+  var all = []
+    .concat(...rb.raid.tank)
+    .concat(...rb.raid.offtank)
+    .concat(...rb.raid.heal)
+    .concat(...rb.raid.dps);
 
   var maintank = 0;
   var offtank = 0;
@@ -154,34 +157,27 @@ export function class_minimums_met(class_name, player_role, rb, settings) {
     const p = all[x];
     const pc = p.class;
     if (class_name === pc) {
-      count++
+      count++;
     }
-    if (player_role === 'tank') {
-      maintank++
+    if (player_role === "tank") {
+      maintank++;
     }
-    if (player_role === 'tank') {
-      offtank++
+    if (player_role === "tank") {
+      offtank++;
     }
   }
-  
-  const cm = class_minimum(player_role, class_name, settings)
-  console.info("There are", class_name, player_role, count, "of", cm)
+
+  const cm = class_minimum(player_role, class_name, settings);
+  console.info("There are", class_name, player_role, count, "of", cm);
 
   if (player_role === "tank" && maintank >= settings.max_maintanks) {
-    return true
-  }
-
-  else if (player_role === "offtank" && offtank >= settings.max_offtanks) {
-    return true
-  }
-
-  else if (count >= cm) {
-    return true
+    return true;
+  } else if (player_role === "offtank" && offtank >= settings.max_offtanks) {
+    return true;
+  } else if (count >= cm) {
+    return true;
   } else {
-
-
-
-    return false
+    return false;
   }
 }
 
@@ -320,8 +316,7 @@ export function sort_by_lp(player_array) {
 export function sort_by_class(player_array) {
   return player_array.sort(
     (a, b) =>
-      (b.class > a.class) -
-        (b.class < a.class) ||
+      (b.class > a.class) - (b.class < a.class) ||
       (a.name > b.name) - (a.name < b.name)
   );
 }
@@ -337,9 +332,8 @@ export function sort_by_lp_desc(player_array) {
 
 export function populate_raid_with_class_minimums(rb, settings) {
   rb.available = sort_by_lp(rb.available); // PUT HIGHEST LP AT TOP
-  
-  
-  
+
+  var players_to_be_removed = [];
   for (var x in rb.available) {
     const p = rb.available[x];
     const pr = player_role(p);
@@ -347,42 +341,40 @@ export function populate_raid_with_class_minimums(rb, settings) {
 
     console.info(p.latest_priority, "ASSESS", p.name, pr, p.class, cm);
 
-    
-
-    
-     switch (pr) {
+    switch (pr) {
       case "tank":
-/*         if (raid_needs_class(p.class,cm,rb)) {
-          rb.raid.tank.push(p);
-          remove_player(p, rb.available);
+/*         if (cm > class_count(rb.raid.tank, p.class)) {
+          if (rb.raid.tank.length < settings.min_maintanks) {
+            rb.raid.tank.push(p);
+            remove_player(p, rb.available);
+          }
         } */
         break;
       case "offtank":
-        if (cm > class_count(rb.raid.offtank,p.class)) {
-          rb.raid.offtank.push(p);
-          remove_player(p, rb.available);
-        }
+ /*        if (cm > class_count(rb.raid.offtank, p.class)) {
+          if (rb.raid.offtank.length < settings.min_offtanks) {
+            rb.raid.offtank.push(p);
+            remove_player(p, rb.available);
+          }
+        } */
         break;
       case "heal":
-        if (cm > class_count(rb.raid.heal,p.class)) {
+        if (cm > class_count(rb.raid.heal, p.class)) {
           rb.raid.heal.push(p);
-          remove_player(p, rb.available);
+          players_to_be_removed.push(p);
         }
         break;
       case "dps":
-/*         if (raid_needs_class(p.class,cm,rb)) {
+         if (cm > class_count(rb.raid.dps, p.class)) {
           rb.raid.dps.push(p);
-          remove_player(p, rb.available);
-        } */
+          players_to_be_removed.push(p);
+        }
         break;
       default:
         console.info("UNHANDLED ROLE", pr, "for", p);
     }
- 
 
-
-
-/*     if (class_count(rb.raid.all, p.class))
+    /*     if (class_count(rb.raid.all, p.class))
     
     
     if (class_minimums_met(p.class, pr, rb, settings)) {
@@ -393,13 +385,17 @@ export function populate_raid_with_class_minimums(rb, settings) {
       rb.raid[pr].push(p);
       class_minimums_met(p.class, pr, rb, settings)
     } */
-  
 
     /*    if (raid_needs_class(p.class, cm, rb)) {
 
     } else {
       
     } */
+  }
+
+
+  for (var _player in players_to_be_removed) {
+    remove_player(players_to_be_removed[_player], rb.available);
   }
 
   // remove_player(p, rb.available.all)
