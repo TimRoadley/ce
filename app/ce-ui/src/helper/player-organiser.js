@@ -339,14 +339,16 @@ export function populate_raid_with_class_minimums(rb, settings) {
     const pr = player_role(p);
     const cm = class_minimum(pr, p.class, settings);
 
-    console.info(p.latest_priority, "ASSESS", p.name, pr, p.class, cm);
+    // console.info(p.latest_priority, "ASSESS", p.name, pr, p.class, cm);
 
     switch (pr) {
       case "tank":
         if (cm > class_count(rb.raid.tank, p.class)) {
           if (rb.raid.tank.length < settings.min_maintanks) {
+            
             rb.raid.tank.push(p);
             players_to_be_removed.push(p);
+            console.info("ADD RAID BALANCE:", p.name, "as tank");
           }
         }
         break;
@@ -355,6 +357,7 @@ export function populate_raid_with_class_minimums(rb, settings) {
           if (rb.raid.offtank.length < settings.min_offtanks) {
             rb.raid.offtank.push(p);
             players_to_be_removed.push(p);
+            console.info("ADD RAID BALANCE:", p.name, "as offtank");
           }
         }
         break;
@@ -362,12 +365,14 @@ export function populate_raid_with_class_minimums(rb, settings) {
         if (cm > class_count(rb.raid.heal, p.class)) {
           rb.raid.heal.push(p);
           players_to_be_removed.push(p);
+          console.info("ADD RAID BALANCE:", p.name, "as heal");
         }
         break;
       case "dps":
         if (cm > class_count(rb.raid.dps, p.class)) {
           rb.raid.dps.push(p);
           players_to_be_removed.push(p);
+          console.info("ADD RAID BALANCE:", p.name, "as dps");
         }
         break;
       default:
