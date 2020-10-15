@@ -108,8 +108,9 @@ export default class Bench extends React.Component {
 
 
     // POPULATE RAID WITH CLASS MINIMUMS
-    //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
-    //console.info("----- FINISHED populate_raid_with_minimums -----");
+    console.info("----- START populate_raid_with_minimums -----");
+    rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+    console.info("----- FINISHED populate_raid_with_minimums -----");
 
     // POPULATE RAID WITH REMAINING BENCH
     //rb = populate_raid_with_remaining_bench(

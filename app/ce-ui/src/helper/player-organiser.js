@@ -182,7 +182,6 @@ export function recently_benched_players(bench_history, roster) {
 }
 
 export function save_audit(name, rb) {
-
   var audit = {};
   audit["raid"] = { tank: [], offtank: [], heal: [], dps: [] };
 
@@ -236,9 +235,8 @@ export function populate_raid_with_bench(rb, settings) {
     const rnp = raid_needs_player(player, rb, settings);
     const pr = player_role(player);
     const role_max = role_maximum(pr, settings);
-    const rnr = raid_needs_role(pr, rb.raid[pr],role_max);
+    const rnr = raid_needs_role(pr, rb.raid[pr], role_max);
     const role = rnp["role"];
-    
 
     // IF THE PLAYER IS NEEDED TO FILL MINIMUMS
     if (rnp["needed"]) {
@@ -258,10 +256,13 @@ export function populate_raid_with_bench(rb, settings) {
       rb.raid[pr].push(player);
       remove_player(player, rb.available[rb]);
       console.info("ADD RECENTLY BENCHED:", player.name, "as", pr);
-    }
-
-    else {
-      console.ware("FAILED TO ADD RECENTLY BENCHED:", player.name, pr,"doesn't fit!");
+    } else {
+      console.ware(
+        "FAILED TO ADD RECENTLY BENCHED:",
+        player.name,
+        pr,
+        "doesn't fit!"
+      );
     }
   }
   rb = save_audit("after_populate_raid_with_bench", rb);
@@ -292,13 +293,46 @@ export function populate_raid_with_minimums(rb, settings) {
     rb.available[role] = sort_by_lp(rb.available[role]);
   }
 
-  // FILL RAID REMAINDER
-  for (var _role in rb.available) {
-    var to_be_removed = [];
-    for (var x in rb.available[_role]) {
-      const player = rb.available[_role][x];
-      const r = raid_needs_player(player, rb, settings);
+  // FILL WITH TANKS
+
+  var to_be_removed = [];
+
+  console.info("FILLING ROLE:", "tank");
+  for (var x in rb.available["tank"]) {
+    const player = rb.available["tank"][x];
+    // console.info(" - Assessing", player.name,player.latest_priority)
+
+    const r = raid_needs_player(player, rb, settings);
+    if (r["needed"]) {
+      const assigned_role = r["role"];
+      rb.raid[assigned_role].push(player);
+      to_be_removed.push(player);
       console.info(
+        "  POPULATE MINIMUMS:",
+        player["name"],
+        "as tank with",
+        player["latest_priority"],
+        "lp"
+      );
+    } else {
+      console.info(
+        "  REASSIGN ROLE:",
+        player["name"],
+        "from tank to offtank",
+        player["latest_priority"],
+        "lp"
+      );
+
+    }
+  }
+  for (var i in { ...to_be_removed }) {
+    remove_player(to_be_removed[i], rb.available["tank"]);
+  }
+
+  //for (var x in rb.available[_role]) {
+  //  const player = rb.available[_role][x];
+  //  const r = raid_needs_player(player, rb, settings);
+  /* console.info(
         "Trying to fill",
         _role,
         "role with",
@@ -306,20 +340,19 @@ export function populate_raid_with_minimums(rb, settings) {
         player["name"],
         "RESULT",
         r
-      );
-      if (r["needed"]) {
+      ); */
+
+  /*if (r["needed"]) {
         const assigned_role = r["role"];
         player["raid_assignment"] = assigned_role;
         rb.raid[assigned_role].push(player);
         to_be_removed.push(player);
+        console.info("POPULATE MINIMUMS:",player["name"],"as", _role, "with",player["latest_ep"],"ep")
       }
-    }
+      */
+  //}
 
-    for (var i in { ...to_be_removed }) {
-      remove_player(to_be_removed[i], rb.available[_role]);
-    }
-  }
-
+  rb = save_audit("after_populate_raid_with_minimums", rb);
   return rb;
 }
 
@@ -523,13 +556,6 @@ export function raid_needs_player(player, rb, settings) {
   if (pr === "offtank") {
     if (raid_needs_role("offtank", rb.raid.offtank, s.max_offtanks)) {
       result = { needed: true, role: "offtank" };
-    } else {
-      if (raid_needs_role("dps", rb.raid.dps, s.max_dps)) {
-        result = { needed: true, role: "dps" };
-      } else {
-        const reason = "offtank and dps slots full";
-        result = { needed: false, role: "bench", reason: reason };
-      }
     }
   }
 
@@ -540,9 +566,6 @@ export function raid_needs_player(player, rb, settings) {
       const class_min = class_minimum(pr, pc, s);
       if (raid_needs_class(pc, class_min, rb)) {
         result = { needed: true, role: "dps" };
-      } else {
-        const reason = pc + " slots full";
-        result = { needed: false, role: "bench", reason: reason };
       }
     }
   }
@@ -567,6 +590,14 @@ export function raid_needs_role(role_name, role_array, role_max) {
     // console.info("Need", role_name, "have", role_array.length, "of", role_max);
     return true;
   }
-  console.info("FULL", role_name, "have", role_array.length, "of", role_max);
+  console.info(
+    "ROLE FULL",
+    role_name,
+    "( have",
+    role_array.length,
+    "of",
+    role_max,
+    ")"
+  );
   return false;
 }
