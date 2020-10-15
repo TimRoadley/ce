@@ -10,6 +10,7 @@ import {
   sort_by_lp_desc,
   populate_raid_with_bench,
   populate_raid_with_class_minimums,
+  save_audit,
   populate_raid_with_remaining_bench,
   populate_raid_with_remainder,
   recently_benched_players,
@@ -101,6 +102,7 @@ export default class Bench extends React.Component {
     // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
     console.info("----- START populate_raid_with_bench -----");
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
+    rb = save_audit("01_after_populate_raid_with_bench", rb);
     console.info("----- FINISHED populate_raid_with_bench -----");
 
     // POPULATE RAID WITH CLASS MINIMUMS
@@ -109,6 +111,7 @@ export default class Bench extends React.Component {
       rb,
       this.state.raid_balance_settings
     );
+    rb = save_audit("02_after_populate_raid_with_class_minimums", rb);
     console.info("----- FINISHED populate_raid_with_class_minimums -----");
 
     //console.info("----- START populate_raid_with_minimums -----");
