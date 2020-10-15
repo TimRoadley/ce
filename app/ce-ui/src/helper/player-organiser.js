@@ -36,11 +36,9 @@ export function player_role(player) {
   // OFFTANKS
   else if (player_class === "Warrior" || player_class === "Druid") {
     // TODO: Check if raid is full on tanks and offtanks
-
-    //if (raid_needs_role("offtank", rb.raid.offtank, s.max_offtanks)) {
-
-    //}
-
+    /*if (raid_needs_role("offtank", rb.raid.offtank, settings.max_offtanks)) {
+      return "offtank";
+    }*/
     return "offtank";
   }
 
@@ -319,6 +317,15 @@ export function sort_by_lp(player_array) {
   );
 }
 
+export function sort_by_class(player_array) {
+  return player_array.sort(
+    (a, b) =>
+      (b.class > a.class) -
+        (b.class < a.class) ||
+      (a.name > b.name) - (a.name < b.name)
+  );
+}
+
 export function sort_by_lp_desc(player_array) {
   return player_array.sort(
     (a, b) =>
@@ -330,11 +337,54 @@ export function sort_by_lp_desc(player_array) {
 
 export function populate_raid_with_class_minimums(rb, settings) {
   rb.available = sort_by_lp(rb.available); // PUT HIGHEST LP AT TOP
+  
+  
+  
   for (var x in rb.available) {
     const p = rb.available[x];
     const pr = player_role(p);
     const cm = class_minimum(pr, p.class, settings);
 
+    console.info(p.latest_priority, "ASSESS", p.name, pr, p.class, cm);
+
+    
+
+    
+     switch (pr) {
+      case "tank":
+/*         if (raid_needs_class(p.class,cm,rb)) {
+          rb.raid.tank.push(p);
+          remove_player(p, rb.available);
+        } */
+        break;
+      case "offtank":
+        if (cm > class_count(rb.raid.offtank,p.class)) {
+          rb.raid.offtank.push(p);
+          remove_player(p, rb.available);
+        }
+        break;
+      case "heal":
+        if (cm > class_count(rb.raid.heal,p.class)) {
+          rb.raid.heal.push(p);
+          remove_player(p, rb.available);
+        }
+        break;
+      case "dps":
+/*         if (raid_needs_class(p.class,cm,rb)) {
+          rb.raid.dps.push(p);
+          remove_player(p, rb.available);
+        } */
+        break;
+      default:
+        console.info("UNHANDLED ROLE", pr, "for", p);
+    }
+ 
+
+
+
+/*     if (class_count(rb.raid.all, p.class))
+    
+    
     if (class_minimums_met(p.class, pr, rb, settings)) {
       console.info("...SKIP", p.latest_priority, p.name, pr, p.class);
       class_minimums_met(p.class, pr, rb, settings)
@@ -342,7 +392,8 @@ export function populate_raid_with_class_minimums(rb, settings) {
       console.info("...ADD", p.latest_priority, p.name, pr, p.class);
       rb.raid[pr].push(p);
       class_minimums_met(p.class, pr, rb, settings)
-    }
+    } */
+  
 
     /*    if (raid_needs_class(p.class, cm, rb)) {
 
@@ -352,139 +403,6 @@ export function populate_raid_with_class_minimums(rb, settings) {
   }
 
   // remove_player(p, rb.available.all)
-  return rb;
-}
-
-export function populate_raid_with_role_maximums(rb, settings) {
-  return rb;
-}
-
-export function populate_raid_with_minimums(rb, settings) {
-  var to_be_removed = [];
-
-  // FILL TANK ROLES
-  console.info("FILLING ROLE:", "tank");
-  rb.available["tank"] = sort_by_lp(rb.available["tank"]); // PUT HIGHEST LP AT TOP
-  for (var t in rb.available["tank"]) {
-    const player = rb.available["tank"][t];
-    const r = raid_needs_player(player, rb, settings);
-    if (r["needed"]) {
-      rb.raid["tank"].push(player);
-      console.info(
-        "  POPULATE CLASS MINIMUMS",
-        player["name"],
-        "as tank with",
-        player["latest_priority"],
-        "lp"
-      );
-    } else {
-      rb.available["offtank"].push(player);
-      console.info(
-        "  ! TANKS FULL, REASSIGN ROLE:",
-        player["name"],
-        "to offtank",
-        player["latest_priority"],
-        "lp"
-      );
-    }
-    to_be_removed.push(player);
-  }
-  for (var ti in { ...to_be_removed }) {
-    remove_player(to_be_removed[ti], rb.available);
-  }
-
-  // FILL OFFTANK ROLES
-  console.info("FILLING ROLE:", "offtank");
-  rb.available["offtank"] = sort_by_lp(rb.available["offtank"]); // PUT HIGHEST LP AT TOP
-  for (var o in rb.available["offtank"]) {
-    const player = rb.available["offtank"][o];
-    const r = raid_needs_player(player, rb, settings);
-    if (r["needed"]) {
-      rb.raid["offtank"].push(player);
-      console.info(
-        "  POPULATE CLASS MINIMUMS",
-        player["name"],
-        "as offtank with",
-        player["latest_priority"],
-        "lp"
-      );
-    } else {
-      rb.available["dps"].push(player);
-      console.info(
-        "  ! OFFTANKS FULL, REASSIGN ROLE:",
-        player["name"],
-        "to dps",
-        player["latest_priority"],
-        "lp"
-      );
-    }
-    to_be_removed.push(player);
-  }
-  for (var oi in { ...to_be_removed }) {
-    remove_player(to_be_removed[oi], rb.available);
-  }
-
-  // FILL HEAL ROLES
-  console.info("FILLING ROLE:", "heal");
-  rb.available["heal"] = sort_by_lp(rb.available["heal"]); // PUT HIGHEST LP AT TOP
-  for (var h in rb.available["heal"]) {
-    const player = rb.available["heal"][h];
-    const r = raid_needs_player(player, rb, settings);
-    if (r["needed"]) {
-      rb.raid["heal"].push(player);
-      console.info(
-        "  POPULATE CLASS MINIMUMS",
-        player["name"],
-        "as heal with",
-        player["latest_priority"],
-        "lp"
-      );
-    } else {
-      rb.bench["heal"].push(player);
-      console.info(
-        "  ! HEALS FULL, BENCHED:",
-        player["name"],
-        player["latest_priority"],
-        "lp"
-      );
-    }
-    to_be_removed.push(player);
-  }
-  for (var hi in { ...to_be_removed }) {
-    remove_player(to_be_removed[hi], rb.available);
-  }
-
-  // FILL DPS ROLES
-  console.info("FILLING ROLE:", "dps");
-  rb.available["dps"] = sort_by_lp(rb.available["dps"]); // PUT HIGHEST LP AT TOP
-  for (var d in rb.available["dps"]) {
-    const player = rb.available["dps"][d];
-    const r = raid_needs_player(player, rb, settings);
-    if (r["needed"]) {
-      rb.raid["dps"].push(player);
-      console.info(
-        "  POPULATE CLASS MINIMUMS: ADD",
-        player["name"],
-        "as dps with",
-        player["latest_priority"],
-        "lp"
-      );
-    } /*  else {
-      rb.bench["dps"].push(player);
-      console.info(
-        "  ! DPS FULL, BENCHED:",
-        player["name"],
-        player["latest_priority"],
-        "lp"
-      );
-    } */
-    to_be_removed.push(player);
-  }
-  for (var di in { ...to_be_removed }) {
-    remove_player(to_be_removed[di], rb.available);
-  }
-
-  rb = save_audit("after_populate_raid_with_minimums", rb);
   return rb;
 }
 
