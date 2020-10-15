@@ -185,23 +185,53 @@ export function save_audit(name, rb) {
   console.warn("save_audit", name, rb);
 
   var audit = {};
-
   audit["raid"] = { tank: [], offtank: [], heal: [], dps: [] };
 
+  // ADD DPS
   for (var dps in rb.raid.dps) {
-    console.warn("ADDING xxxx", rb.raid.dps[dps]["name"]);
-
+    console.warn("ADDED DPS: ", rb.raid.dps[dps]["name"]);
     const _dps = {
       name: rb.raid.dps[dps]["name"],
+      class: rb.raid.dps[dps]["class"],
+      latest_ep: rb.raid.dps[dps]["latest_ep"],
     };
-
     audit["raid"]["dps"].push(_dps);
   }
 
-  console.info(">> audit >>", name, rb);
+  // ADD HEALS
+  for (var heal in rb.raid.heal) {
+    console.warn("ADDED heal: ", rb.raid.heal[heal]["name"]);
+    const _heal = {
+      name: rb.raid.heal[heal]["name"],
+      class: rb.raid.heal[heal]["class"],
+      latest_ep: rb.raid.heal[heal]["latest_ep"],
+    };
+    audit["raid"]["heal"].push(_heal);
+  }
+
+  // ADD TANKS
+  for (var tank in rb.raid.tank) {
+    console.warn("ADDED tank: ", rb.raid.tank[tank]["name"]);
+    const _tank = {
+      name: rb.raid.tank[tank]["name"],
+      class: rb.raid.tank[tank]["class"],
+      latest_ep: rb.raid.tank[tank]["latest_ep"],
+    };
+    audit["raid"]["tank"].push(_tank);
+  }
+
+  // ADD OFFTANKS
+  for (var offtank in rb.raid.offtank) {
+    console.warn("ADDED offtank: ", rb.raid.offtank[offtank]["name"]);
+    const _offtank = {
+      name: rb.raid.offtank[offtank]["name"],
+      class: rb.raid.offtank[offtank]["class"],
+      latest_ep: rb.raid.offtank[offtank]["latest_ep"],
+    };
+    audit["raid"]["offtank"].push(_offtank);
+  }
 
   rb[name] = audit;
-
   return rb;
 }
 
