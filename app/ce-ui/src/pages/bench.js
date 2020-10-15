@@ -13,7 +13,7 @@ import {
   populate_raid_with_class_minimums,
   save_audit,
   // populate_raid_with_remaining_bench,
-  // populate_raid_with_remainder,
+  populate_raid_with_remainder,
   recently_benched_players,
 } from "../helper/player-organiser";
 import { replaceAll } from "../helper/string-helper";
@@ -105,6 +105,10 @@ export default class Bench extends React.Component {
         raid: { tank: [], offtank: [], heal: [], dps: [] },
         bench: { tank: [], offtank: [], heal: [], dps: [] },
       },
+      after_populate_raid_with_remainder: {
+        raid: { tank: [], offtank: [], heal: [], dps: [] },
+        bench: { tank: [], offtank: [], heal: [], dps: [] },
+      },
       available: Array.from(raiders.tank)
         .concat(raiders.offtank)
         .concat(raiders.heal)
@@ -131,7 +135,11 @@ export default class Bench extends React.Component {
     rb = save_audit("after_populate_raid_with_class_minimums", rb);
     console.info("----- FINISHED populate_raid_with_class_minimums -----");
 
-    
+    // POPULATE RAID WITH REMAININ ROLES
+    console.info("----- START populate_raid_with_remainder -----");
+    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
+    rb = save_audit("after_populate_raid_with_remainder", rb);
+    console.info("----- FINISHED populate_raid_with_remainder -----");
 
     //console.info("----- START populate_raid_with_minimums -----");
     //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
@@ -162,6 +170,11 @@ export default class Bench extends React.Component {
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.offtank);
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.heal);
     sort_by_class(rb.after_populate_raid_with_class_minimums.raid.dps);
+
+    sort_by_lp(rb.after_populate_raid_with_remainder.raid.tank);
+    sort_by_lp(rb.after_populate_raid_with_remainder.raid.offtank);
+    sort_by_lp(rb.after_populate_raid_with_remainder.raid.heal);
+    sort_by_lp(rb.after_populate_raid_with_remainder.raid.dps);
 
     sort_by_lp_desc(rb.available);
 
@@ -525,7 +538,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.tank
+                        .after_populate_raid_with_remainder.raid.tank
                         .length
                     }{" "}
                     Tanks
@@ -534,13 +547,13 @@ export default class Bench extends React.Component {
                   <ReactTable
                     data={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.tank
+                        .after_populate_raid_with_remainder.raid.tank
                     }
                     columns={raid_columns}
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.tank
+                        .after_populate_raid_with_remainder.raid.tank
                         .length
                     }
                     minRows={0}
@@ -555,7 +568,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.offtank
+                        .after_populate_raid_with_remainder.raid.offtank
                         .length
                     }{" "}
                     Offtanks
@@ -564,13 +577,13 @@ export default class Bench extends React.Component {
                   <ReactTable
                     data={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.offtank
+                        .after_populate_raid_with_remainder.raid.offtank
                     }
                     columns={raid_columns}
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.offtank
+                        .after_populate_raid_with_remainder.raid.offtank
                         .length
                     }
                     minRows={0}
@@ -587,7 +600,7 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.heal
+                        .after_populate_raid_with_remainder.raid.heal
                         .length
                     }{" "}
                     Heals
@@ -595,13 +608,13 @@ export default class Bench extends React.Component {
                   <ReactTable
                     data={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.heal
+                        .after_populate_raid_with_remainder.raid.heal
                     }
                     columns={raid_columns}
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.heal
+                        .after_populate_raid_with_remainder.raid.heal
                         .length
                     }
                     minRows={0}
@@ -618,20 +631,20 @@ export default class Bench extends React.Component {
                     ></img>
                     {
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.dps.length
+                        .after_populate_raid_with_remainder.raid.dps.length
                     }{" "}
                     DPS
                   </h2>
                   <ReactTable
                     data={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.dps
+                        .after_populate_raid_with_remainder.raid.dps
                     }
                     columns={raid_columns}
                     showPagination={false}
                     defaultPageSize={
                       this.state.raid_and_bench
-                        .after_populate_raid_with_class_minimums.raid.dps.length
+                        .after_populate_raid_with_remainder.raid.dps.length
                     }
                     minRows={0}
                     className={"roles_table"}

@@ -345,7 +345,6 @@ export function populate_raid_with_class_minimums(rb, settings) {
       case "tank":
         if (cm > class_count(rb.raid.tank, p.class)) {
           if (rb.raid.tank.length < settings.min_maintanks) {
-            
             rb.raid.tank.push(p);
             players_to_be_removed.push(p);
             console.info("ADD RAID BALANCE:", p.name, "as tank");
@@ -378,24 +377,6 @@ export function populate_raid_with_class_minimums(rb, settings) {
       default:
         console.info("UNHANDLED ROLE", pr, "for", p);
     }
-
-    /*     if (class_count(rb.raid.all, p.class))
-    
-    
-    if (class_minimums_met(p.class, pr, rb, settings)) {
-      console.info("...SKIP", p.latest_priority, p.name, pr, p.class);
-      class_minimums_met(p.class, pr, rb, settings)
-    } else {
-      console.info("...ADD", p.latest_priority, p.name, pr, p.class);
-      rb.raid[pr].push(p);
-      class_minimums_met(p.class, pr, rb, settings)
-    } */
-
-    /*    if (raid_needs_class(p.class, cm, rb)) {
-
-    } else {
-      
-    } */
   }
 
   for (var _player in players_to_be_removed) {
@@ -407,52 +388,69 @@ export function populate_raid_with_class_minimums(rb, settings) {
 }
 
 export function populate_raid_with_remainder(rb, settings) {
-  // PUT HIGHEST LP AT TOP
-  for (var role in rb.available) {
-    rb.available[role] = sort_by_lp(rb.available[role]);
+  rb.available = sort_by_lp(rb.available); // PUT HIGHEST LP AT TOP
+
+  var players_to_be_removed = [];
+
+  for (var x in rb.available) {
+    const p = rb.available[x];
+    const pr = player_role(p);
+
+    switch (pr) {
+      case "tank":
+        // TRY TANK
+        if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
+          rb.raid.tank.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        // TANKS FULL, TRY OFFTANK
+        else if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
+          rb.raid.offtank.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        // OFFTANKS FULL, TRY DPS
+        else if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
+          rb.raid.dps.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        break;
+      case "offtank":
+        // TRY OFFTANK
+        if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
+          rb.raid.offtank.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        // OFFTANKS FULL, TRY DPS
+        else if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
+          rb.raid.dps.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        break;
+      case "heal":
+        if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
+          rb.raid.heal.push(p);
+          players_to_be_removed.push(p);
+        }
+
+        break;
+      case "dps":
+        if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
+          rb.raid.dps.push(p);
+          players_to_be_removed.push(p);
+        }
+        break;
+      default:
+        console.info("UNHANDLED ROLE", pr, "for", p);
+    }
   }
 
-  for (var _role in rb.available) {
-    for (var x in rb.available[_role]) {
-      const p = rb.available[_role][x];
-      const pr = player_role(p);
-      console.info(
-        "TRYING TO FIT REMAINDER",
-        p["latest_priority"],
-        p["name"],
-        pr
-      );
-
-      switch (pr) {
-        case "tank":
-          if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
-            rb.raid.tank.push(p);
-            remove_player(p, rb.available);
-          }
-          break;
-        case "offtank":
-          if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
-            rb.raid.offtank.push(p);
-            remove_player(p, rb.available);
-          }
-          break;
-        case "heal":
-          if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
-            rb.raid.heal.push(p);
-            remove_player(p, rb.available);
-          }
-          break;
-        case "dps":
-          if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
-            rb.raid.dps.push(p);
-            remove_player(p, rb.available);
-          }
-          break;
-        default:
-          console.info("UNHANDLED ROLE", pr, "for", p);
-      }
-      remove_player(p, rb.raid.priority);
-    }
+  for (var _player in players_to_be_removed) {
+    remove_player(players_to_be_removed[_player], rb.available);
   }
 
   return rb;
