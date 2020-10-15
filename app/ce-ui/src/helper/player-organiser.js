@@ -343,20 +343,20 @@ export function populate_raid_with_class_minimums(rb, settings) {
 
     switch (pr) {
       case "tank":
-/*         if (cm > class_count(rb.raid.tank, p.class)) {
+        if (cm > class_count(rb.raid.tank, p.class)) {
           if (rb.raid.tank.length < settings.min_maintanks) {
             rb.raid.tank.push(p);
-            remove_player(p, rb.available);
+            players_to_be_removed.push(p);
           }
-        } */
+        }
         break;
       case "offtank":
- /*        if (cm > class_count(rb.raid.offtank, p.class)) {
+        if (cm > class_count(rb.raid.offtank, p.class)) {
           if (rb.raid.offtank.length < settings.min_offtanks) {
             rb.raid.offtank.push(p);
-            remove_player(p, rb.available);
+            players_to_be_removed.push(p);
           }
-        } */
+        }
         break;
       case "heal":
         if (cm > class_count(rb.raid.heal, p.class)) {
@@ -365,7 +365,7 @@ export function populate_raid_with_class_minimums(rb, settings) {
         }
         break;
       case "dps":
-         if (cm > class_count(rb.raid.dps, p.class)) {
+        if (cm > class_count(rb.raid.dps, p.class)) {
           rb.raid.dps.push(p);
           players_to_be_removed.push(p);
         }
@@ -392,7 +392,6 @@ export function populate_raid_with_class_minimums(rb, settings) {
       
     } */
   }
-
 
   for (var _player in players_to_be_removed) {
     remove_player(players_to_be_removed[_player], rb.available);

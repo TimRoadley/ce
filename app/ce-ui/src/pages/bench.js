@@ -376,7 +376,7 @@ export default class Bench extends React.Component {
               </ul>
             </div>
           </div>
-          <h1 className="legendary">Step 2 - Fill Class Minimums</h1>
+          <h1 className="legendary">Step 2 - Ensure Raid Balance (Class Minimums)</h1>
           <div className="audit_box">
             <div className="role_layout">
               <ul>
