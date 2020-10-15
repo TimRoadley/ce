@@ -557,13 +557,13 @@ export function raid_needs_class(class_name, class_min, rb) {
     // console.info("Need", cn, "have", cc, "of", ms);
     return true;
   }
-  console.info(cn, "slots full, have", cc, "of", ms);
+  // console.info(cn, "slots full, have", cc, "of", ms);
   return false;
 }
 
 export function raid_needs_role(role_name, role_array, role_max) {
   if (role_max > role_array.length) {
-    console.info("Need", role_name, "have", role_array.length, "of", role_max);
+    // console.info("Need", role_name, "have", role_array.length, "of", role_max);
     return true;
   }
   console.info("FULL", role_name, "have", role_array.length, "of", role_max);
