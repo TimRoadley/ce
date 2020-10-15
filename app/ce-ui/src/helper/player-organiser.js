@@ -145,6 +145,29 @@ export function class_count(players, class_name) {
   return count;
 }
 
+export function class_minimums_met(class_name, player_role, rb, settings) {
+ 
+  var all = [].concat(...rb.raid.tank).concat(...rb.raid.offtank).concat(...rb.raid.heal).concat(...rb.raid.dps)
+
+
+  var count = 0;
+  for (var x in all) {
+    const p = all[x];
+    const pc = p.class;
+    if (class_name === pc) {
+      count++
+    }
+  }
+  
+  const cm = class_minimum(player_role, class_name, settings)
+  console.info("There are", class_name, player_role, count, "of", cm)
+  if (count >= cm) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export function recently_benched_players(bench_history, roster) {
   // console.info("bench_history", bench_history);
 
@@ -244,7 +267,7 @@ export function populate_raid_with_bench(rb, settings) {
         rb.raid[role] = [];
       }
       rb.raid[role].push(player);
-      remove_player(player, rb.available['all']);
+      remove_player(player, rb.available);
       console.info("ADD RECENTLY BENCHED:", player.name, "as", role);
     }
 
@@ -254,7 +277,7 @@ export function populate_raid_with_bench(rb, settings) {
         rb.raid[pr] = [];
       }
       rb.raid[pr].push(player);
-      remove_player(player, rb.available['all']);
+      remove_player(player, rb.available);
       console.info("ADD RECENTLY BENCHED:", player.name, "as", pr);
     } else {
       console.ware(
@@ -288,25 +311,28 @@ export function sort_by_lp_desc(player_array) {
 }
 
 export function populate_raid_with_class_minimums(rb, settings) {
-  
-  rb.available["all"] = sort_by_lp(rb.available["all"]); // PUT HIGHEST LP AT TOP
-  for (var x in rb.available.all) {
-    const p = rb.available.all[x];
+  rb.available = sort_by_lp(rb.available); // PUT HIGHEST LP AT TOP
+  for (var x in rb.available) {
+    const p = rb.available[x];
     const pr = player_role(p);
     const cm = class_minimum(pr, p.class, settings);
-    
-    if (raid_needs_class(p.class, cm, rb)) {
-      console.info("ADD", p.latest_priority, p.name, p.class,"class min", cm);
-      rb.raid[pr].push(p);
-      
+
+    if (class_minimums_met(p.class, pr, rb, settings)) {
+      console.info("SKIP", p.latest_priority, p.name, p.class, "class min", cm);
     } else {
-      console.info("SKIP", p.latest_priority, p.name, p.class,"class min", cm);
+      console.info("ADD", p.latest_priority, p.name, p.class, "class min", cm);
+      rb.raid[pr].push(p);
     }
 
+    /*    if (raid_needs_class(p.class, cm, rb)) {
+
+    } else {
+      
+    } */
   }
 
   // remove_player(p, rb.available.all)
-  
+
   return rb;
 }
 
@@ -345,8 +371,7 @@ export function populate_raid_with_minimums(rb, settings) {
     to_be_removed.push(player);
   }
   for (var ti in { ...to_be_removed }) {
-    remove_player(to_be_removed[ti], rb.available["tank"]);
-    remove_player(to_be_removed[ti], rb.available["all"]);
+    remove_player(to_be_removed[ti], rb.available);
   }
 
   // FILL OFFTANK ROLES
@@ -377,8 +402,7 @@ export function populate_raid_with_minimums(rb, settings) {
     to_be_removed.push(player);
   }
   for (var oi in { ...to_be_removed }) {
-    remove_player(to_be_removed[oi], rb.available["offtank"]);
-    remove_player(to_be_removed[oi], rb.available["all"]);
+    remove_player(to_be_removed[oi], rb.available);
   }
 
   // FILL HEAL ROLES
@@ -408,8 +432,7 @@ export function populate_raid_with_minimums(rb, settings) {
     to_be_removed.push(player);
   }
   for (var hi in { ...to_be_removed }) {
-    remove_player(to_be_removed[hi], rb.available["heal"]);
-    remove_player(to_be_removed[hi], rb.available["all"]);
+    remove_player(to_be_removed[hi], rb.available);
   }
 
   // FILL DPS ROLES
@@ -439,8 +462,7 @@ export function populate_raid_with_minimums(rb, settings) {
     to_be_removed.push(player);
   }
   for (var di in { ...to_be_removed }) {
-    remove_player(to_be_removed[di], rb.available["dps"]);
-    remove_player(to_be_removed[di], rb.available["all"]);
+    remove_player(to_be_removed[di], rb.available);
   }
 
   rb = save_audit("after_populate_raid_with_minimums", rb);
@@ -468,29 +490,25 @@ export function populate_raid_with_remainder(rb, settings) {
         case "tank":
           if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
             rb.raid.tank.push(p);
-            remove_player(p, rb.available.tank);
-            remove_player(p, rb.available.all);
+            remove_player(p, rb.available);
           }
           break;
         case "offtank":
           if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
             rb.raid.offtank.push(p);
-            remove_player(p, rb.available.offtank);
-            remove_player(p, rb.available.all);
+            remove_player(p, rb.available);
           }
           break;
         case "heal":
           if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
             rb.raid.heal.push(p);
-            remove_player(p, rb.available.heal);
-            remove_player(p, rb.available.all);
+            remove_player(p, rb.available);
           }
           break;
         case "dps":
           if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
             rb.raid.dps.push(p);
-            remove_player(p, rb.available.dps);
-            remove_player(p, rb.available.all);
+            remove_player(p, rb.available);
           }
           break;
         default:
@@ -513,25 +531,25 @@ export function populate_raid_with_remaining_bench(rb, settings) {
       case "tank":
         if (raid_needs_role(pr, rb.raid.tank, settings.max_maintanks)) {
           rb.raid.tank.push(p);
-          remove_player(p, rb.available.tank);
+          remove_player(p, rb.available);
         }
         break;
       case "offtank":
         if (raid_needs_role(pr, rb.raid.offtank, settings.max_offtanks)) {
           rb.raid.offtank.push(p);
-          remove_player(p, rb.available.offtank);
+          remove_player(p, rb.available);
         }
         break;
       case "heal":
         if (raid_needs_role(pr, rb.raid.heal, settings.max_heals)) {
           rb.raid.heal.push(p);
-          remove_player(p, rb.available.heal);
+          remove_player(p, rb.available);
         }
         break;
       case "dps":
         if (raid_needs_role(pr, rb.raid.dps, settings.max_dps)) {
           rb.raid.dps.push(p);
-          remove_player(p, rb.available.dps);
+          remove_player(p, rb.available);
         }
         break;
       default:

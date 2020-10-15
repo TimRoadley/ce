@@ -87,7 +87,10 @@ export default class Bench extends React.Component {
     var rb = {
       raid: { tank: [], offtank: [], heal: [], dps: [] },
       bench: { tank: [], offtank: [], heal: [], dps: [] },
-      available: Array.from(raiders.tank).concat(raiders.offtank).concat(raiders.heal).concat(raiders.dps),
+      available: Array.from(raiders.tank)
+        .concat(raiders.offtank)
+        .concat(raiders.heal)
+        .concat(raiders.dps),
       roster: Array.from(raiders.roster),
       recently_benched: recently_benched_players(
         history,
@@ -101,9 +104,12 @@ export default class Bench extends React.Component {
     console.info("----- FINISHED populate_raid_with_bench -----");
 
     // POPULATE RAID WITH CLASS MINIMUMS
-    //console.info("----- START populate_raid_with_class_minimums -----");
-    //rb = populate_raid_with_class_minimums(rb, this.state.raid_balance_settings);
-    //console.info("----- FINISHED populate_raid_with_class_minimums -----");
+    console.info("----- START populate_raid_with_class_minimums -----");
+    rb = populate_raid_with_class_minimums(
+      rb,
+      this.state.raid_balance_settings
+    );
+    console.info("----- FINISHED populate_raid_with_class_minimums -----");
 
     //console.info("----- START populate_raid_with_minimums -----");
     //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
@@ -240,17 +246,13 @@ export default class Bench extends React.Component {
                   data={this.state.raid_and_bench.available}
                   columns={raid_columns}
                   showPagination={false}
-                  defaultPageSize={
-                    this.state.raid_and_bench.available.length
-                  }
+                  defaultPageSize={this.state.raid_and_bench.available.length}
                   minRows={0}
                   className={"roles_table"}
                   NoDataComponent={() => null}
                 />
-
-              
               </li>
-           {/*    <li>
+              {/*    <li>
                 <h2>
                   <img
                     className="role_icon"
