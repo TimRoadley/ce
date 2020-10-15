@@ -102,6 +102,7 @@ export default class Bench extends React.Component {
     };
 
     // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
+    console.info("----- START populate_raid_with_bench -----");
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
     console.info("----- FINISHED populate_raid_with_bench -----");
 
