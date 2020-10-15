@@ -969,15 +969,13 @@ export default class Bench extends React.Component {
         </span>
         <Tabs>
           <TabList>
-            <Tab>Auditmaster 9000&trade;</Tab>
             <Tab>Benchmaster 9000&trade;</Tab>
             <Tab>Raidmaster 9000&trade;</Tab>
+            <Tab>Auditmaster 9000&trade;</Tab>
             <Tab>Raid Balance</Tab>
             <Tab>Benching Process</Tab>
           </TabList>
-          <TabPanel>
-            <div className="tab_content">{auditmaster_9000_view}</div>
-          </TabPanel>
+
           <TabPanel>
             <div className="tab_content">
               {benchmaster_9000_view}
@@ -986,6 +984,9 @@ export default class Bench extends React.Component {
           </TabPanel>
           <TabPanel>
             <div className="tab_content">{raidmaster_9000_view}</div>
+          </TabPanel>
+          <TabPanel>
+            <div className="tab_content">{auditmaster_9000_view}</div>
           </TabPanel>
           <TabPanel>
             <div className="tab_content">
