@@ -189,7 +189,7 @@ export function save_audit(name, rb) {
 
   // ADD DPS
   for (var dps in rb.raid.dps) {
-    console.warn("ADDED DPS: ", rb.raid.dps[dps]["name"]);
+    //console.warn("ADDED DPS: ", rb.raid.dps[dps]["name"]);
     const _dps = {
       name: rb.raid.dps[dps]["name"],
       class: rb.raid.dps[dps]["class"],
@@ -200,7 +200,7 @@ export function save_audit(name, rb) {
 
   // ADD HEALS
   for (var heal in rb.raid.heal) {
-    console.warn("ADDED heal: ", rb.raid.heal[heal]["name"]);
+    //console.warn("ADDED heal: ", rb.raid.heal[heal]["name"]);
     const _heal = {
       name: rb.raid.heal[heal]["name"],
       class: rb.raid.heal[heal]["class"],
@@ -211,7 +211,7 @@ export function save_audit(name, rb) {
 
   // ADD TANKS
   for (var tank in rb.raid.tank) {
-    console.warn("ADDED tank: ", rb.raid.tank[tank]["name"]);
+    //console.warn("ADDED tank: ", rb.raid.tank[tank]["name"]);
     const _tank = {
       name: rb.raid.tank[tank]["name"],
       class: rb.raid.tank[tank]["class"],
@@ -222,7 +222,7 @@ export function save_audit(name, rb) {
 
   // ADD OFFTANKS
   for (var offtank in rb.raid.offtank) {
-    console.warn("ADDED offtank: ", rb.raid.offtank[offtank]["name"]);
+    //console.warn("ADDED offtank: ", rb.raid.offtank[offtank]["name"]);
     const _offtank = {
       name: rb.raid.offtank[offtank]["name"],
       class: rb.raid.offtank[offtank]["class"],
@@ -243,7 +243,7 @@ export function populate_raid_with_bench(rb, settings) {
     const role_max = role_maximum(pr, settings);
     const rnr = raid_needs_role(pr, rb.raid[pr],role_max);
     const role = rnp["role"];
-    console.info("ADDING PLAYER FROM PRIOR BENCH", player.name, rnp, rnr);
+    
 
     // IF THE PLAYER IS NEEDED TO FILL MINIMUMS
     if (rnp["needed"]) {
@@ -252,6 +252,7 @@ export function populate_raid_with_bench(rb, settings) {
       }
       rb.raid[role].push(player);
       remove_player(player, rb.available[role]);
+      console.info("ADD RECENTLY BENCHED:", player.name, "as", role);
     }
 
     // IF THE ROLE IS NEEDED TO FILL TO MAXIMUMS
@@ -261,7 +262,12 @@ export function populate_raid_with_bench(rb, settings) {
       }
       rb.raid[pr].push(player);
       remove_player(player, rb.available[rb]);
-    }    
+      console.info("ADD RECENTLY BENCHED:", player.name, "as", pr);
+    }
+
+    else {
+      console.ware("FAILED TO ADD RECENTLY BENCHED:", player.name, pr,"doesn't fit!");
+    }
   }
   rb = save_audit("after_populate_raid_with_bench", rb);
   return rb;
