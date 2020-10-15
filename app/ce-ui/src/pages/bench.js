@@ -105,19 +105,20 @@ export default class Bench extends React.Component {
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
     console.info("----- FINISHED populate_raid_with_bench -----");
 
+
     // POPULATE RAID WITH CLASS MINIMUMS
-    rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
-    console.info("----- FINISHED populate_raid_with_minimums -----");
+    //rb = populate_raid_with_minimums(rb, this.state.raid_balance_settings);
+    //console.info("----- FINISHED populate_raid_with_minimums -----");
 
     // POPULATE RAID WITH REMAINING BENCH
-    rb = populate_raid_with_remaining_bench(
-      rb,
-      this.state.raid_balance_settings
-    );
-    console.info("----- FINISHED populate_raid_with_remaining_bench----- ");
+    //rb = populate_raid_with_remaining_bench(
+    //  rb,
+    //  this.state.raid_balance_settings
+    //);
+    //console.info("----- FINISHED populate_raid_with_remaining_bench----- ");
 
     // POPULATE RAID WITH REMAINDER OF HIGH LP
-    rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
+    //rb = populate_raid_with_remainder(rb, this.state.raid_balance_settings);
 
     // SORT
     sort_by_lp(rb.raid.tank);
@@ -136,9 +137,11 @@ export default class Bench extends React.Component {
 
   render() {
     var benchmaster_9000_view;
+    var auditmaster_9000_view;
     var raidmaster_9000_view;
     var bench_history_view;
     if (this.state.loading) {
+      auditmaster_9000_view = <Loading />;
       benchmaster_9000_view = <Loading />;
       raidmaster_9000_view = <Loading />;
       bench_history_view = <div></div>;
@@ -214,6 +217,12 @@ export default class Bench extends React.Component {
           ),
         },
       ];
+
+      auditmaster_9000_view = (
+        <div>
+          {JSON.stringify(this.state.audit_progress_populate_raid_with_bench)}
+        </div>
+      );
 
       benchmaster_9000_view = (
         <div>
@@ -438,12 +447,15 @@ export default class Bench extends React.Component {
         </span>
         <Tabs>
           <TabList>
+            <Tab>Auditmaster 9000&trade;</Tab>
             <Tab>Benchmaster 9000&trade;</Tab>
             <Tab>Raidmaster 9000&trade;</Tab>
             <Tab>Raid Balance</Tab>
             <Tab>Benching Process</Tab>
           </TabList>
-
+          <TabPanel>
+            <div className="tab_content">{auditmaster_9000_view}</div>
+          </TabPanel>
           <TabPanel>
             <div className="tab_content">
               {benchmaster_9000_view}

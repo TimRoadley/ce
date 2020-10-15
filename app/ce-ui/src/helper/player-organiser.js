@@ -35,6 +35,12 @@ export function player_role(player) {
 
   // OFFTANKS
   else if (player_class === "Warrior" || player_class === "Druid") {
+    // TODO: Check if raid is full on tanks and offtanks
+
+    //if (raid_needs_role("offtank", rb.raid.offtank, s.max_offtanks)) {
+
+    //}
+
     return "offtank";
   }
 
@@ -175,24 +181,59 @@ export function recently_benched_players(bench_history, roster) {
   return rbp;
 }
 
+export function save_audit(name, rb) {
+  console.warn("save_audit", name, rb);
+
+  var audit = {};
+
+  audit["raid"] = { tank: [], offtank: [], heal: [], dps: [] };
+
+  for (var dps in rb.raid.dps) {
+    console.warn("ADDING xxxx", rb.raid.dps[dps]["name"]);
+
+    const _dps = {
+      name: rb.raid.dps[dps]["name"],
+    };
+
+    audit["raid"]["dps"].push(_dps);
+  }
+
+  console.info(">> audit >>", name, rb);
+
+  rb[name] = audit;
+
+  return rb;
+}
+
 export function populate_raid_with_bench(rb, settings) {
   for (var x in rb.recently_benched) {
     var player = rb.recently_benched[x];
-    const r = raid_needs_player(player, rb, settings);
-    const role = r["role"];
-    // console.info("BENCHED", player.name, r);
-    if (r["needed"]) {
-      player["raid_assignment"] = role;
-      rb.raid[role].push(player);
-    } else {
-      player["raid_assignment"] = "priority";
-      if (rb.raid["priority"] === undefined) {
-        rb.raid["priority"] = [];
+    const rnp = raid_needs_player(player, rb, settings);
+    const pr = player_role(player);
+    const role_max = role_maximum(pr, settings);
+    const rnr = raid_needs_role(pr, rb.raid[pr],role_max);
+    const role = rnp["role"];
+    console.info("ADDING PLAYER FROM PRIOR BENCH", player.name, rnp, rnr);
+
+    // IF THE PLAYER IS NEEDED TO FILL MINIMUMS
+    if (rnp["needed"]) {
+      if (!rb.raid[role]) {
+        rb.raid[role] = [];
       }
-      rb.raid["priority"].push(player);
+      rb.raid[role].push(player);
+      remove_player(player, rb.available[role]);
     }
-    remove_player(player, rb.available[role]);
+
+    // IF THE ROLE IS NEEDED TO FILL TO MAXIMUMS
+    else if (rnr) {
+      if (!rb.raid[pr]) {
+        rb.raid[pr] = [];
+      }
+      rb.raid[pr].push(player);
+      remove_player(player, rb.available[rb]);
+    }    
   }
+  rb = save_audit("after_populate_raid_with_bench", rb);
   return rb;
 }
 
@@ -353,6 +394,22 @@ export function remove_player(player, player_array) {
   }
 }
 
+export function role_maximum(role_name, settings) {
+  switch (role_name) {
+    case "tank":
+      return settings.max_maintanks;
+    case "offtank":
+      return settings.max_offtanks;
+    case "heal":
+      return settings.max_heals;
+    case "dps":
+      return settings.max_dps;
+    default:
+      console.error("UNHANDLED role_maximum", role_name);
+      return 0;
+  }
+}
+
 export function class_minimum(role, class_name, settings) {
   //console.info(settings);
   if (role === "tank") {
@@ -438,6 +495,9 @@ export function raid_needs_player(player, rb, settings) {
     } else {
       if (raid_needs_role("dps", rb.raid.dps, s.max_dps)) {
         result = { needed: true, role: "dps" };
+      } else {
+        const reason = "offtank and dps slots full";
+        result = { needed: false, role: "bench", reason: reason };
       }
     }
   }
