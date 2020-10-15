@@ -62,3 +62,8 @@
   /* margin-top: -30px; */
   vertical-align: top;
 }
+
+.audit_box {
+  border: solid 1px #f67f00;
+  padding: 1%;
+}

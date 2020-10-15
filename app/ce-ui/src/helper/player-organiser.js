@@ -232,7 +232,7 @@ export function save_audit(name, rb) {
     const _dps = {
       name: rb.raid.dps[dps]["name"],
       class: rb.raid.dps[dps]["class"],
-      latest_ep: rb.raid.dps[dps]["latest_ep"],
+      latest_priority: rb.raid.dps[dps]["latest_priority"],
     };
     audit["raid"]["dps"].push(_dps);
   }
@@ -242,7 +242,7 @@ export function save_audit(name, rb) {
     const _heal = {
       name: rb.raid.heal[heal]["name"],
       class: rb.raid.heal[heal]["class"],
-      latest_ep: rb.raid.heal[heal]["latest_ep"],
+      latest_priority: rb.raid.heal[heal]["latest_priority"],
     };
     audit["raid"]["heal"].push(_heal);
   }
@@ -252,7 +252,7 @@ export function save_audit(name, rb) {
     const _tank = {
       name: rb.raid.tank[tank]["name"],
       class: rb.raid.tank[tank]["class"],
-      latest_ep: rb.raid.tank[tank]["latest_ep"],
+      latest_priority: rb.raid.tank[tank]["latest_priority"],
     };
     audit["raid"]["tank"].push(_tank);
   }
@@ -262,7 +262,7 @@ export function save_audit(name, rb) {
     const _offtank = {
       name: rb.raid.offtank[offtank]["name"],
       class: rb.raid.offtank[offtank]["class"],
-      latest_ep: rb.raid.offtank[offtank]["latest_ep"],
+      latest_priority: rb.raid.offtank[offtank]["latest_priority"],
     };
     audit["raid"]["offtank"].push(_offtank);
   }
@@ -337,9 +337,11 @@ export function populate_raid_with_class_minimums(rb, settings) {
 
     if (class_minimums_met(p.class, pr, rb, settings)) {
       console.info("...SKIP", p.latest_priority, p.name, pr, p.class);
+      class_minimums_met(p.class, pr, rb, settings)
     } else {
       console.info("...ADD", p.latest_priority, p.name, pr, p.class);
       rb.raid[pr].push(p);
+      class_minimums_met(p.class, pr, rb, settings)
     }
 
     /*    if (raid_needs_class(p.class, cm, rb)) {

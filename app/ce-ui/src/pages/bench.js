@@ -61,6 +61,14 @@ export default class Bench extends React.Component {
       raid_and_bench: {
         raid: { tank: [], offtank: [], heal: [], dps: [] },
         bench: { tank: [], offtank: [], heal: [], dps: [] },
+        after_populate_raid_with_bench: {
+          raid: { tank: [], offtank: [], heal: [], dps: [] },
+          bench: { tank: [], offtank: [], heal: [], dps: [] },
+        },
+        after_populate_raid_with_class_minimums: {
+          raid: { tank: [], offtank: [], heal: [], dps: [] },
+          bench: { tank: [], offtank: [], heal: [], dps: [] },
+        },
       },
     };
   }
@@ -88,6 +96,14 @@ export default class Bench extends React.Component {
     var rb = {
       raid: { tank: [], offtank: [], heal: [], dps: [] },
       bench: { tank: [], offtank: [], heal: [], dps: [] },
+      after_populate_raid_with_bench: {
+        raid: { tank: [], offtank: [], heal: [], dps: [] },
+        bench: { tank: [], offtank: [], heal: [], dps: [] },
+      },
+      after_populate_raid_with_class_minimums: {
+        raid: { tank: [], offtank: [], heal: [], dps: [] },
+        bench: { tank: [], offtank: [], heal: [], dps: [] },
+      },
       available: Array.from(raiders.tank)
         .concat(raiders.offtank)
         .concat(raiders.heal)
@@ -102,7 +118,7 @@ export default class Bench extends React.Component {
     // PUT BENCH IN RAID (RESPECT CLASS MINIMUMS)
     console.info("----- START populate_raid_with_bench -----");
     rb = populate_raid_with_bench(rb, this.state.raid_balance_settings);
-    rb = save_audit("01_after_populate_raid_with_bench", rb);
+    rb = save_audit("after_populate_raid_with_bench", rb);
     console.info("----- FINISHED populate_raid_with_bench -----");
 
     // POPULATE RAID WITH CLASS MINIMUMS
@@ -111,7 +127,7 @@ export default class Bench extends React.Component {
       rb,
       this.state.raid_balance_settings
     );
-    rb = save_audit("02_after_populate_raid_with_class_minimums", rb);
+    rb = save_audit("after_populate_raid_with_class_minimums", rb);
     console.info("----- FINISHED populate_raid_with_class_minimums -----");
 
     //console.info("----- START populate_raid_with_minimums -----");
@@ -225,7 +241,129 @@ export default class Bench extends React.Component {
 
       auditmaster_9000_view = (
         <div>
-          {JSON.stringify(this.state.audit_progress_populate_raid_with_bench)}
+          <h1 className="legendary">Step 1 - Add Recently Benched players</h1>
+          <div className="audit_box">
+            <div className="role_layout">
+              <ul>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.tank.length
+                    }{" "}
+                    Tanks
+                  </h2>
+
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.tank
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.tank.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/tanks.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.offtank.length
+                    }{" "}
+                    Offtanks
+                  </h2>
+
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.offtank
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.offtank.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/heals.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.heal.length
+                    }{" "}
+                    Heals
+                  </h2>
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.heal
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.heal.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+                <li>
+                  <h2>
+                    <img
+                      className="role_icon"
+                      src={`/images/dps.png`}
+                      alt=""
+                    ></img>
+                    {
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.dps.length
+                    }{" "}
+                    DPS
+                  </h2>
+                  <ReactTable
+                    data={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.dps
+                    }
+                    columns={raid_columns}
+                    showPagination={false}
+                    defaultPageSize={
+                      this.state.raid_and_bench.after_populate_raid_with_bench
+                        .raid.dps.length
+                    }
+                    minRows={0}
+                    className={"roles_table"}
+                    NoDataComponent={() => null}
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       );
 
