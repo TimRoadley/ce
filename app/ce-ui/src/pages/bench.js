@@ -253,6 +253,7 @@ export default class Bench extends React.Component {
 
       auditmaster_9000_view = (
         <div>
+          <em><h2>The method behind the Benchmaster + Raidmaster madness</h2></em>
           <h1 className="rare">Step 1 - Add Recently Benched players</h1>
           <div className="audit_box_rare">
             <div className="role_layout">
@@ -823,11 +824,11 @@ export default class Bench extends React.Component {
         Our bench process:
         <ul>
           <li>
-            Maintains <span className="common">Raid Balance</span>.
-          </li>
-          <li>
             Prioritises a spot for{" "}
             <span className="rare">Recently Benched Raiders</span>.
+          </li>
+          <li>
+            Maintains <span className="common">Raid Balance</span>.
           </li>
           <li>
             Fills with remaining{" "}
