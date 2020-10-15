@@ -149,21 +149,38 @@ export function class_minimums_met(class_name, player_role, rb, settings) {
  
   var all = [].concat(...rb.raid.tank).concat(...rb.raid.offtank).concat(...rb.raid.heal).concat(...rb.raid.dps)
 
-
+  var maintank = 0;
+  var offtank = 0;
   var count = 0;
   for (var x in all) {
     const p = all[x];
     const pc = p.class;
+    const pr = p.player_role
     if (class_name === pc) {
       count++
+    }
+    if (player_role === 'tank') {
+      maintank++
+    }
+    if (player_role === 'tank') {
+      offtank++
     }
   }
   
   const cm = class_minimum(player_role, class_name, settings)
-  console.info("There are", class_name, player_role, count, "of", cm)
+  // console.info("There are", class_name, player_role, count, "of", cm)
   if (count >= cm) {
     return true
   } else {
+
+    if (player_role === "tank" && maintank >= settings.max_maintanks) {
+      return true
+    }
+
+    if (player_role === "offtank" && offtank >= settings.max_offtanks) {
+      return true
+    }
+
     return false
   }
 }
@@ -318,9 +335,9 @@ export function populate_raid_with_class_minimums(rb, settings) {
     const cm = class_minimum(pr, p.class, settings);
 
     if (class_minimums_met(p.class, pr, rb, settings)) {
-      console.info("SKIP", p.latest_priority, p.name, p.class, "class min", cm);
+      console.info("SKIP", p.latest_priority, p.name, pr, p.class, "min", cm);
     } else {
-      console.info("ADD", p.latest_priority, p.name, p.class, "class min", cm);
+      console.info("ADD", p.latest_priority, p.name, pr, p.class, "min", cm);
       rb.raid[pr].push(p);
     }
 
