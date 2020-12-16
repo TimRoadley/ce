@@ -20,11 +20,6 @@ export default class Home extends React.Component {
         </p>
         <p>Congrats <strong className="artifact">Simulacrum</strong> on server first Scarab Lord!</p>
         <img className="image_box" src="./images/scablord.png" alt="Scablord"></img>
-        <h1>Recruitment</h1>
-        <p>
-        <strong className="legendary">We are currently recruiting a few more raiders for AQ</strong>, so we'd love to
-          hear from you in our <a href="https://discord.gg/p77AYmb">Discord</a>!
-        </p>
         <h1>Guild Values</h1>
         <ul>
           <li>Our raids are actually fun!</li>
