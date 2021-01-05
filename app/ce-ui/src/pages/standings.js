@@ -22,14 +22,31 @@ export default class Standings extends React.Component {
     cePlayers().then((result) => {
       // console.info("ITEMS", result);
 
-      
-      // Remove Specific
+      var filtered_players = []
+
+      // SKIP SPECIFIC PLAYERS
+      for (var x in result) {
+        var player = result[x];
+
+
+        if (
+          ["Borettoo", "Daisoh", "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Stepdadi", "Weechee", "Zither"].includes(
+            player.name
+          )
+        ) {
+          console.info("SKIP", player.name);
+          continue;
+        }
+
+        filtered_players.push(player);
+        console.info("ADD", player.name);
+      }
 
 
 
       this.setState({
         loading: false,
-        players: result.sort(
+        players: filtered_players.sort(
           (a, b) => (b.latest_priority > a.latest_priority) - (b.latest_priority < a.latest_priority)
         ),
       });
