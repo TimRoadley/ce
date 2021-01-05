@@ -4,7 +4,7 @@ export function player_role(player) {
   
   // SKIP INACTIVE
   if (
-    ["Borettoo", "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Playgu", "Stepdadi", "Weechee", "Zither"].includes(
+    ["Borettoo", "Daisoh", "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Stepdadi", "Weechee", "Zither"].includes(
       player_name
     )
   ) {
