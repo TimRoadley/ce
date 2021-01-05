@@ -3,7 +3,7 @@ export function player_role(player) {
   const player_class = player["class"];
   // SKIP
   if (
-    ["Faceslicer", "Stepdadi", "Weechee", "Jeremypaxman", "Grolder", "Maedre"].includes(
+    ["Faceslicer", "Faeriefloss", "Dotspam", "Hakan","Weechee", "Hybridevil","Grolder", "Stepdadi", "Weechee", "Jeremypaxman", "Maedre"].includes(
       player_name
     )
   ) {
@@ -12,7 +12,7 @@ export function player_role(player) {
 
   // TANKS
   else if (
-    ["Hakan", "Sblades", "Inflict", "Pearbear", "Weedwakka"].includes(
+    ["Inflict", "Pearbear", "Weedwakka", "Tayney"].includes(
       player_name
     )
   ) {
