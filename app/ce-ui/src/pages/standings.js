@@ -21,6 +21,12 @@ export default class Standings extends React.Component {
   componentDidMount() {
     cePlayers().then((result) => {
       // console.info("ITEMS", result);
+
+      
+      // Remove Specific
+
+
+
       this.setState({
         loading: false,
         players: result.sort(

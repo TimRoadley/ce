@@ -47,6 +47,8 @@ export function player_role(player) {
   return "dps";
 }
 
+
+
 export function organise(result) {
   var roster = [];
   var tank = [];
