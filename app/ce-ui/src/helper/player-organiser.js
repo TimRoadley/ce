@@ -1,9 +1,10 @@
 export function player_role(player) {
   const player_name = player["name"];
   const player_class = player["class"];
-  // SKIP
+  
+  // SKIP INACTIVE
   if (
-    ["Faceslicer", "Faeriefloss", "Dotspam", "Hakan","Weechee", "Hybridevil","Grolder", "Stepdadi", "Weechee", "Jeremypaxman", "Maedre"].includes(
+    ["Faceslicer", "Faeriefloss", "Dotspam", "Hakan", "Weechee", "Hybridevil", "Grolder", "Playgu", "Zither", "Stepdadi", "Weechee", "Jeremypaxman", "Maedre"].includes(
       player_name
     )
   ) {
