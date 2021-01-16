@@ -30,7 +30,7 @@ export default class Standings extends React.Component {
 
 
         if (
-          ["Borettoo", "Daisoh", "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Revspriest", "Stepdadi", "Weechee", "Zither"].includes(
+          ["Borettoo", "Daisoh", "Dotspam", "Faceslicer", "Faeriefloss", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Revspriest", "Stepdadi", "Weechee", "Zither"].includes(
             player.name
           )
         ) {
