@@ -18,8 +18,15 @@ export default class Home extends React.Component {
           <strong className="common">Monday and Wednesday</strong> between{" "}
           <strong className="common">7:30pm and 10:30pm</strong> each week.
         </p>
-        <p>Congrats <strong className="artifact">Simulacrum</strong> on server first Scarab Lord!</p>
-        <img className="image_box" src="./images/scablord.png" alt="Scablord"></img>
+        <p>
+          Congrats <strong className="artifact">Simulacrum</strong> on server
+          first Scarab Lord!
+        </p>
+        <img
+          className="image_box"
+          src="./images/scablord.png"
+          alt="Scablord"
+        ></img>
         <h1>Guild Values</h1>
         <ul>
           <li>Our raids are actually fun!</li>
@@ -53,21 +60,25 @@ export default class Home extends React.Component {
         <h1>Rank Expectations</h1>
         <ul>
           <li>
-          GM / Officers handle issues, lead raids and
-        (hopefully) remember to enable master looter!
+            GM / Officers handle issues, lead raids and (hopefully) remember to
+            enable master looter!
           </li>
-          <li>Class Leaders handle
-        class issues, class recruitment, class performance, class buffs and
-        other class organisation for raids</li>
-          <li>Main Tanks are at pretty much
-        every raid. If they can't make it then must let us know so we can plan
-        around it.</li>
+          <li>
+            Class Leaders handle class issues, class recruitment, class
+            performance, class buffs and other class organisation for raids
+          </li>
+          <li>
+            Main Tanks are at pretty much every raid. If they can't make it then
+            must let us know so we can plan around it.
+          </li>
           <li>Raiders (and above) are reliable and at most raids.</li>
           <li>Members (and below) are casual and are at some raids.</li>
-          <li>Veteran Raiders
-        are just Raiders that have been in CE for many years</li>
-        <li>Veteran Members
-        are just Members that have been in CE for many years</li>
+          <li>
+            Veteran Raiders are just Raiders that have been in CE for many years
+          </li>
+          <li>
+            Veteran Members are just Members that have been in CE for many years
+          </li>
         </ul>
       </div>
     );
