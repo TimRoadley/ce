@@ -83,12 +83,9 @@ export default class Loot extends React.Component {
           <h1>Reserved Items</h1>
           <ul>
             <li>
-              <strong className="rare">AQ40 Idols and Scarabs</strong> are sent
+              <strong className="rare">AQ40 Idols/Scarabs</strong> and <strong className="rare">Naxx Scraps</strong> are sent
               to <strong className="common">catbank</strong>, then provided
-              for free to raiders to{" "}
-              <a href="https://classic.wowhead.com/guides/temple-ahnqiraj-aq40-tier-25-classic-wow">
-                create sets
-              </a>. For the first 3 weeks of AQ40, scarabs/idols will be given for 2.5 only.
+              for free to raiders to create tier sets.
             </li>
             <li>
               <strong className="legendary">Garr Left Binding</strong> is an
@@ -113,7 +110,7 @@ export default class Loot extends React.Component {
             <li>Raiders &gt; Members &gt; Trials for 40-man loot.</li>
             <li>Trials become Raiders after 2 weeks provided class leader approves.</li>
             <li>BWL/MC/Ony are open rolls, not EP/GP.</li>
-            <li>Only mains can come to BWL and AQ40.</li>
+            <li>Only mains can come to AQ40 and Naxx.</li>
             <li>Mains or alts can come to MC / Ony, however MC is now removed from our main raid nights.</li>
           </ul>
         </div>
