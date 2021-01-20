@@ -963,10 +963,22 @@ export default class Bench extends React.Component {
             <span className="epic">High Loot Priority Raiders</span>.
           </li>
         </ul>
-        <span className="common">
-          Being benched is for the instance lockout, so if you're benched you're
-          free to do that instance somewhere else this week.
-        </span>
+        <br />
+        Our bench process DOES NOT:
+        <ul>
+          <li>account for AFKs</li>
+          <li>account for trialling trials</li>
+          <li>account for specialised raid balance (e.g. for Sapphiron)</li>
+        </ul>
+        THEREFORE, this process will be used as a guide only so{" "}
+        <span className="common">always assume you have a spot</span> until told
+        otherwise!
+        <br />
+        <br />
+        Being benched is for the instance lockout, so if you're benched you're
+        free to do that instance somewhere else this week.
+        <br />
+        <br />
         <Tabs>
           <TabList>
             <Tab>Benchmaster 9000&trade;</Tab>

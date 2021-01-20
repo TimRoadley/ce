@@ -101,7 +101,7 @@ export default class Loot extends React.Component {
             </li>
             <li>
               <strong className="legendary">Atiesh</strong> is reserved for
-              Agiel.
+              Agiel, then ... Damo?
             </li>
           </ul>
           <h1>Other Stuff</h1>
@@ -111,7 +111,7 @@ export default class Loot extends React.Component {
             <li>Trials become Raiders after 2 weeks provided class leader approves.</li>
             <li>BWL/MC/Ony are open rolls, not EP/GP.</li>
             <li>Only mains can come to AQ40 and Naxx.</li>
-            <li>Mains or alts can come to MC / Ony, however MC is now removed from our main raid nights.</li>
+            <li>Mains or alts can come to BWL / MC / Ony.</li>
           </ul>
         </div>
       </div>
