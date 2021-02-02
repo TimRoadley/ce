@@ -10,7 +10,7 @@ export default class Home extends React.Component {
       <div>
         <h1>Welcome to Catalyst Elite</h1>
         <p>
-          Founded in 2006 and originally from Frostmourne, we are an 18+
+          Founded in 2006 and originally from <span className="rare">Frostmourne</span>, we are an 18+
           alliance raiding guild on Felstriker.
         </p>
         <p>
@@ -18,10 +18,13 @@ export default class Home extends React.Component {
           <strong className="common">Monday and Wednesday</strong> between{" "}
           <strong className="common">7:30pm and 10:30pm</strong> each week.
         </p>
-        <p>
-          Congrats <strong className="artifact">Simulacrum</strong> on server
-          first Scarab Lord!
-        </p>
+        <h2 className="legendary">Atiesh!</h2>
+        <img
+          className="image_box"
+          src="./images/atiesh.png"
+          alt="Atiesh"
+        ></img>
+        <h2 className="legendary">Scarab Lord!</h2>
         <img
           className="image_box"
           src="./images/scablord.png"
