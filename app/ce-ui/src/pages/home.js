@@ -19,6 +19,7 @@ export default class Home extends React.Component {
           <strong className="common">7:30pm and 10:30pm</strong> each week.
         </p>
         <h2 className="legendary">Atiesh!</h2>
+        <span className="common">Thats mission success team &lt;3</span>
         <img
           className="image_box"
           src="./images/atiesh.png"
