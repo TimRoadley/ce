@@ -69,4 +69,7 @@ if __name__ == "__main__":
     # bench("raider", "2021-01-25", ["Ohhai", "Insom", "Inflict"])
 
     # Mon Jan 27
-    bench("raider", "2021-01-27", ["Kaleo", "Insom", "Inflict", "Healsoup", "Iamnuts"])    
+    # bench("raider", "2021-01-27", ["Kaleo", "Insom", "Inflict", "Healsoup", "Iamnuts"])    
+
+    # Mon Feb 1
+    bench("raider", "2021-02-01", ["Dirtysloth", "Xraid", "Berian", "Inflict", "Kaleo"])    
