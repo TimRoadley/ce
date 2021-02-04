@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment/min/locales';
 import 'moment-timezone';
 import { Link } from 'react-router-dom'
+import {specificInactive} from '../helper/specific-players';
 
 export default class Standings extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class Standings extends React.Component {
 
 
         if (
-          ["Borettoo", "Daisoh", "Dirtyfire", "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Revspriest", "Stepdadi", "Weechee", "Zither"].includes(
+          specificInactive().includes(
             player.name
           )
         ) {

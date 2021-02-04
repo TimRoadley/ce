@@ -1,10 +1,12 @@
+import { specificInactive, specificTanks, specificHeals, specificDps } from './specific-players'
+
 export function player_role(player) {
   const player_name = player["name"];
   const player_class = player["class"];
   
   // SKIP INACTIVE
   if (
-    ["Borettoo", "Daisoh", "Dirtyfire",  "Dotspam", "Faceslicer", "Faeriefloss", "Grolder", "Hakan", "Hybridevil", "Jeremypaxman", "Maedre", "Nightshot", "Playgu", "Revspriest", "Stepdadi", "Weechee", "Zither"].includes(
+    specificInactive().includes(
       player_name
     )
   ) {
@@ -13,7 +15,7 @@ export function player_role(player) {
 
   // TANKS
   else if (
-    ["Inflict", "Pearbear", "Weedwakka", "Tayney"].includes(
+    specificTanks().includes(
       player_name
     )
   ) {
@@ -21,7 +23,7 @@ export function player_role(player) {
   }
 
   // SPECIFIC DPS
-  else if (["Willikins"].includes(player_name)) {
+  else if (specificDps().includes(player_name)) {
     return "dps";
   }
 
@@ -29,7 +31,7 @@ export function player_role(player) {
   else if (
     player_class === "Paladin" ||
     player_class === "Priest" ||
-    ["Agiel"].includes(player_name) // RESTO DRUIDS
+    specificHeals().includes(player_name) // RESTO DRUIDS
   ) {
     return "heal";
   }
@@ -197,6 +199,15 @@ export function recently_benched_players(bench_history, roster) {
       for (var p in players) {
         var player_name = players[p];
         // console.info("BENCHED", bench_date, player_name);
+
+        // SKIP INACTIVE
+        if (
+          specificInactive().includes(
+            player_name
+          )
+        ) {
+          continue
+        }        
 
         // Add new
         if (recently_benched_players[player_name] === undefined) {
