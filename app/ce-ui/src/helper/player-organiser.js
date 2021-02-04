@@ -296,7 +296,7 @@ export function populate_raid_with_bench(rb, settings) {
       remove_player(player, rb.available);
       console.info("ADD RECENTLY BENCHED:", player.name, "as", pr);
     } else {
-      console.ware(
+      console.log(
         "FAILED TO ADD RECENTLY BENCHED:",
         player.name,
         pr,
