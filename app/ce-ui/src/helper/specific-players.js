@@ -9,6 +9,7 @@ export function specificInactive() {
     "Grolder",
     "Hakan",
     "Healsoup",
+    "Hobie",
     "Hybridevil",
     "Jeremypaxman",
     "Jorah",
